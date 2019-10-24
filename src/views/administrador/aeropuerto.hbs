@@ -1,0 +1,56 @@
+{{#each exito}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+{{#each errors}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+{{#each eliminado}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+<div class="jumbotrn mt-4" >
+    <h1 class="display-4" > TEC Plane  aeropuerto</h1>
+    <br>
+    <br>
+    <div class="home_title"><h2>Seleccione la operación a realizar en módulo aeropuerto</h2>
+    <br>
+    <br>
+    <form action="/administrador/aeropuerto/crear" method="GET">
+		<button class="btn btn-primary" type="submit"> Crear Aeropuerto</button>
+    </form>
+    <br>
+    <br>
+    <form action="/administrador/aeropuerto/leer" method="GET">
+		<button class="btn btn-primary" type="submit"> Mostrar Aeropuerto</button>
+    </form>
+    <br>
+    <br>
+    <form action="/administrador/aeropuerto/eliminar" method="GET">
+		<button class="btn btn-primary" type="submit"> Eliminar Aeropuerto</button>
+    </form>
+    <br>
+    <br>
+    <form action="/administrador/aeropuerto/actualizar" method="GET">
+		<button class="btn btn-primary" type="submit"> Actualizar Aeropuerto</button>
+    </form>
+
+    <HR class="my-4"></HR>
+    <a href=""></a>
+</div>

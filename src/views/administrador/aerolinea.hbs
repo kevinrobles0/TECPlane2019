@@ -1,0 +1,55 @@
+{{#each exito}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+{{#each errors}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+{{#each eliminado}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<div class="jumbotrn mt-4" >
+    <h1 class="display-4" > TEC Plane  Aerolinea</h1>
+    <br>
+    <br>
+    <div class="home_title"><h2>Seleccione la operación a realizar en módulo Aerolinea</h2>
+    <br>
+    <br>
+    <form action="/administrador/aerolinea/crear" method="GET">
+		<button class="btn btn-primary" type="submit"> Crear Aerolinea</button>
+    </form>
+    <br>
+    <br>
+    <form action="/administrador/aerolinea/leer" method="GET">
+		<button class="btn btn-primary" type="submit"> Mostrar Aerolinea</button>
+    </form>
+    <br>
+    <br>
+    <form action="/administrador/aerolinea/eliminar" method="GET">
+		<button class="btn btn-primary" type="submit"> Eliminar Aerolinea</button>
+    </form>
+    <br>
+    <br>
+    <form action="/administrador/aerolinea/actualizar" method="GET">
+		<button class="btn btn-primary" type="submit"> Actualizar Aerolinea</button>
+    </form>
+
+    <HR class="my-4"></HR>
+    <a href=""></a>
+</div>

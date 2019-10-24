@@ -1,0 +1,65 @@
+<form action="/administrador/vueloCrear" method="POST">
+    <div class="home_title"><h2 style="font-size:40px">Ingrese los datos del vuelo</h2>
+        <br>
+        <label style="color:white ">Nombre
+
+            <input type="text" id="nombre" name="nombre">
+        </label>
+        <br><br>
+
+        <label style="color:white ">Origen
+
+            <input type="text" id="origen" name="origen">
+        </label>
+        <br><br>
+
+        <label style="color:white ">Destino   
+
+            <input type="text" id="destino"name="destino">
+        </label>
+        <br><br>
+
+        <label style="color:white ">Fecha ida
+
+            <input type="date" id="ida" name="ida">
+        </label>
+        <br>
+<br>
+        <label style="color:white ">Fecha vuelta
+
+            <input type="date" id="vuela" name="vuelta">
+        </label>
+        <br><br>
+
+        <label style="color:white ">Precio
+
+            <input type="text" id="precio" name="precio">
+        </label>
+        <br><br>
+
+        <label style="color:white ">Restricciones
+
+            <input type="text" id="restricciones" name="restricciones">
+        </label>
+        <br><br>
+
+        <label style="color:white ">Características del vuelo
+
+            <input type="text" id="caracteristicas" name="caracteristicas">
+        </label>
+        <br><br>
+
+        <label style="color:white ">Estado
+
+            <select id="estado" id="estado" style="width:170px">
+                <option value="tiempo">A tiempo</option>
+                <option value="retrasado">Retrasado</option>
+                <option value="cancelado">Cancelado</option>
+            </select>
+
+        </label>
+        <br><br>
+
+        <button class="btn btn-primary" type="submit"> Crear Vuelo</button>
+</div>
+</form>

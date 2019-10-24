@@ -1,0 +1,64 @@
+{{#each sinNombre}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+{{#each noEncontrado}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+{{#each noIngresado}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+<form action="/administrador/aeropuertoActualizar" method="POST">
+    <div  class="container" style="font-size:25" pxclass="home_title"><h2 style="color:black">Ingrese los datos a actualizar del Aeropuerto</h2>
+<br>
+<br>
+<label style="color:white "> Nombre del aeropuerto a actualizar
+    <br>
+    <input type="text" name="nombreViejo" id="nombreViejo">
+</label>
+<br>
+<br>
+<label style="color:white "> Nuevo Nombre
+    <br>
+    <input type="text" name="nuevonombre" id="nuevonombre">
+</label>
+<br>
+<br>
+<label style="color:white ">Nuevo Lugar
+    <br>
+    <input type="text" name="nuevolugar" id="nuevolugar">
+</label>
+<br>
+<br>
+<label style="color:white ">Nuevo Información
+    <br>
+    <input type="text" name="nuevainformacion" id="nuevainformacion">
+</label>
+<br>
+<br>
+<label style="color:white ">Nuevo Sitio web
+    <br>
+    <input type="text" name="nuevositio" id="nuevositio">
+</label>
+<br>
+<br>
+    <button class="btn btn-primary" type="submit"> Actualizar</button>
+</div>
+</form>

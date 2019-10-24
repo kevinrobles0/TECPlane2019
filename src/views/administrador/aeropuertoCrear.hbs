@@ -1,0 +1,43 @@
+<br><br>
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+<br>
+<br>
+<form action="/administrador/aeropuertoCrear" method="POST">
+<div class="home_title"><h2 style="font-size:40px">Ingrese los datos del aeropuerto</h2>
+        <br>
+        <br>
+        <label style="color:white ">Nombre
+            <br>
+            <input type="text" name="nombre" id="nombre">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Lugar
+            <br>
+            <input type="text" name="lugar" id="lugar">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Información
+            <br>
+            <input type="text" name="informacion" id="informacion">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Sitio web
+            <br>
+            <input type="text" name="sitio" id="sitio">
+        </label>
+        <br>
+        <br>
+        <button class="btn btn-primary" type="submit"> Crear Aeropuerto</button>
+    </div>
+</form>

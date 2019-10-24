@@ -1,0 +1,52 @@
+<form action="/administrador/funcionarioActualizar" method="POST">
+    <br><br>
+    <div class="home_title" style="font-size:15px"><h2 style="font-size:35px">Ingrese los datos del funcionario</h2>
+        <br>
+
+        <label style="color:white ">Cedula
+            <br>
+            <input type="text"id="viejacedula"  name="viejacedula">
+        </label>
+        <br>
+
+        <label style="color:white "> Nueva Cedula
+            <br>
+            <input type="text"id="cedula"  name="cedula">
+        </label>
+        <br>
+
+        <label style="color:white ">Nombre Completo
+            <br>
+            <input type="text" id="nombre" name="nombre">
+        </label>
+        <br>
+
+        <label style="color:white ">Tipo de funcionario
+            <br>
+            <select type="text" id="tipo" name="tipo" style="width:180px">
+                <option>Administrativo</option>
+                <option>Técnico</option>
+                <option>Operario</option>
+            </select>
+        </label>
+        <br>
+
+        <label style="color:white ">Fecha de ingreso
+            <br>
+            <input type="text"id="fechaIngreso"  name="fechaIngreso">
+        </label>
+        <br>
+
+        <label style="color:white ">Areas de trabajo
+            <br>
+            <input type="checkbox" id="counter" name="counter" value="counter">Counter<br>
+            <input type="checkbox" id="carga"  name="carga" value="carga">Carga<br>
+            <input type="checkbox" id="mantenimiento" name="mantenimiento" value="mantenimiento"  >Mantenimiento<br>
+            <input type="checkbox" id="abordaje" name="abordaje" value="abordaje" >Abordaje<br>
+        </label>
+        <br>
+        <br>
+        <button class="btn btn-primary" type="submit"> Actualizar</button>
+        <br><br>
+    </div>
+</form>

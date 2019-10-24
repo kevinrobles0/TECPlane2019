@@ -1,0 +1,43 @@
+{{#each errors}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<form action='/administrador/aerolineaCrear' method="POST">
+<br>
+<br>
+<div class="home_title"><h2 style="font-size:40px">Ingrese los datos de la Aerolinea</h2>
+        <br>
+        <br>
+        <label style="color:white ">Nombre
+            <br>
+            <input type="text" name="nombre" id="nombre">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Lugar 1
+            <br>
+            <input type="text" name="lugar1" id="lugar1">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Lugar 2
+            <br>
+            <input type="text" name="lugar2" id="lugar2">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Lugar 3
+            <br>
+            <input type="text" name="lugar3" id="lugar3">
+        </label>
+        <br>
+        <br>
+        <button class="btn btn-primary" type="submit"> Crear</button>
+        <br>
+        <br>
+        </div>
+    </form>
