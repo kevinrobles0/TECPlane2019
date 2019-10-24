@@ -97,7 +97,7 @@ router.post('/administrador/aeropuertoActualizar',async (req,res) =>{
                         });
                     }
                     else{
-                        await aeropuerto.updateOne({_id : id},{textoActualizado}, (err)=>{
+                        await aeropuerto.updateOne({nombre : viejo},{$set: {textoActualizado}}, (err)=>{
                             if(err) { 
                                 console.log("MAMON");
                             }
