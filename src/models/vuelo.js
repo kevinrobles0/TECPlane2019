@@ -21,8 +21,12 @@ const vueloSchema = new Schema({
         type: String,
         requeried: true
     },
-    itinerario:{
-        type: String,
+    fechaIda:{
+        type: Date,
+        requeried: true
+    },
+    fechaVuelta:{
+        type: Date,
         requeried: true
     },
      precio:{
@@ -31,11 +35,11 @@ const vueloSchema = new Schema({
     },
     restricciones:{
         type: Array,
-        requeried: true
+        default:[]
     },
     servicios:{
         type: Array,
-        requeried: true
+        default:[]
     },
     estado:{
         type: String,
@@ -46,6 +50,15 @@ const vueloSchema = new Schema({
         requeried: true,
         trim: true
     },
+    disponibles:{
+        type: Int32Array,
+        requeried: true,
+        trim: true
+    },
+    boletos:{
+        type:Array,
+        default:[]
+    }
 });
 
 module.exports = mongoose.model("vuelo",vueloSchema)
