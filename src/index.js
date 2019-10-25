@@ -4,6 +4,8 @@ const app = express();
 const exphbs = require('express-handlebars');
 const methodOverride = require("method-override");
 const session = require('express-session');
+const interfazActualizarAerolinea = require("./views/administrador/aerolineaActualizar");
+var lugaresAerolinea=[];
 
 //iniciadores
 
@@ -41,7 +43,11 @@ app.use(require('./routes/administrarAeropuerto'));
 app.use(require('./routes/administrarAerolinea'));
 app.use(require('./routes/administrarFuncionario'));
 app.use(require('./routes/administrarVuelo'));
-app.use(require('./views/administrador/aeropuertoCrear'));
+app.use(require('./views/administrador/aerolineaCrear'));
+
+function guardarLugares(){
+    console.log(lugaresAerolinea.entries)
+}
 
 
 
