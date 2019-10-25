@@ -44,7 +44,8 @@ app.use(require('./routes/administrarAeropuerto'));
 app.use(require('./routes/administrarAerolinea'));
 app.use(require('./routes/administrarFuncionario'));
 app.use(require('./routes/administrarVuelo'));
-app.use(require('./views/administrador/aerolineaCrear'));
+app.use(require('./views/indexAdministrador'));
+
 
 function guardarLugares(){
     console.log(lugaresAerolinea.entries)
