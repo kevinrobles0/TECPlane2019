@@ -6,6 +6,7 @@ const methodOverride = require("method-override");
 const session = require('express-session');
 const interfazActualizarAerolinea = require("./views/administrador/aerolineaActualizar");
 var lugaresAerolinea=[];
+var  parar=false;
 
 //iniciadores
 
