@@ -1,3 +1,15 @@
+<br><br>
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+<br>
+<br>
 <form action="/administrador/vueloCrear" method="POST">
     <div class="home_title"><h2 style="font-size:40px">Ingrese los datos del vuelo</h2>
         <br>
@@ -27,7 +39,7 @@
 <br>
         <label style="color:white ">Fecha vuelta
 
-            <input type="date" id="vuela" name="vuelta">
+            <input type="date" id="vuelta" name="vuelta">
         </label>
         <br><br>
 
