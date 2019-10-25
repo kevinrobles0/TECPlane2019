@@ -59,7 +59,7 @@ router.get('/', (req,res)=>{
     res.render('Indexapp');
 })
 
-router.get('/', (req,res)=>{
+router.get('/administrador', (req,res)=>{
     res.render('indexAdministrador');
 })
 
