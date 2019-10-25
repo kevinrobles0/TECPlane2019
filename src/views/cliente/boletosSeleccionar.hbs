@@ -1,0 +1,42 @@
+{{#each errores}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+{{#each exito}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<form action="/cliente/boletos/seleccionar" method="POST">
+<br>
+<br>
+<div  style="font-size:25" pxclass="home_title"><h2 style="color:black">Ingrese el número de boletos que desea adquirir</h2>
+    <br>
+    <br>
+    <input  style="font-size:30px" type="text" name="boletos" id="boletos">
+    <br>
+    <br>
+    <h2 style="color:black">Ingrese la cantidad de maletas</h2>
+    <br>
+    <br>
+    <input style="font-size:30px" type="text" name="maletas" id="maletas">
+    <br>
+    <br>
+    <h2 style="color:black">Observaciones(Opcional)</h2>
+    <br>
+    <br>
+    <input style="font-size:30px" type="text" name="observaciones" id="observaciones">
+    <br>
+    <br>
+    <form action="/cliente/boletos/seleccionar" method="GET">
+		<button class="btn btn-secondary" type="submit"> Ingresar</button>
+    </form>
+</div>
+</form>

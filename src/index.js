@@ -38,13 +38,16 @@ app.use(session({
 //variables globales
 
 //routes
+app.use(require('./routes/cliente'));
+app.use(require('./routes/boletos'));
+app.use(require('./routes/gestionUsuarios'));
 app.use(require('./routes/index'));
 app.use(require('./routes/administrador'));
 app.use(require('./routes/administrarAeropuerto'));
 app.use(require('./routes/administrarAerolinea'));
 app.use(require('./routes/administrarFuncionario'));
 app.use(require('./routes/administrarVuelo'));
-app.use(require('./views/indexAdministrador'));
+
 
 
 function guardarLugares(){

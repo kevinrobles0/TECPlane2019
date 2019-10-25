@@ -63,5 +63,8 @@ router.get('/administrador', (req,res)=>{
     res.render('indexAdministrador');
 })
 
+router.get('/cliente', (req,res)=>{
+    res.render('indexCliente');
+})
 
 module.exports = router;
