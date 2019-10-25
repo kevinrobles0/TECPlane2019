@@ -2,6 +2,7 @@ const express= require('express');
 const router = express.Router();
 const aerolinea = require("../models/aerolinea");
 
+
 router.post('/administrador/aerolineaCrear',async(req,res)=>{
     var nombre = req.body.nombre;
     var lugar1 = req.body.lugar1;

@@ -1,5 +1,5 @@
 {{#each errors}}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
     {{text}}
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
@@ -18,21 +18,22 @@
         </label>
         <br>
         <br>
-        <label style="color:white ">Lugar 1
+        <label style="color:white ">Lugares
             <br>
-            <input type="text" name="lugar1" id="lugar1">
+            <input type="text" name="lugares" id="lugares">
+            <button onclick="guardarLugares()">Agregar</button>
         </label>
         <br>
         <br>
-        <label style="color:white ">Lugar 2
+        <label style="color:white ">Identificador
             <br>
-            <input type="text" name="lugar2" id="lugar2">
+            <input type="text" name="idAerolinea" id="idAerolinea">
         </label>
         <br>
         <br>
-        <label style="color:white ">Lugar 3
+        <label style="color:white ">Aeropuerto
             <br>
-            <input type="text" name="lugar3" id="lugar3">
+            <input type="text" name="aeropuerto" id="aeropuerto">
         </label>
         <br>
         <br>

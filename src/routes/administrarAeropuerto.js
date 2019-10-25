@@ -50,12 +50,11 @@ router.post('/administrador/aeropuertoActualizar',async (req,res) =>{
     var localizacion =req.body.nuevolugar;
     var contacto =req.body.nuevainformacion;
     var sitio =req.body.nuevositio;
-    const {id}=req.params;
-    console.log(id);
     var sinNombre=[];
     var noIngresado=[];
     var noEncontrado=[];
     var exito=[];
+    var id;
 
     if(!viejo){
         sinNombre.push({text: "Ingrese el nombre de la aerolinea a actualizar"});
@@ -64,51 +63,54 @@ router.post('/administrador/aeropuertoActualizar',async (req,res) =>{
         });
     }
     else{
-        await aeropuerto.find({nombre : viejo}, async (err, nombreAero)=>{
+        await aeropuerto.findOne({nombre : viejo}, async (err, Aero)=>{
             if (err){
                 console.log("error");
             } else{
-                if(nombreAero.length==0){
+                if(!Aero){
                     noEncontrado.push({text:"El nombre del aeropuerto no corresponde a los existentes"})
                     res.render("./administrador/aeropuertoActualizar",{
                         noEncontrado
                     });
                 }
                 else{
+                    console.log(Aero);
+                    var contador=0;
                     var textoActualizado=""
 
                     if(nombre){
-                        textoActualizado+="nombre: '"+nombre+"', "
+                        Aero.nombre=nombre;
+                        contador+=1;
                     }
                     if(localizacion){
-                        textoActualizado+="localizacion: '"+localizacion+"', "
+                        Aero.localizacion=localizacion;
+                        contador+=1;
                     }
                     if(contacto){
-                        textoActualizado+="contacto: '"+contacto+"', "
+                        Aero.contacto=contacto;
+                        contador+=1;
                     }
                     if(sitio){
-                        textoActualizado+="sitioWeb: '"+sitio+"'"
+                        Aero.sitioWeb=sitio;
+                        contador+=1;
                     }
 
-                    if(textoActualizado=="{}"){
+                    if(contador==0){
                         noIngresado.push({text:"Debe editar al menos un dato"});
                         res.render("./administrador/aeropuertoActualizar",{
                             noIngresado
                         });
                     }
                     else{
-                        await aeropuerto.updateOne({nombre : viejo},{$set: {textoActualizado}}, (err)=>{
-                            if(err) { 
-                                console.log("MAMON");
-                            }
-                            else{
-                                console.log("exito");
-                                exito.push({text: "Se actualizó con éxito"});
-                                res.render("./administrador/aeropuerto",{
-                                    exito
-                                });
-                            }
-                        })
+                        console.log("here")
+                        console.log(Aero)
+                        Aero.save();
+                        console.log("exito");
+                        exito.push({text: "Se actualizó con éxito"});
+                        res.render("./administrador/aeropuerto",{
+                            exito
+                        });
+                        
                     }
                 }
             }
@@ -145,9 +147,21 @@ router.post('/administrador/aeropuertoEliminar', async (req,res) =>{
     }   
 });
 //read
-router.post('/administrador/aeropuertoLeer',(req,res) =>{
+router.post('/administrador/aeropuertoLeer',async (req,res) =>{
     var ingresado =req.body.ingresado;
     console.log(ingresado);
+    if(ingresado){
+        const resultadoFinal =await aeropuerto.find({nombre: ingresado});
+        res.render("./administrador/all-aeropuertos",{resultadoFinal});
+        
+        
+    }
+    else{
+        console.log("abajo")
+        const aeropuertos = await aeropuerto.find();
+        res.render("./administrador/all-aeropuertos",{aeropuertos});
+    }
+
 });
 
 
