@@ -8,6 +8,8 @@ const session = require('express-session');
 
 var correo="";
 
+var correo="";
+
 //iniciadores
 
 
