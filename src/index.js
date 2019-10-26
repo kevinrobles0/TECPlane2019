@@ -8,6 +8,8 @@ const interfazActualizarAerolinea = require("./views/administrador/aerolineaActu
 var lugaresAerolinea=[];
 var  parar=false;
 
+var correo="";
+
 //iniciadores
 
 
