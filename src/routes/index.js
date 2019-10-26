@@ -2,56 +2,76 @@ const express= require('express');
 const router = express.Router();
 const funcionario = require("../models/funcionario");
 const pasajero = require("../models/pasajero");
+const bcrypt = require('bcrypt');
 
 router.post('/Indexapp',async(req,res)=>{
     var correoEntrada = req.body.correo;
     var contraseñaEntrada = req.body.contraseña;
-
-    console.log(correoEntrada);
-
-    var exito=[];
     var errors =[];
+    var contraseñaEncontrada = "";
+    var tipo;
 
-    var encontrado = 0;
+    //await bcrypt.genSalt(10, async(err, salt)=>{
+    //    bcrypt.hash(contraseñaEntrada, salt, function(err, hash) {
+    //        contraseña = hash;
+    //        console.log(hash);
+    //        console.log("1");
+    //    });
+    //});
 
-    await funcionario.findOne({correo:correoEntrada,contraseña:contraseñaEntrada}, async(err,funcio)=>{
+    await funcionario.findOne({correo:correoEntrada}, async(err,funcio)=>{
         if(err){
             console.log(err);
         }
-        if(!funcio){
-            //No lo encontro
-        }else{
-            if(funcio.tipo=="Administrador"){
+        if(funcio){
+            tipo = funcio.tipo;
+            contraseñaEncontrada = funcio.contraseña;
+        }
+    })
+
+    await pasajero.findOne({correo:correoEntrada}, async(err,pasaj)=>{
+        if(err){
+            console.log(err);
+        }
+        if(pasaj){
+            tipo = "pasajero";
+            contraseñaEncontrada = pasaj.contraseña;  
+        }
+    })
+
+
+    await bcrypt.compare(contraseñaEntrada, contraseñaEncontrada, async(err, resp)=>{
+        if(err){
+            console.log(err);
+        }
+        if(contraseñaEncontrada==""){
+            errors.push({text:"Usuario incorrecto"});
+            res.render("./indexapp",{
+            errors
+            })
+            return;
+        }
+
+        if(resp){
+            if(tipo=="Administrador"){
+                console.log("admi");
                 res.render("./indexAdministrador",{
                     correoEntrada});
+            }if(tipo=="pasajero"){
+                console.log("pasaj");
+                res.render("./indexCliente",{
+                    correoEntrada});
             }else{
+                console.log("funci");
                 //redireccionar otros funcionarios
             }
-            encontrado = 1;
-            
-        }
-
-    })
-
-    await pasajero.findOne({correo:correoEntrada,contraseña:contraseñaEntrada}, async(err,pasaj)=>{
-        if(err){
-            console.log(err);
-        }
-        if(!pasaj){
-            //No lo encontro
         }else{
-            //redireccionar
-            console.log("pasajero");
-            encontrado = 1;
-            
-        }
-    })
-    if(encontrado==0){
-        errors.push({text:"Usuario incorrecto"});
-        res.render("./indexapp",{
+            errors.push({text:"contraseña incorrecta"});
+            res.render("./indexapp",{
             errors
-        })
-    }
+            })
+        } 
+    });
 })
 
 
