@@ -57,7 +57,7 @@ router.post('/Indexapp',async(req,res)=>{
                 console.log("admi");
                 res.render("./indexAdministrador",{
                     correoEntrada});
-            }if(tipo=="pasajero"){
+            }else if(tipo=="pasajero"){
                 console.log("pasaj");
                 res.render("./indexCliente",{
                     correoEntrada});
