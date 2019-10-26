@@ -11,7 +11,8 @@ const aerolineaSchema = new Schema({
     },
     nombre: {
         type: String,
-        required: true
+        required: true,
+        unique:true
     },
     paises:{
         type: Array,

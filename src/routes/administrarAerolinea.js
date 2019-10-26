@@ -5,9 +5,9 @@ const aerolinea = require("../models/aerolinea");
 
 router.post('/administrador/aerolineaCrear',async(req,res)=>{
     var nombre = req.body.nombre;
-    var lugar1 = req.body.lugar1;
-    var lugar2 = req.body.lugar2;
-    var lugar3 = req.body.lugar3;
+    var paises = req.body.lugares;
+    var idAerolinea = req.body.idAerolinea;
+    var aeropuerto = req.body.aeropuerto;
 
     var exito=[];
     var errors =[];
@@ -15,25 +15,26 @@ router.post('/administrador/aerolineaCrear',async(req,res)=>{
     if(!nombre){
         errors.push({text:"Debe ingresar el nombre"});
     }
-    if(!lugar1){
-        errors.push({text:"Debe ingresar el lugar1"});
+    if(!idAerolinea){
+        errors.push({text:"Debe ingresar el id de la aerolinea"});
     }
-    if(!lugar2){
-        errors.push({text:"Debe ingresar el lugar2"});
+    if(!aeropuerto){
+        errors.push({text:"Debe ingresar el aeropuerto"});
     }
-    if(!lugar3){
-        errors.push({text:"Debe ingresar el lugar3"});
+    if(!paises){
+        errors.push({text:"Debe ingresar los paises"});
     }
     if(errors.length>0){
         res.render("./administrador/aerolineaCrear",{
-            errors,
-            nombre,
-            lugar1,
-            lugar2,
-            lugar3 
+            errors
         });
-    }else{
-        const Naerolinea = new aerolinea({nombre,lugar1,lugar2,lugar3});
+    }
+    else{
+        
+        var IdAeropuerto="";
+        var arrayLugares = aeropuerto
+
+        const Naerolinea = new aerolinea({idAerolinea,nombre,paises,IdAeropuerto});
         Naerolinea.save();
         exito.push({text:"Se ha insertado la aerolínea con éxito"});
         res.render("./administrador/aerolinea",{
