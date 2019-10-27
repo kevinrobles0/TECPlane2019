@@ -5,12 +5,13 @@ const aerolinea = require("../models/aerolinea");
 
 router.post('/administrador/aerolineaCrear',async(req,res)=>{
     var nombre = req.body.nombre;
-    var paises = req.body.lugares;
+    var lugares = req.body.lugares;
     var idAerolinea = req.body.idAerolinea;
-    var aeropuerto = req.body.aeropuerto;
+    var nombreAeropuerto = req.body.aeropuerto;
 
     var exito=[];
     var errors =[];
+    var noAeropuerto=[];
 
     if(!nombre){
         errors.push({text:"Debe ingresar el nombre"});
@@ -18,10 +19,10 @@ router.post('/administrador/aerolineaCrear',async(req,res)=>{
     if(!idAerolinea){
         errors.push({text:"Debe ingresar el id de la aerolinea"});
     }
-    if(!aeropuerto){
+    if(!nombreAeropuerto){
         errors.push({text:"Debe ingresar el aeropuerto"});
     }
-    if(!paises){
+    if(!lugares){
         errors.push({text:"Debe ingresar los paises"});
     }
     if(errors.length>0){
@@ -29,16 +30,28 @@ router.post('/administrador/aerolineaCrear',async(req,res)=>{
             errors
         });
     }
+    
     else{
-        
-        var IdAeropuerto="";
-        var arrayLugares = aeropuerto
 
-        const Naerolinea = new aerolinea({idAerolinea,nombre,paises,IdAeropuerto});
-        Naerolinea.save();
-        exito.push({text:"Se ha insertado la aerolínea con éxito"});
-        res.render("./administrador/aerolinea",{
-            exito
+        aropuerto.findOne({nombre:nombreAeropuerto}, async (err,nombreEncontrado)=>{
+            console.log(nombreEncontrado)
+            if(!nombreEncontrado){
+                noAeropuerto.push("El aeropuerto no corresponde a los existentes");
+                res.render("./administrador/aerolineaCrear",{
+                    noAeropuerto
+                });
+            }
+            else{
+                var paisesTexto = String(lugares);
+                var paises = paisesTexto.split(",");
+
+                const Naerolinea = new aerolinea({idAerolinea,nombre,paises,nombreAeropuerto});
+                Naerolinea.save();
+                exito.push({text:"Se ha insertado la aerolínea con éxito"});
+                res.render("./administrador/aerolinea",{
+                    exito
+                });
+            }
         });
     }
 
@@ -70,6 +83,111 @@ router.post('/administrador/aerolineaEliminar', async (req,res) =>{
         })
     }
 })
+
+//update
+router.post('/administrador/aerolineaActualizar', (req,res)=>{
+    
+    var viejo= req.body.viejo;
+    var Innombre = req.body.nombre;
+    var lugares = req.body.lugares;
+    var idAerolinea = req.body.idAerolinea;
+    var nombreAeropuerto = req.body.aeropuerto;
+    var noAeropuerto=[];
+
+    if(!Innombre){
+        sinNombre.push({text: "Ingrese el nombre de la aerolinea a actualizar"});
+        res.render("./administrador/aerolineaActualizar",{
+            sinNombre
+        });
+    }
+    else{
+        await aerolinea.findOne({nombre : viejo}, async (err, Aerolinea)=>{
+            if (err){
+                res.send("error");
+            } 
+            else{
+
+                if(!Aerolinea){
+                    noEncontrado.push({text:"El nombre de la aerolinea no corresponde a los existentes"})
+                    res.render("./administrador/aerolineaActualizar",{
+                        noEncontrado
+                    });
+                }
+                else{
+                    console.log(Aerolinea);
+                    var contador=0;
+
+                    if(Innombre){
+                        Aerolinea.nombre=Innombre;
+                        contador+=1;
+                    }
+                    if(idAerolinea){
+                        Aerolinea.idAerolinea=idAerolinea;
+                        contador+=1;
+                    }
+                    if(nombreAeropuerto){
+                        
+                        aropuerto.findOne({nombre:nombreAeropuerto}, async (err,nombreEncontrado)=>{
+                            console.log(nombreEncontrado)
+                            if(!nombreEncontrado){
+                                noAeropuerto.push("El aeropuerto no corresponde a los existentes");
+                            }
+                            else{
+                                Aerolinea.nombreAeropuerto=nombreAeropuerto;
+                                contador+=1
+                            }
+                        });
+                    }
+
+                    if(lugares){
+                        var paisesTexto = String(lugares);
+                        var paises = paisesTexto.split(",");
+
+                        Aerolinea.paises=paises;
+                        contador+=1
+                    }
+
+                    if(contador==0){
+                        noIngresado.push({text:"Debe editar al menos un dato"});
+                        res.render("./administrador/aerolineaActualizar",{
+                            noIngresado
+                        });
+                    }
+                    if(noAeropuerto.length==0){
+                        res.render("./administrador/aerolineaActualizar",{
+                            noAeropuerto
+                        });
+                    }
+                    else{
+                        console.log("here")
+                        console.log(Aerolinea)
+                        Aerolinea.save();
+                        console.log("exito");
+                        exito.push({text: "Se actualizó con éxito"});
+                        res.render("./administrador/aerolinea",{
+                            exito
+                        });
+                        
+                    }
+                }
+            }
+        });
+    }
+});
+
+
+
+
+
+//read
+router.post('/administrador/aerolineaLeer',async(req,res)=>{
+    var ingresado =req.body.ingresado;
+    console.log(ingresado);
+    if(ingresado){
+        const resultadoFinal =await aerolinea.find({nombre: ingresado});
+        res.render("./administrador/all-aerolineas",{resultadoFinal});
+        
+        
 
 
 router.get('/administrador/aerolinea/crear', (req,res)=>{
