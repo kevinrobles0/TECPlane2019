@@ -54,10 +54,10 @@ router.post('/administrador/aeropuertoActualizar',async (req,res) =>{
     var noIngresado=[];
     var noEncontrado=[];
     var exito=[];
-    var id;
+    
 
     if(!viejo){
-        sinNombre.push({text: "Ingrese el nombre de la aerolinea a actualizar"});
+        sinNombre.push({text: "Ingrese el nombre del aeropuerto a actualizar"});
         res.render("./administrador/aeropuertoActualizar",{
             sinNombre
         });

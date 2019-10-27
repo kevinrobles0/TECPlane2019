@@ -18,7 +18,7 @@ const aerolineaSchema = new Schema({
         type: Array,
         requeried: true
     },
-    idAeropuerto:{
+    nombreAeropuerto:{
         type: String,
         requeried: true
     }
