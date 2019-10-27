@@ -1,0 +1,29 @@
+{{#each sinDatos}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+<form action= '/funcionario/abordar' method="POST">
+<br>
+<br>
+<div  style="font-size:25" pxclass="home_title"><h2 style="color:black">Ingrese la información para realizar abordaje</h2>
+    <br>
+    <br>
+    <label>Ingrese el número de cédula del pasajero</label>
+    <br>
+    <input style="font-size:30px" type="text" id="cedula" name="cedula">
+    <br>
+    <br>
+    <label>Ingrese el número de vuelo</label>
+    <br>
+    <input style="font-size:30px" type="text" id="vuelo" name="vuelo">
+    <br>
+    <br>
+    <button class="btn btn-primary" type="submit"> Abordar</button>
+    <br><br>
+</div>
+</form>

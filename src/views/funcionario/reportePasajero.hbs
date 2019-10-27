@@ -7,7 +7,16 @@
 </div>
 {{/each}}
 
-<form action= '/funcionario/Check-in' method="POST">
+{{#each noEncontrado}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+<form action= '/funcionario/consultarPasajero' method="POST">
 <br>
 <br>
 <div  style="font-size:25" pxclass="home_title"><h2 style="color:black">Ingrese el número de identificación del pasajero</h2>
@@ -16,6 +25,6 @@
     <input style="font-size:30px" type="text" id="ingresado" name="ingresado">
     <br>
     <br>
-    <button class="btn btn-primary" type="submit"> Verificar</button>
+    <button class="btn btn-primary" type="submit"> Mostrar</button>
 </div>
 </form>
