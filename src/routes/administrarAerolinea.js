@@ -85,7 +85,7 @@ router.post('/administrador/aerolineaEliminar', async (req,res) =>{
 })
 
 //update
-router.post('/administrador/aerolineaActualizar', (req,res)=>{
+router.post('/administrador/aerolineaActualizar', async (req,res)=>{
     
     var viejo= req.body.viejo;
     var Innombre = req.body.nombre;
@@ -186,8 +186,14 @@ router.post('/administrador/aerolineaLeer',async(req,res)=>{
     if(ingresado){
         const resultadoFinal =await aerolinea.find({nombre: ingresado});
         res.render("./administrador/all-aerolineas",{resultadoFinal});
-        
-        
+    }
+    else{
+        console.log("abajo")
+        const aerolineas = await aerolinea.find();
+        res.render("./administrador/all-aerolineas",{aeropuertos});
+    }
+
+});
 
 
 router.get('/administrador/aerolinea/crear', (req,res)=>{
