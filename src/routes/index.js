@@ -87,4 +87,8 @@ router.get('/cliente', (req,res)=>{
     res.render('indexCliente');
 })
 
+router.get('/funcionario', (req,res)=>{
+    res.render('indexFuncionario');
+})
+
 module.exports = router;

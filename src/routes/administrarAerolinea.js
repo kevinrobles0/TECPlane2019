@@ -1,7 +1,7 @@
 const express= require('express');
 const router = express.Router();
 const aerolinea = require("../models/aerolinea");
-
+const aeropuertos = require("../models/aeropuerto");
 
 router.post('/administrador/aerolineaCrear',async(req,res)=>{
     var nombre = req.body.nombre;
@@ -184,13 +184,21 @@ router.post('/administrador/aerolineaLeer',async(req,res)=>{
     var ingresado =req.body.ingresado;
     console.log(ingresado);
     if(ingresado){
-        const resultadoFinal =await aerolinea.find({nombre: ingresado});
-        res.render("./administrador/all-aerolineas",{resultadoFinal});
+        var noEncontrado=[];
+        const resultadoFinal =await aerolinea.findOne({nombre: ingresado});
+        console.log(resultadoFinal)
+        if(resultadoFinal){
+            res.render("./administrador/all-aerolineas",{resultadoFinal});
+        }
+        else{
+            noEncontrado.push({text:"No existe la aerolinea con ese nombre"});
+            res.render("./administrador/aerolineaLeer",{noEncontrado});
+        }
     }
     else{
         console.log("abajo")
         const aerolineas = await aerolinea.find();
-        res.render("./administrador/all-aerolineas",{aeropuertos});
+        res.render("./administrador/all-aerolineas",{aerolineas});
     }
 
 });
@@ -211,7 +219,5 @@ router.get('/administrador/aerolinea/actualizar', (req,res)=>{
 router.get('/administrador/aerolinea/leer', (req,res)=>{
     res.render("administrador/aerolineaLeer");
 })
-
-
 
 module.exports = router;
