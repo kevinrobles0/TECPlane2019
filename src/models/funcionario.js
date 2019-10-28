@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 mongoose.set('useCreateIndex', true);
+const bcrypt = require('bcrypt');
 
 const funcionarioSchema = new Schema({
     idFuncionario:{
@@ -35,5 +36,18 @@ const funcionarioSchema = new Schema({
         trim: true
     }
 });
+
+funcionarioSchema.pre('save',function(next){
+    const usuario = this;
+    if (!usuario.isModified('contraseña')){
+        return next();
+    }
+    bcrypt.genSalt(10, async(err, salt)=>{
+        bcrypt.hash(usuario.contraseña, salt, function(err, hash) {
+        usuario.contraseña = hash; 
+        next();
+       });
+    });
+})
 
 module.exports = mongoose.model("funcionario",funcionarioSchema)

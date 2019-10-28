@@ -24,6 +24,14 @@
   </button>
 </div>
 {{/each}}
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
 <form action="/administrador/funcionarioActualizar" method="POST">
     <br><br>
     <div class="home_title" style="font-size:15px"><h2 style="font-size:35px">Ingrese los datos del funcionario</h2>
@@ -69,6 +77,16 @@
             <input type="checkbox" id="carga"  name="carga" value="carga">Carga<br>
             <input type="checkbox" id="mantenimiento" name="mantenimiento" value="mantenimiento"  >Mantenimiento<br>
             <input type="checkbox" id="abordaje" name="abordaje" value="abordaje" >Abordaje<br>
+        </label>
+        <br>
+        <label style="color:white ">Correo
+            <br>
+            <input type="text" id="correo" name="correo">
+        </label>
+        <br>
+        <label style="color:white ">Contraseña
+            <br>
+            <input type="text" id="contraseña" name="contraseña">
         </label>
         <br>
         <br>

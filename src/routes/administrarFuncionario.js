@@ -7,9 +7,9 @@ router.post('/administrador/funcionarioCrear',async(req,res) =>{
     var nombre = req.body.nombre;
     var tipo = req.body.tipo;
     var fechaContratacion = req.body.fechaIngreso;
-    var AreaTrabajo;
-    var correo;
-    var contraseña;
+    var AreaTrabajo = [];
+    var correo = req.body.correo;
+    var contraseña =req.body.contraseña;
 
     var exito=[];
     var errors =[];
@@ -26,7 +26,19 @@ router.post('/administrador/funcionarioCrear',async(req,res) =>{
     if(!fechaContratacion ){
         errors.push({text:"Debe ingresar la fecha de ingreso"});
     }
-    if(!AreaTrabajo ){
+    if(!req.body.counter){
+        AreaTrabajo.push(req.body.counter);
+    }
+    if(!req.body.carga){
+        AreaTrabajo.push(req.body.carga);
+    }
+    if(!req.body.mantenimiento){
+        AreaTrabajo.push(req.body.mantenimiento);
+    }
+    if(!req.body.abordaje){
+        AreaTrabajo.push(req.body.abordaje);
+    }
+    if(!AreaTrabajo){
         errors.push({text:"Debe ingresar el área de trabajo"});
     }
     if(!correo ){
@@ -85,6 +97,25 @@ router.post('/administrador/funcionarioEliminar', async (req,res) =>{
         })
     }   
 });
+
+router.post('administrador/funcionarioActualizar',async(req,res)=>{
+    var vieja = req.body.viejacedula;
+    var idFuncionario = req.body.cedula;
+    var nombre = req.body.nombre;
+    var tipo = req.body.tipo;
+    var fechaContratacion = req.body.fechaIngreso;
+    var AreaTrabajo = [];
+    var correo = req.body.correo;
+    var contraseña =req.body.contraseña;
+
+    var exito=[];
+    var errors =[];
+
+    if(!vieja){
+        errors.push({text:"Ingrese la cédula a actualizar"});
+        res.render("./administrador/funcionarioActualizar",{erros});
+    }
+})
 
 router.get('/administrador/funcionario/crear', (req,res)=>{
     res.render("administrador/funcionarioCrear");

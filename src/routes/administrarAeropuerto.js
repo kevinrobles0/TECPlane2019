@@ -74,10 +74,8 @@ router.post('/administrador/aeropuertoActualizar',async (req,res) =>{
                     });
                 }
                 else{
-                    console.log(Aero);
                     var contador=0;
-                    var textoActualizado=""
-
+                    
                     if(nombre){
                         Aero.nombre=nombre;
                         contador+=1;
@@ -102,10 +100,7 @@ router.post('/administrador/aeropuertoActualizar',async (req,res) =>{
                         });
                     }
                     else{
-                        console.log("here")
-                        console.log(Aero)
                         Aero.save();
-                        console.log("exito");
                         exito.push({text: "Se actualizó con éxito"});
                         res.render("./administrador/aeropuerto",{
                             exito
@@ -163,10 +158,6 @@ router.post('/administrador/aeropuertoLeer',async (req,res) =>{
     }
 
 });
-
-
-
-
 
 
 
