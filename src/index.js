@@ -6,9 +6,7 @@ const methodOverride = require("method-override");
 const session = require('express-session');
 
 
-var correo="";
 
-var correo="";
 
 //iniciadores
 
@@ -38,6 +36,7 @@ app.use(session({
 }));
 
 //variables globales
+
 
 //routes
 

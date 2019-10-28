@@ -2,6 +2,7 @@ const express= require('express');
 const router = express.Router();
 const cliente = require("../models/pasajero");
 
+
 router.post('/cliente/usuarioCrear',async(req,res)=>{
     var idPasajero= req.body.cedula;
     var nombre= req.body.nombre;
@@ -58,6 +59,22 @@ router.post('/cliente/usuarioCrear',async(req,res)=>{
        
     }
 })
+router.get('/cliente/usuarioConsultar', async (req,res)=>{
+    var correoBuscar=require("../index").correoUsuario;
+    console.log(correoBuscar);
+    
+    await cliente.findOne({correo:{text:"pedro"}},async (err,clienteEncontrado)=>{
+        if(err){
+            res.send("error");
+        }
+        else{
+            console.log(clienteEncontrado);
+            res.render("cliente/usuarioConsultar",{clienteEncontrado});
+        }
+    });
+    
+    
+});
 router.get('/cliente/usuarios/crear', (req,res)=>{
     res.render("cliente/usuarioCrear");
 })

@@ -3,6 +3,9 @@ const router = express.Router();
 const funcionario = require("../models/funcionario");
 const pasajero = require("../models/pasajero");
 const bcrypt = require('bcrypt');
+var correoUsuario="";
+
+
 
 router.post('/Indexapp',async(req,res)=>{
     var correoEntrada = req.body.correo;
@@ -53,7 +56,7 @@ router.post('/Indexapp',async(req,res)=>{
         }
 
         if(resp){
-            console.log(tipo);
+            correoUsuario = correoEntrada; 
             if(tipo=="Administrativo"){
                 console.log("admi");
                 res.render("./indexAdministrador",{
@@ -61,7 +64,7 @@ router.post('/Indexapp',async(req,res)=>{
             }else if(tipo=="pasajero"){
                 console.log("pasaj");
                 res.render("./indexCliente",{
-                    correoEntrada});
+                    correoUsuario});
             }else{
                 console.log("funci");
                 res.render("./indexFuncionario",{
