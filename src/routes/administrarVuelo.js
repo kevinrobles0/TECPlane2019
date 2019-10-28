@@ -109,7 +109,7 @@ router.post('/administrador/vueloEliminar', async (req,res) =>{
 
 router.post('/administrador/vueloActualizar',async(req,res)=>{
     var actual = req.body.actual;
-    var idVuelo = req.body.id;
+    var idVuelo = req.body.idVuelo;
     var nombre = req.body.nombre;
     var origen = req.body.origen;
     var destino = req.body.destino;
@@ -183,25 +183,29 @@ router.post('/administrador/vueloActualizar',async(req,res)=>{
                         vue.servicios = servicios;
                         contador+=1;
                     }
-                    if(estado){
+                    if(estado != "."){
                         vue.estado = estado;
                         contador+=1;
+                        console.log("here");
                     }
                     if(maximo){
+
                         if(parseInt(maximo) > parseInt(vue.maximo)){
                             var diferencia = parseInt(maximo)-parseInt(vue.maximo);
-                            var i = vue.maximo+1;
+                            console.log(diferencia);
+                            var i = parseInt(vue.maximo)+1;
                             while(i<=parseInt(maximo)){
                                 vue.boletos.push([i,"LIBRE",""])
                                 i+=1;
                             }
                             vue.disponibles = String(parseInt(diferencia)+parseInt(vue.disponibles));
                             contador+=1;
-                        }else if(maximo < vue.maximo){
-                            errors.push("No se puede modificar la cantidad máxima por un número menor al actual");
+                        }else if(parseInt(maximo) < parseInt(vue.maximo)){
+                            errors.push({text:"No se puede modificar la cantidad máxima por un número menor al actual"});
                             res.render("./administrador/vueloActualizar",{
                                 errors
                             });
+                            return;
                         }
                     }
                     if(contador==0){

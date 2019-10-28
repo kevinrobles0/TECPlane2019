@@ -1,20 +1,27 @@
 <br><br>
-<h4>Aeropuertos TEC Plane</h4>
+<h4>Vuelos TEC Plane</h4>
 <br><br>
 <div class="row">
     <br><br>
-    {{#each pasajerosEncontrados}}
+    {{#each vuelos}}
     <div class="col-md-3">
-        <div class="pasajero">
+        <div class="vuelos">
             <div class="cuerpo">
                 <h5 class="nombre">
-                  Cédula pasajero:  {{idPasajero}}
+                  IdVuelo:  {{idVuelo}}
                 </h5>
                 <p>Nombre: {{nombre}}</p>
-                <p>Fecha de nacimiento: </p>{{fechaNacimiento}}</p>
-                <p>Residencia: {{residencia}}</p>
-                <p>Teléfonos: {{telefonos}}</p>
-                <p>Correo: {{correo}}</p>
+                <p>Origen {{origen}}</p>
+                <p>Destino: {{destino}}</p>
+                <p>Fecha de ida: {{fechaIda}}</p>
+                <p>Fecha de vuelta: {{fechaVuelta}}</p>
+                <p>Precio {{precio}}</p>
+                <p>Restricciones: {{restricciones}}</p>
+                <p>Servicios: {{servicios}}</p>
+                <p>Estado: {{estado}}</p>
+                <p>Maximos: {{maximo}}</p>
+                <p>Disponibles: {{disponibles}}</p>
+                <p>Boletos: {{boletos}}</p>
                 <br><br>
             </div>
         </div>

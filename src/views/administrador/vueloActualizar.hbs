@@ -6,6 +6,14 @@
   </button>
 </div>
 {{/each}}
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
 
 {{#each noEncontrado}}
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -92,9 +100,10 @@
         <label style="color:white ">Estado
 
             <select id="estado" name="estado" style="width:170px">
-                <option value="tiempo">A tiempo</option>
-                <option value="retrasado">Retrasado</option>
-                <option value="cancelado">Cancelado</option>
+                <option value=".">.</option>
+                <option value="A tiempo">A tiempo</option>
+                <option value="Retrasado">Retrasado</option>
+                <option value="Cancelado">Cancelado</option>
             </select>
 
         </label>

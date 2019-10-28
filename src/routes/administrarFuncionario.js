@@ -181,8 +181,14 @@ router.post('/administrador/funcionarioActualizar',async(req,res)=>{
 router.post('/administrador/funcionarioLeer',async(req,res)=>{
     var ingresado = req.body.ingresado;
     if(ingresado){
-        const resultadoFinal = await funcionario.find({idFuncionario:ingresado});
-        res.render("./administrador/all-funcionarios",{resultadoFinal});
+        const funcio = await funcionario.findOne({idFuncionario:ingresado});
+        console.log(funcio);
+        if(funcio){
+            res.render("./administrador/all-funcionarios",{funcio});
+        }else{
+            errors.push({text:"No existe funcionarios con la cédula ingresada"});
+            res.render("./administrador/funcionarioLeer",{erros});
+        }  
     }else{
         const funcio = await funcionario.find();
         res.render("./administrador/all-funcionarios",{funcio});
