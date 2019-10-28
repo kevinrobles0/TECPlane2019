@@ -1,0 +1,24 @@
+<br><br>
+<h4>Aeropuertos TEC Plane</h4>
+<br><br>
+<div class="row">
+    <br><br>
+    {{#each pasajerosEncontrados}}
+    <div class="col-md-3">
+        <div class="pasajero">
+            <div class="cuerpo">
+                <h5 class="nombre">
+                  Cédula pasajero:  {{idPasajero}}
+                </h5>
+                <p>Nombre: {{nombre}}</p>
+                <p>Fecha de nacimiento: </p>{{fechaNacimiento}}</p>
+                <p>Residencia: {{residencia}}</p>
+                <p>Teléfonos: {{telefonos}}</p>
+                <p>Correo: {{correo}}</p>
+                <br><br>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+<br><br><br>
