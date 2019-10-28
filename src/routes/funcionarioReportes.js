@@ -109,27 +109,45 @@ router.post('/vuelos/reporteVuelosNombre', (req,res)=>{
 
     var cedulaIngresada= req.body.cedula;
     var vuelosTotalesPorCedula=[];
+    var noEncontrado=[];
+    var errores=[];
 
-    vuelos.find( async (err,vuelosEncontrados)=>{
-        
-        var contador=0;
-        while(vuelosEncontrados.length>contador){
-            var cedulaVuelo = vuelosEncontrados[contador].boletos[0];
+    if(!cedulaIngresada){
+        errores.push({text:"Debe ingresar el número de cédula"})
+        res.render("./funcionario/reporteVuelos",{
+            errors
+        });
+    }
+
+    else{
+        vuelos.find( async (err,vuelosEncontrados)=>{
             
-            if(cedulaVuelo==cedulaIngresada){
-                vuelosTotalesPorCedula.push(vuelosEncontrados[contador]);
+            var contador=0;
+            while(vuelosEncontrados.length>contador){
+                var cedulaVuelo = vuelosEncontrados[contador].boletos[0];
+                
+                if(cedulaVuelo==cedulaIngresada){
+                    vuelosTotalesPorCedula.push(vuelosEncontrados[contador]);
+                }
+                contador+=1;
+
             }
-            contador+=1;
 
-        }
+            if(vuelosTotalesPorCedula.length==0){
+                noEncontrado.push({text:"No existen pasajeros con ese número de cédula"});
+                res.render("./funcionario/reporteVuelos",{
+                    noEncontrado
+                });
+            }
 
-        if(vuelosTotalesPorCedula.length==0){
-            //res.render("./funcionario/reporteVuelosEstado",{
-                noEncontrado
-            });
-        }
+            else{
+                res.render("./funcionario/reporteVuelosFiltrado",{
+                    vuelosEncontrados
+                });
+            }
 
-    });
+        });
+    }
 });
 
 //fin reportes
