@@ -95,7 +95,7 @@ router.post('/administrador/funcionarioEliminar', async (req,res) =>{
     }   
 });
 
-router.post('administrador/funcionarioActualizar',async(req,res)=>{
+router.post('/administrador/funcionarioActualizar',async(req,res)=>{
     var vieja = req.body.viejacedula;
     var idFuncionario = req.body.cedula;
     var nombre = req.body.nombre;
@@ -112,7 +112,7 @@ router.post('administrador/funcionarioActualizar',async(req,res)=>{
         errors.push({text:"Ingrese la cédula a actualizar"});
         res.render("./administrador/funcionarioActualizar",{erros});
     }else{
-        await funcionario.findOne({cedula:vieja},async(err,funcio)=>{
+        await funcionario.findOne({idFuncionario:vieja},async(err,funcio)=>{
             if(err){
                 console.log(err);
             }else{
@@ -124,15 +124,19 @@ router.post('administrador/funcionarioActualizar',async(req,res)=>{
 
                     if(idFuncionario ){
                         funcio.idFuncionario = idFuncionario;
+                        contador+=1;
                     }
                     if(nombre ){
                         funcio.nombre = nombre;
+                        contador+=1;
                     }
                     if(tipo ){
                         funcio.tipo = tipo;
+                        contador+=1;
                     }
                     if(fechaContratacion ){
                         funcio.fechaContratacion = fechaContratacion;
+                        contador+=1;
                     }
                     if(req.body.counter){
                         AreaTrabajo.push(req.body.counter);
@@ -148,12 +152,15 @@ router.post('administrador/funcionarioActualizar',async(req,res)=>{
                     }
                     if(AreaTrabajo){
                         funcio.AreaTrabajo = AreaTrabajo;
+                        contador+=1;
                     }
                     if(correo ){
                         funcio.correo = correo;
+                        contador+=1;
                     }
                     if(contraseña ){
                         funcio.contraseña = contraseña;
+                        contador+=1;
                     }
                     if(contador==0){
                         errors.push({text:"Debe editar al menos un dato"});

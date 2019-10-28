@@ -175,21 +175,18 @@ router.post('/administrador/aerolineaActualizar', async (req,res)=>{
 //read
 router.post('/administrador/aerolineaLeer',async(req,res)=>{
     var ingresado =req.body.ingresado;
-    console.log(ingresado);
     if(ingresado){
         var noEncontrado=[];
         const resultadoFinal =await aerolinea.findOne({idAerolinea: ingresado});
-        console.log(resultadoFinal)
         if(resultadoFinal){
             res.render("./administrador/all-aerolineas",{resultadoFinal});
         }
         else{
-            noEncontrado.push({text:"No existe la aerolinea con ese nombre"});
+            noEncontrado.push({text:"No existe la aerolinea con ese identificador"});
             res.render("./administrador/aerolineaLeer",{noEncontrado});
         }
     }
     else{
-        console.log("abajo")
         const aerolineas = await aerolinea.find();
         res.render("./administrador/all-aerolineas",{aerolineas});
     }
