@@ -10,6 +10,7 @@ router.get('/funcionario/funcionarioConsultarPasajeros', async (req,res)=>{
         }
 
         else{
+            console.log(pasajerosEncontrados)
             res.render("funcionario/funcionarioConsultarPasajeros",{pasajerosEncontrados});
         }
     });

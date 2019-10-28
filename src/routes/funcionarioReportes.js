@@ -45,10 +45,10 @@ router.post('/funcionario/consultarPasajero', (req,res)=>{
         res.render("funcionario/funcionarioCheck-in",{noIngresado});
     }
     else{
-        pasajeros.findOne({idPasajero:cedulaIngresada}, async (err,pasajeroEncontrado)=>{
+        pasajeros.find({idPasajero:cedulaIngresada}, async (err,pasajeroEncontrado)=>{
             console.log(pasajeroEncontrado)
             if(!pasajeroEncontrado){
-                noEncontrado.push("El pasajero no corresponde a los registrados");
+                noEncontrado.push({text:"El pasajero no corresponde a los registrados"});
                 res.render("funcionario/reportePasajero",{noEncontrado});
             }
             else{
