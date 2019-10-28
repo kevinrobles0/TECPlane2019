@@ -10,9 +10,8 @@ router.post('/administrador/vueloCrear', async(req,res)=>{
     var fechaIda = req.body.ida;
     var fechaVuelta = req.body.vuelta;
     var precio = req.body.precio;
-    var restricciones;
-    var servicios;
-    var estado = req.body.estado;
+    var restricciones = req.body.restricciones;
+    var servicios = req.body.servicios;
     var maximo = req.body.maximo;
     var disponibles = maximo;
     var boletos = [];
@@ -47,9 +46,6 @@ router.post('/administrador/vueloCrear', async(req,res)=>{
     if(!servicios){
         errors.push({text:"Debe ingresar los servicios"});
     }
-    if(!estado){
-        errors.push({text:"Debe ingresar el estado"});
-    }
     if(!maximo){
         errors.push({text:"Debe ingresar el maximo de boletos"});
     }
@@ -58,17 +54,24 @@ router.post('/administrador/vueloCrear', async(req,res)=>{
             errors
         });
     }else{
+        var rest = String(restricciones);
+        restricciones = rest.split(",");
+
+        var serv = String(servicios);
+        servicios = rest.split(",");
+
         var i = 0;
         while(i<= maximo){
             //[0]numero , [1] estado,[2]cliente
             boletos.push([i,"LIBRE",""]);
+            i+=1;
 
         }
         boletos[0]=null;
-        const Nvuelo = new vuelo({idVuelo,nombre,origen,destino,fechaIda,fechaVuelta,precio,restricciones,servicios,estado,maximo,disponibles,boletos});
+        const Nvuelo = new vuelo({idVuelo,nombre,origen,destino,fechaIda,fechaVuelta,precio,restricciones,servicios,maximo,disponibles,boletos});
         Nvuelo.save();
         exito.push({text:"Se ha insertado el vuelo con éxito"});
-        res.render("./administrador/aeropuerto",{
+        res.render("./administrador/vuelo",{
             exito
         });
     }
@@ -91,7 +94,7 @@ router.post('/administrador/vueloEliminar', async (req,res) =>{
     }
 
     else{ 
-        await aeropuerto.deleteOne({idVuelo:ingresadoid}, (err)=>{
+        await vuelo.deleteOne({idVuelo:ingresadoid}, (err)=>{
             if(err){
                 console.log(err);
             } else{
@@ -103,6 +106,140 @@ router.post('/administrador/vueloEliminar', async (req,res) =>{
         });
     }   
 });
+
+router.post('/administrador/vueloActualizar',async(req,res)=>{
+    var actual = req.body.actual;
+    var idVuelo = req.body.id;
+    var nombre = req.body.nombre;
+    var origen = req.body.origen;
+    var destino = req.body.destino;
+    var fechaIda = req.body.ida;
+    var fechaVuelta = req.body.vuelta;
+    var precio = req.body.precio;
+    var restricciones = req.body.restricciones;
+    var servicios = req.body.servicios;
+    var estado = req.body.estado;
+    var maximo = req.body.maximo;
+    var disponibles;
+
+    var errors=[];
+    var exito = [];
+
+    if(!actual){
+        errors.push({text: "Ingrese identificador del vuelo a actualizar"});
+        res.render("./administrador/vueloActualizar",{
+            errors
+        });
+    }else{
+        await vuelo.findOne({idVuelo:actual},async(err,vue)=>{
+            if(err){
+                console.log(err);
+            }else{
+                if(!vue){
+                    errors.push({text:"El identificador del vuelo no corresponde a los existentes"})
+                    res.render("./administrador/vueloActualizar",{
+                        errors
+                    });
+                }else{
+                    var contador = 0;
+
+                    if(idVuelo){
+                        vue.idVuelo = idVuelo;
+                        contador+=1;
+                    }
+                    if(nombre){
+                        vue.nombre = nombre;
+                        contador+=1;
+                    }
+                    if(origen){
+                        vue.origen = origen;
+                        contador+=1;
+                    }
+                    if(destino){
+                        vue.destino = destino;
+                        contador+=1;
+                    }
+                    if(fechaIda){
+                        vue.fechaIda = fechaIda;
+                        contador+=1;
+                    }
+                    if(fechaVuelta){
+                        vue.fechaVuelta = fechaVuelta;
+                        contador+=1;
+                    }
+                    if(precio){
+                        vue.precio = precio;
+                        contador+=1;
+                    }
+                    if(restricciones){
+                        var rest = String(restricciones);
+                        restricciones = rest.split(",");
+                        vue.restricciones = restricciones;
+                        contador+=1;
+                    }
+                    if(servicios){
+                        var rest = String(restricciones);
+                        restricciones = rest.split(",");
+                        vue.servicios = servicios;
+                        contador+=1;
+                    }
+                    if(estado){
+                        vue.estado = estado;
+                        contador+=1;
+                    }
+                    if(maximo){
+                        if(parseInt(maximo) > parseInt(vue.maximo)){
+                            var diferencia = parseInt(maximo)-parseInt(vue.maximo);
+                            var i = vue.maximo+1;
+                            while(i<=parseInt(maximo)){
+                                vue.boletos.push([i,"LIBRE",""])
+                                i+=1;
+                            }
+                            vue.disponibles = String(parseInt(diferencia)+parseInt(vue.disponibles));
+                            contador+=1;
+                        }else if(maximo < vue.maximo){
+                            errors.push("No se puede modificar la cantidad máxima por un número menor al actual");
+                            res.render("./administrador/vueloActualizar",{
+                                errors
+                            });
+                        }
+                    }
+                    if(contador==0){
+                        errors.push({text:"Debe editar al menos un dato"});
+                        res.render("./administrador/vueloActualizar",{
+                            errors
+                        });
+                    }else{
+                        vue.save();
+                        exito.push({text: "Se actualizó con éxito"});
+                        res.render("./administrador/vuelo",{
+                            exito
+                        });
+                    }
+                }
+            }
+        })
+    }
+})
+
+router.post('/administrador/vueloLeer',async(req,res)=>{
+    var ingresado = req.body.ingresado;
+    var errors = [];
+    if(ingresado){
+        const vuelos =await vuelo.findOne({idVuelo: ingresado});
+        if(vuelos){
+            res.render("./administrador/all-vuelos",{vuelos});
+        }
+        else{
+            errors.push({text:"No existe vuelo con ese identificador"});
+            res.render("./administrador/vueloLeer",{errors});
+        }
+    }
+    else{
+        const vuelos = await vuelo.find();
+        res.render("./administrador/all-vuelos",{vuelos});
+    }
+})
 
 router.get('/administrador/vuelo/crear', (req,res)=>{
     res.render("administrador/vueloCrear");

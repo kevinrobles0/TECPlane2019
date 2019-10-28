@@ -27,6 +27,20 @@
 <form action="/administrador/vueloActualizar" method="POST">
     <div class="home_title"><h2 style="font-size:40px">Ingrese los datos del vuelo actualizados</h2>
         <br>
+        <label style="color:white ">Identificador actual
+
+            <input type="text" id="actual" name="actual">
+        </label>
+        <br><br>
+
+        <br>
+        <label style="color:white ">Identificador
+
+            <input type="text" id="idVuelo" name="idVuelo">
+        </label>
+        <br><br>
+
+        <br>
         <label style="color:white ">Nombre
 
             <input type="text" id="nombre" name="nombre">
@@ -63,13 +77,13 @@
         </label>
         <br><br>
 
-        <label style="color:white ">Restricciones
+        <label style="color:white ">Restricciones (separe las restricciones por coma)
 
             <input type="text" id="restricciones" name="restricciones">
         </label>
         <br><br>
 
-        <label style="color:white ">Características del vuelo
+        <label style="color:white ">Servicios del vuelo (separe los servicios por coma)
 
             <input type="text" id="caracteristicas" name="caracteristicas">
         </label>
@@ -83,6 +97,12 @@
                 <option value="cancelado">Cancelado</option>
             </select>
 
+        </label>
+        <br><br>
+
+        <label style="color:white ">Cantidad máxima
+
+            <input type="text" id="maximo" name="maximo">
         </label>
         <br><br>
 
