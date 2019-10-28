@@ -1,5 +1,6 @@
 const express= require('express');
 const router = express.Router();
+const pasajeros = require("../models/pasajero");
 
 router.get('/funcionario/funcionarioReportes', (req,res)=>{
     res.render("funcionario/funcionarioReportes");
@@ -48,7 +49,7 @@ router.post('/funcionario/consultarPasajero', (req,res)=>{
             console.log(pasajeroEncontrado)
             if(!pasajeroEncontrado){
                 noEncontrado.push("El pasajero no corresponde a los registrados");
-                res.render("funcionario/funcionarioCheck-in",{noEncontrado});
+                res.render("funcionario/reportePasajero",{noEncontrado});
             }
             else{
                 res.render("funcionario/mostrarPasajeroReportes",{pasajeroEncontrado});
