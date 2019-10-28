@@ -1,51 +1,59 @@
 const express= require('express');
 const router = express.Router();
+const cliente = require("../models/pasajero");
 
-router.post('/cliente/usuarios/crear',async(req,res)=>{
-    var cedula= req.body.cedula;
+router.post('/cliente/usuarioCrear',async(req,res)=>{
+    var idPasajero= req.body.cedula;
     var nombre= req.body.nombre;
-    var nacimiento=req.body.nacimiento;
+    var FechaNacimiento=req.body.nacimiento;
     var nacionalidad=req.body.nacionalidad;
     var residencia= req.body.residencia;
-    var telefono= req.body.telefono;
+    var telefonos= req.body.telefono;
     var correo= req.body.correo;
+    var contraseña= req.body.contraseña;
 
     var exito=[];
     var errores=[];
 
-    if(!cedula){
+    if(!idPasajero){
         errores.push({text:"Debe ingresar la cédula"});
     }
     if(!nombre){
         errores.push({text:"Debe ingresar el nombre"});
     }
-    if(!nacimiento){
+    if(!FechaNacimiento){
         errores.push({text:"Debe ingresar la fecha de nacimiento"});
     }
     if(!residencia){
         errores.push({text:"Debe ingresar la residencia"});
     }
-    if(!telefono){
+    if(!telefonos){
         errores.push({text:"Debe ingresar el teléfono"});
     }
     if(!correo){
         errores.push({text:"Debe ingresar el correo electrónico"});
     }
+    if(!contraseña){
+        errores.push({text:"Debe ingresar la contraseña"});
+    }
     if(errores.length>0){
-        res.render("./cliente/usuariosCrear",{
+        res.render("./cliente/usuarioCrear",{
             errores,
-            cedula,
+            idPasajero,
             nombre,
-            nacimiento,
+            FechaNacimiento,
             residencia,
-            telefono,
-            correo
+            telefonos,
+            correo,
+            contraseña
         });
     } else{
-        exito.push({text:"Se creó el cliente correctamente"});
+        const noUsuario= new cliente ({idPasajero,nombre,FechaNacimiento,nacionalidad,residencia,telefonos,correo,contraseña});
+        noUsuario.save();
+        exito.push({text:"Se creo el usuario de manera exitosa"});
         res.render("./indexapp",{
             exito
-        })
+        });
         
        
     }
@@ -64,9 +72,6 @@ router.get('/cliente/usuarios/eliminar', (req,res)=>{
 router.get('/cliente/usuarios/actualizar', (req,res)=>{
     res.render("cliente/usuarioActualizar");
 })
-
-
-
 
 
 module.exports = router;

@@ -36,4 +36,17 @@ const pasajeroSchema = new Schema({
     }
 });
 
+pasajeroSchema.pre('save',function(next){
+    const usuario = this;
+    if (!usuario.isModified('contraseña')){
+        return next();
+    }
+    bcrypt.genSalt(10, async(err, salt)=>{
+        bcrypt.hash(usuario.contraseña, salt, function(err, hash) {
+        usuario.contraseña = hash; 
+        next();
+       });
+    });
+})
+
 module.exports = mongoose.model("pasajero",pasajeroSchema)

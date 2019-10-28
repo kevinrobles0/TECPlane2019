@@ -14,7 +14,7 @@
   </button>
 </div>
 {{/each}}
-<form action="/cliente/usuarios/crear">
+<form action="/cliente/usuarioCrear" method="POST">
 <br>
 <br>
 <div class="home_title"><h2 style="font-size:40px">Ingrese los datos del cliente para registrarse</h2>
@@ -59,6 +59,12 @@
         <label style="color:white ">Correo electrónico 
             <br>
             <input type="text" name="correo" id="correo">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Contraseña 
+            <br>
+            <input type="text" name="contraseña" id="contraseña">
         </label>
         <br>
         <br>
