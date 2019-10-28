@@ -53,7 +53,8 @@ router.post('/Indexapp',async(req,res)=>{
         }
 
         if(resp){
-            if(tipo=="Administrador"){
+            console.log(tipo);
+            if(tipo=="Administrativo"){
                 console.log("admi");
                 res.render("./indexAdministrador",{
                     correoEntrada});
@@ -63,7 +64,8 @@ router.post('/Indexapp',async(req,res)=>{
                     correoEntrada});
             }else{
                 console.log("funci");
-                //redireccionar otros funcionarios
+                res.render("./indexFuncionario",{
+                    correoEntrada});
             }
         }else{
             errors.push({text:"contraseña incorrecta"});

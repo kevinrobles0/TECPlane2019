@@ -1,6 +1,6 @@
 const express= require('express');
 const router = express.Router();
-const funcionario =require("../models/aeropuerto");
+const funcionario =require("../models/funcionario");
 
 router.post('/administrador/funcionarioCrear',async(req,res) =>{
     var idFuncionario = req.body.cedula;
@@ -72,18 +72,15 @@ router.post('/administrador/funcionarioCrear',async(req,res) =>{
 router.post('/administrador/funcionarioEliminar', async (req,res) =>{
     var exito=[];
     var errors =[];
-    var idFuncionarioIngresado =req.body.nombreAeliminar;
+    var idFuncionarioIngresado =req.body.ingresado;
 
     if(!idFuncionarioIngresado){
         errors.push({text:"Debe ingresar la cédula del funcionario"});
-    } 
-    if(errors.length>0){
         res.render("./administrador/funcionarioEliminar",{
             errors,
             idFuncionarioIngresado            
         });
-    }
-
+    } 
     else{ 
         await funcionario.deleteOne({idFuncionario:idFuncionarioIngresado}, (err)=>{
             if(err){
@@ -98,7 +95,7 @@ router.post('/administrador/funcionarioEliminar', async (req,res) =>{
     }   
 });
 
-router.post('administrador/funcionarioActualizar',async(req,res)=>{
+router.post('/administrador/funcionarioActualizar',async(req,res)=>{
     var vieja = req.body.viejacedula;
     var idFuncionario = req.body.cedula;
     var nombre = req.body.nombre;
@@ -114,8 +111,84 @@ router.post('administrador/funcionarioActualizar',async(req,res)=>{
     if(!vieja){
         errors.push({text:"Ingrese la cédula a actualizar"});
         res.render("./administrador/funcionarioActualizar",{erros});
+    }else{
+        await funcionario.findOne({idFuncionario:vieja},async(err,funcio)=>{
+            if(err){
+                console.log(err);
+            }else{
+                if(!funcio){
+                    errors.push({text:"La cédula ingresada no corresponde a ningun funcionario"});
+                    res.render("./administrador/funcionarioActualizar",{errors})
+                }else{
+                    var contador = 0;
+
+                    if(idFuncionario ){
+                        funcio.idFuncionario = idFuncionario;
+                        contador+=1;
+                    }
+                    if(nombre ){
+                        funcio.nombre = nombre;
+                        contador+=1;
+                    }
+                    if(tipo ){
+                        funcio.tipo = tipo;
+                        contador+=1;
+                    }
+                    if(fechaContratacion ){
+                        funcio.fechaContratacion = fechaContratacion;
+                        contador+=1;
+                    }
+                    if(req.body.counter){
+                        AreaTrabajo.push(req.body.counter);
+                    }
+                    if(req.body.carga){
+                        AreaTrabajo.push(req.body.carga);
+                    }
+                    if(req.body.mantenimiento){
+                        AreaTrabajo.push(req.body.mantenimiento);
+                    }
+                    if(req.body.abordaje){
+                        AreaTrabajo.push(req.body.abordaje);
+                    }
+                    if(AreaTrabajo){
+                        funcio.AreaTrabajo = AreaTrabajo;
+                        contador+=1;
+                    }
+                    if(correo ){
+                        funcio.correo = correo;
+                        contador+=1;
+                    }
+                    if(contraseña ){
+                        funcio.contraseña = contraseña;
+                        contador+=1;
+                    }
+                    if(contador==0){
+                        errors.push({text:"Debe editar al menos un dato"});
+                        res.render("./administrador/funcionarioActualizar",{
+                            errors
+                        });
+                    }else{
+                        funcio.save();
+                        exito.push({text:"Se actualizó con éxito"});
+                        res.render("./administrador/funcionario",{exito});
+                    }
+                }
+            }
+        })
     }
 })
+
+router.post('/administrador/funcionarioLeer',async(req,res)=>{
+    var ingresado = req.body.ingresado;
+    if(ingresado){
+        const resultadoFinal = await funcionario.find({idFuncionario:ingresado});
+        res.render("./administrador/all-funcionarios",{resultadoFinal});
+    }else{
+        const funcio = await funcionario.find();
+        res.render("./administrador/all-funcionarios",{funcio});
+    }
+})
+
 
 router.get('/administrador/funcionario/crear', (req,res)=>{
     res.render("administrador/funcionarioCrear");

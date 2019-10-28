@@ -1,0 +1,43 @@
+{{#each errores}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+{{#each noEncontrado}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+<br><br>
+<form action="/vuelos/fechas" method="post">
+<div class="home_title"><h2 style="font-size:40px">Indique las fechas de vuelos</h2>
+        <br>
+        <br>
+        <label style="color:white ">Fecha de salida
+            <br>
+            <input type="date" name="fechasalida" id="fechasalida">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Fecha de entrada
+            <br>
+            <input type="date" name="fechaentrada" id="fechaentrada">
+        </label>      
+         <br>
+        <br>
+        
+        <button class="btn btn-primary" type="submit"> Buscar</button>
+        
+        
+        <br>
+        <br>
+</div>
+</form>

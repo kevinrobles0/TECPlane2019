@@ -4,13 +4,14 @@ const pasajeros = require("../models/pasajero");
 
 router.get('/funcionario/funcionarioConsultarPasajeros', async (req,res)=>{
     
-    const pasajerosTotales = pasajeros.find(async (err,nombreEncontrado)=>{
+    await pasajeros.find(async (err,pasajerosEncontrados)=>{
         if(err){
             res.send("error");
         }
 
         else{
-            res.render("funcionario/funcionarioConsultarPasajeros",{pasajerosTotales});
+            console.log(pasajerosEncontrados)
+            res.render("funcionario/funcionarioConsultarPasajeros",{pasajerosEncontrados});
         }
     });
     

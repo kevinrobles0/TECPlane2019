@@ -1,0 +1,31 @@
+<br><br>
+<h4>Vuelos TEC Plane</h4>
+<br><br>
+<div class="row">
+    <br><br>
+    {{#each vuelosEcontrados}}
+    <div class="col-md-3">
+        <div class="vuelos">
+            <div class="cuerpo">
+                <h5 class="nombre">
+                  IdVuelo:  {{idVuelo}}
+                </h5>
+                <p>Nombre: {{nombre}}</p>
+                <p>Origen </p>{{origen}}</p>
+                <p>Destino: {{destino}}</p>
+                <p>Fecha de ida: {{fechaIda}}</p>
+                <p>Fecha de vuelta: {{fechaVuelta}}</p>
+                <p>Precio {{precio}}</p>
+                <p>Restricciones: {{restricciones}}</p>
+                <p>Servicios: {{servicios}}</p>
+                <p>Estado: {{estado}}</p>
+                <p>Maximos: {{maximos}}</p>
+                <p>Disponibles: {{disponibles}}</p>
+                <p>Boletos: {{boletos}}</p>
+                <br><br>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+<br><br><br>
