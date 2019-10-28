@@ -23,11 +23,13 @@ const pasajeroSchema = new Schema({
     },
     telefonos:{
         type: Array,
-        requeried: true
+        requeried: true,
+        
     },
     correo:{
         type: String,
-        requeried: true
+        requeried: true,
+        unique:true
     },
     contraseña:{
         type: String,

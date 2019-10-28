@@ -24,7 +24,35 @@ router.post('/funcionario/abordar', (req,res)=>{
     }
     else{
 
-        //Poner la funcion de abordaje
+         var vueloConCedulaIDIngresada=0;
+
+         var errores=[];
+
+        vuelos.find(async (err,vuelosEncontrados)=>{
+            
+            var contador=0;
+            while(vuelosEncontrados.length>contador){
+                var cedulaVuelo = vuelosEncontrados[contador].boletos[2];
+                var numeroVueloEncontrado = vuelosEncontrados[contador].idVuelo;
+
+                if(cedulaVuelo==cedulaIngresada && numeroVuelo==numeroVueloEncontrado){
+                    vueloConCedulaIDIngresada+=1;
+
+                    vuelos[contador].boletos[2]="Abordado";
+                }
+                contador+=1;
+            }
+
+            if(vueloConCedulaIDIngresada==0){
+                errores.push({text:"La información ingresada no corresponde a los vuelos"});
+                res.render("funcionario/funcionarioAbordaje",{errores});  
+            }
+            else{
+                exito.push({text:"Se ha abordado al pasajero con cédula "+cedulaIngresada+" en el vuelo "+numeroVuelo});
+                res.render("funcionario/funcionarioAbordaje",{exitoS}); 
+            }
+
+        });
 
     }
 })
