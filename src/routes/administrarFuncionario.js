@@ -98,7 +98,7 @@ router.post('/administrador/funcionarioEliminar', async (req,res) =>{
     }   
 });
 
-router.post('administrador/funcionarioActualizar',async(req,res)=>{
+router.post('/administrador/funcionarioActualizar',async(req,res)=>{
     var vieja = req.body.viejacedula;
     var idFuncionario = req.body.cedula;
     var nombre = req.body.nombre;
