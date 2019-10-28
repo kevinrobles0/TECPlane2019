@@ -177,9 +177,9 @@ router.post('/administrador/aerolineaLeer',async(req,res)=>{
     var ingresado =req.body.ingresado;
     if(ingresado){
         var noEncontrado=[];
-        const resultadoFinal =await aerolinea.findOne({idAerolinea: ingresado});
-        if(resultadoFinal){
-            res.render("./administrador/all-aerolineas",{resultadoFinal});
+        const aerolineas =await aerolinea.findOne({idAerolinea: ingresado});
+        if(aerolineas){
+            res.render("./administrador/all-aerolineas",{aerolineas});
         }
         else{
             noEncontrado.push({text:"No existe la aerolinea con ese identificador"});

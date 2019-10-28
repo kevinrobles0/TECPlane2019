@@ -146,9 +146,9 @@ router.post('/administrador/aeropuertoLeer',async (req,res) =>{
     var ingresado =req.body.ingresado;
     var errors = [];
     if(ingresado){
-        const resultadoFinal =await aeropuerto.find({nombre: ingresado});
-        if(resultadoFinal){
-            res.render("./administrador/all-aeropuertos",{resultadoFinal});
+        const aeropuertos =await aeropuerto.find({nombre: ingresado});
+        if(aeropuertos){
+            res.render("./administrador/all-aeropuertos",{aeropuertos});
         }else{
             errors.push({text:"No existe aeropuerto con el nombre ingresado"});
             res.render("./administrador/aeropuertoLeer",{erros});

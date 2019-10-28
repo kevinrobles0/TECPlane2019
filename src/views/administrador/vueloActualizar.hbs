@@ -6,6 +6,14 @@
   </button>
 </div>
 {{/each}}
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
 
 {{#each noEncontrado}}
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -26,6 +34,20 @@
 {{/each}}
 <form action="/administrador/vueloActualizar" method="POST">
     <div class="home_title"><h2 style="font-size:40px">Ingrese los datos del vuelo actualizados</h2>
+        <br>
+        <label style="color:white ">Identificador actual
+
+            <input type="text" id="actual" name="actual">
+        </label>
+        <br><br>
+
+        <br>
+        <label style="color:white ">Identificador
+
+            <input type="text" id="idVuelo" name="idVuelo">
+        </label>
+        <br><br>
+
         <br>
         <label style="color:white ">Nombre
 
@@ -63,13 +85,13 @@
         </label>
         <br><br>
 
-        <label style="color:white ">Restricciones
+        <label style="color:white ">Restricciones (separe las restricciones por coma)
 
             <input type="text" id="restricciones" name="restricciones">
         </label>
         <br><br>
 
-        <label style="color:white ">Características del vuelo
+        <label style="color:white ">Servicios del vuelo (separe los servicios por coma)
 
             <input type="text" id="caracteristicas" name="caracteristicas">
         </label>
@@ -78,11 +100,18 @@
         <label style="color:white ">Estado
 
             <select id="estado" name="estado" style="width:170px">
-                <option value="tiempo">A tiempo</option>
-                <option value="retrasado">Retrasado</option>
-                <option value="cancelado">Cancelado</option>
+                <option value=".">.</option>
+                <option value="A tiempo">A tiempo</option>
+                <option value="Retrasado">Retrasado</option>
+                <option value="Cancelado">Cancelado</option>
             </select>
 
+        </label>
+        <br><br>
+
+        <label style="color:white ">Cantidad máxima
+
+            <input type="text" id="maximo" name="maximo">
         </label>
         <br><br>
 

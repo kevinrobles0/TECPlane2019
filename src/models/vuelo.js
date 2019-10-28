@@ -30,7 +30,7 @@ const vueloSchema = new Schema({
         requeried: true
     },
      precio:{
-        type: Array,
+        type: String,
         requeried: true
     },
     restricciones:{
@@ -43,15 +43,15 @@ const vueloSchema = new Schema({
     },
     estado:{
         type: String,
-        requeried: true
+        default :"A tiempo"
     },
     maximo:{
-        type: Array,
+        type: String,
         requeried: true,
         trim: true
     },
     disponibles:{
-        type: Array,
+        type: String,
         requeried: true,
         trim: true
     },
