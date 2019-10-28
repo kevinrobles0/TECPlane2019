@@ -29,11 +29,8 @@ router.post('/administrador/aerolineaCrear',async(req,res)=>{
         res.render("./administrador/aerolineaCrear",{
             errors
         });
-    }
-    
-    else{
-
-        aropuerto.findOne({nombre:nombreAeropuerto}, async (err,nombreEncontrado)=>{
+    }else{
+        aeropuertos.findOne({nombre:nombreAeropuerto}, async (err,nombreEncontrado)=>{
             console.log(nombreEncontrado)
             if(!nombreEncontrado){
                 noAeropuerto.push("El aeropuerto no corresponde a los existentes");
@@ -60,18 +57,18 @@ router.post('/administrador/aerolineaCrear',async(req,res)=>{
 router.post('/administrador/aerolineaEliminar', async (req,res) =>{
     var exito=[];
     var errors =[];
-    var ingresadonombre = req.body.ingresado;
+    var ingresado = req.body.ingresado;
 
-    if(!ingresadonombre){
-        errors.push({text:"Debe ingresar el nombre de la aerolínea"});
+    if(!ingresado){
+        errors.push({text:"Debe ingresar el identificador de la aerolínea"});
     } 
     if(errors.length>0){
         res.render("./administrador/aerolineaEliminar",{
             errors,
-            ingresadonombre            
+            ingresado            
         });
     }else{
-        await aerolinea.deleteOne({nombre:ingresadonombre}, (err)=>{
+        await aerolinea.deleteOne({idAerolinea:ingresado}, (err)=>{
             if(err){
                 console.log(err);
             } else{
@@ -92,25 +89,26 @@ router.post('/administrador/aerolineaActualizar', async (req,res)=>{
     var lugares = req.body.lugares;
     var idAerolinea = req.body.idAerolinea;
     var nombreAeropuerto = req.body.aeropuerto;
-    var noAeropuerto=[];
+    var errors=[];
+    var exito = [];
 
-    if(!Innombre){
-        sinNombre.push({text: "Ingrese el nombre de la aerolinea a actualizar"});
+    if(!viejo){
+        errors.push({text: "Ingrese identificador de la aerolínea a actualizar"});
         res.render("./administrador/aerolineaActualizar",{
-            sinNombre
+            errors
         });
     }
     else{
-        await aerolinea.findOne({nombre : viejo}, async (err, Aerolinea)=>{
+        await aerolinea.findOne({idAerolinea : viejo}, async (err, Aerolinea)=>{
             if (err){
                 res.send("error");
             } 
             else{
 
                 if(!Aerolinea){
-                    noEncontrado.push({text:"El nombre de la aerolinea no corresponde a los existentes"})
+                    errors.push({text:"El identificador de la aerolinea no corresponde a los existentes"})
                     res.render("./administrador/aerolineaActualizar",{
-                        noEncontrado
+                        errors
                     });
                 }
                 else{
@@ -130,7 +128,10 @@ router.post('/administrador/aerolineaActualizar', async (req,res)=>{
                         aropuerto.findOne({nombre:nombreAeropuerto}, async (err,nombreEncontrado)=>{
                             console.log(nombreEncontrado)
                             if(!nombreEncontrado){
-                                noAeropuerto.push("El aeropuerto no corresponde a los existentes");
+                                errors.push("El aeropuerto no corresponde a los existentes");
+                                res.render("./administrador/aerolineaActualizar",{
+                                    errors
+                                });
                             }
                             else{
                                 Aerolinea.nombreAeropuerto=nombreAeropuerto;
@@ -148,14 +149,9 @@ router.post('/administrador/aerolineaActualizar', async (req,res)=>{
                     }
 
                     if(contador==0){
-                        noIngresado.push({text:"Debe editar al menos un dato"});
+                        errors.push({text:"Debe editar al menos un dato"});
                         res.render("./administrador/aerolineaActualizar",{
-                            noIngresado
-                        });
-                    }
-                    if(noAeropuerto.length==0){
-                        res.render("./administrador/aerolineaActualizar",{
-                            noAeropuerto
+                            errors
                         });
                     }
                     else{
@@ -176,27 +172,21 @@ router.post('/administrador/aerolineaActualizar', async (req,res)=>{
 });
 
 
-
-
-
 //read
 router.post('/administrador/aerolineaLeer',async(req,res)=>{
     var ingresado =req.body.ingresado;
-    console.log(ingresado);
     if(ingresado){
         var noEncontrado=[];
-        const resultadoFinal =await aerolinea.findOne({nombre: ingresado});
-        console.log(resultadoFinal)
+        const resultadoFinal =await aerolinea.findOne({idAerolinea: ingresado});
         if(resultadoFinal){
             res.render("./administrador/all-aerolineas",{resultadoFinal});
         }
         else{
-            noEncontrado.push({text:"No existe la aerolinea con ese nombre"});
+            noEncontrado.push({text:"No existe la aerolinea con ese identificador"});
             res.render("./administrador/aerolineaLeer",{noEncontrado});
         }
     }
     else{
-        console.log("abajo")
         const aerolineas = await aerolinea.find();
         res.render("./administrador/all-aerolineas",{aerolineas});
     }
