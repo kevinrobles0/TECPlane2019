@@ -5,8 +5,6 @@ const pasajero = require("../models/pasajero");
 const bcrypt = require('bcrypt');
 var correoUsuario="";
 
-
-
 router.post('/Indexapp',async(req,res)=>{
     var correoEntrada = req.body.correo;
     var contraseñaEntrada = req.body.contraseña;
@@ -50,7 +48,6 @@ router.post('/Indexapp',async(req,res)=>{
         if(resp){
             require("../index").correoUsuario = correoEntrada;
             console.log(require("../index").correoUsuario);
-
 
             if(tipo=="Administrativo"){
                 console.log("admi");
