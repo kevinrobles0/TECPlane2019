@@ -5,12 +5,7 @@ const exphbs = require('express-handlebars');
 const methodOverride = require("method-override");
 const session = require('express-session');
 
-
-
-
 //iniciadores
-
-
 const DB = require('./config/db');
 DB();
 
@@ -36,30 +31,26 @@ app.use(session({
 }));
 
 //variables globales
-
+module.exports.correoUsuario = "";
 
 //routes
-
 app.use(require('./routes/index'));
 
 app.use(require('./routes/cliente'));
 app.use(require('./routes/boletos'));
 app.use(require('./routes/gestionUsuarios'));
 
-
 app.use(require('./routes/administrador'));
 app.use(require('./routes/administrarAeropuerto'));
 app.use(require('./routes/administrarAerolinea'));
 app.use(require('./routes/administrarFuncionario'));
 app.use(require('./routes/administrarVuelo'));
+app.use(require('./routes/administradorReportes'));
 
-//
 app.use(require('./routes/funcionarioCheck-in'));
 app.use(require('./routes/funcionarioAbordaje'));
 app.use(require('./routes/funcionarioConsultar'));
 app.use(require('./routes/funcionarioReportes'));
-
-
 
 
 //static files

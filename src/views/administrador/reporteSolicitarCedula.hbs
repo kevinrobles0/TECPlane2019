@@ -1,0 +1,20 @@
+{{#each errores}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<form action= '/administrador/reporteRangoBoletos' method="POST">
+<br>
+<br>
+<div  style="font-size:25" pxclass="home_title"><h2 style="color:black">Ingrese la cédula del pasajero</h2>
+    <br>
+    <br>
+    <input style="font-size:30px" type="text" id="ingresado" name="ingresado">
+    <br>
+    <br>
+    <button class="btn btn-primary" type="submit"> Mostrar</button>
+</div>
+</form>
