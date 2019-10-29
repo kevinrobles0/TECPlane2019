@@ -79,7 +79,6 @@ router.post('/administrador/vueloCrear', async(req,res)=>{
             //[0]numero , [1] estado,[2]cliente
             boletos.push([i,"LIBRE",""]);
             i+=1;
-
         }
         boletos[0]=null;
         const Nvuelo = new vuelo({idVuelo,nombre,origen,destino,fechaIda,fechaVuelta,precio,restricciones,servicios,maximo,disponibles,boletos,nombreAerolinea});

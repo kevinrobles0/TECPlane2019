@@ -57,20 +57,20 @@ router.post('/cliente/usuarioCrear',async(req,res)=>{
         });
     }
 })
-router.get('/cliente/usuarioConsultar', async (req,res)=>{
-    console.log(correoPrueba.correo);
-    console.log("hhh");
-    const client = await cliente.findOne({correo:correoPrueba.correo});
-    console.log(client);
-    if(!err){
-        res.send("error");
-        console.log("Entro en el error");
-        }
-    else{
-        console.log("Entro al else");
-        console.log(client);            
-        res.render("cliente/usuarioConsultar",{client});
-        }
+router.get('/cliente/usuarios/consultar', async (req,res)=>{
+    await cliente.findOne({correo:correoPrueba.correo},async(err,client)=>{
+        if(err){
+            res.send("error");
+            }
+            else{
+                console.log("Entro al else");
+                console.log(client);            
+                res.render("cliente/usuarioConsultar",{client});
+                }
+
+      });
+    
+   
     });
     
     
@@ -78,9 +78,6 @@ router.get('/cliente/usuarioConsultar', async (req,res)=>{
 router.post('/cliente/usuarioEliminar', async (req,res) =>{
     var exito=[];
     var errores =[];
-   // var ingresado = 222;
-    //Se hace con un id especifico
-    console.log("probando");
 
     await cliente.deleteOne({correo:correoPrueba.correo}, (err)=>{
         if(err){
@@ -110,7 +107,6 @@ router.post('/cliente/usuarioActualizar', async (req,res)=>{
     var exito = [];
 
         await cliente.findOne({correo : correoPrueba.correo}, async (err, datosCliente)=>{
-            console.log("Hola");
                 if(!datosCliente){
                     errores.push({text:"No se encontró el usuario"})
                     res.render("./cliente/usuarioActualizar",{

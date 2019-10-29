@@ -14,7 +14,6 @@ router.post('/Indexapp',async(req,res)=>{
     var contraseñaEncontrada = "";
     var tipo;
 
-
     correoPrueba.correo=correoEntrada;
 
 
