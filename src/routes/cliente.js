@@ -44,8 +44,6 @@ router.post('/cliente/checkin',async(req,res)=>{
                             exito});   
                 }
 
-
-
         }
 
     });

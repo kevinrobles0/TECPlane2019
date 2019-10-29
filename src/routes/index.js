@@ -4,6 +4,7 @@ const funcionario = require("../models/funcionario");
 const pasajero = require("../models/pasajero");
 const bcrypt = require('bcrypt');
 
+
 const correoPrueba=require("../config/props");
 
 
@@ -15,6 +16,17 @@ router.post('/Indexapp',async(req,res)=>{
     var tipo;
 
     correoPrueba.correo=correoEntrada;
+
+
+
+
+    //await bcrypt.genSalt(10, async(err, salt)=>{
+    //    bcrypt.hash(contraseñaEntrada, salt, function(err, hash) {
+    //        contraseña = hash;
+    //        console.log(hash);
+    //        console.log("1");
+    //    });
+    //});
 
 
 

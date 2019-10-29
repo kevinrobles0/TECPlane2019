@@ -24,6 +24,7 @@ router.get('/administrador/reporteAerolinea', async (req,res)=>{
 
     if(totalAerolineas.length==0){
         errores.push({text:"No existen aerolineas ingresadas"});
+        res.render("administrador/reportesSeleccion",{errores});
     }
     else{ 
         //recorre aerolineas y agrega por nombre
@@ -33,7 +34,7 @@ router.get('/administrador/reporteAerolinea', async (req,res)=>{
             var contadorEnVuelos=0;
 
             var ArrayUnaAerolineaVuelos=[];
-            ArrayUnaAerolineaVuelos.push(nombreEnAerolineas);
+            ArrayUnaAerolineaVuelos.push({nombreEnAerolineas});
 
             //agrega cada nombre de aerolinea en array y lo almacena en otro array
             TotalNombresAerolineasConVuelos.push(ArrayUnaAerolineaVuelos);
@@ -112,22 +113,24 @@ router.get('/administrador/reporteAerolinea', async (req,res)=>{
             }
 
             //agrega en la [lengh-1] del array el monto de la aerolinea con base en los vuelos
-            TotalAerolineasConVuelosFiltrados[contadorVuelosFiltrador].push(MontototalPorAerolinea);
+            TotalAerolineasConVuelosFiltrados[contadorVuelosFiltrador].push({MontototalPorAerolinea});
+
             contadorVuelosFiltrador+=1;
 
         }
 
-        console.log(TotalAerolineasConVuelosFiltrados);
-
-        //res.render("administradorMostrarReporteAerolinea",{TotalAerolineasConVuelosFiltrados});
+        res.render("administrador/administradorMostrarReporteAerolineas",{TotalAerolineasConVuelosFiltrados});
 
     }
 
 })
 
+router.get('/administrador/reportesSolicitarCedula', (req,res)=>{
+    res.render("administrador/reporteSolicitarCedula");
+})
 
 
-router.post('/administrador/reporteRangoBoletos', (req,res)=>{
+router.post('/administrador/reporteRangoBoletos', async (req,res)=>{
    
     var ingresado=req.body.ingresado;
     var errores=[];
@@ -137,11 +140,76 @@ router.post('/administrador/reporteRangoBoletos', (req,res)=>{
     }
 
     if(errores.length>0){
-        res.render("administrador/reportesSolicitarCedula",{errores});
+        res.render("administrador/reporteSolicitarCedula",{errores});
     }
 
     else{
-        //codigo de rango por cliente
+
+        var boletosEnVuelosCliente=[];
+
+        const totalVuelos = await vuelos.find();
+        var editado=false;
+        var contadorVuelos=0;
+
+        while(totalVuelos.length>contadorVuelos){
+
+            var contadorBoletos=1;
+            var cantidadPorVuelo=0;
+
+            while(totalVuelos[contadorVuelos].boletos.length>contadorBoletos){
+                
+                
+                if(totalVuelos[contadorVuelos].boletos[contadorBoletos][2]==ingresado){
+                    cantidadPorVuelo+=1;
+                    editado=true;
+                    
+                }
+
+                contadorBoletos+=1
+            }
+
+            boletosEnVuelosCliente.push(cantidadPorVuelo);
+            
+
+            contadorVuelos+=1;
+        }
+
+
+        if(editado==false){
+            errores.push({text:"El cliente no tiene boletos comprados o no existe"})
+            res.render("administrador/reporteSolicitarCedula",{errores})
+        }
+        else{ 
+            console.log(boletosEnVuelosCliente);
+            var maximo=0;
+            var minimo=1;
+            var contadorFinal=0;
+
+            maximo=boletosEnVuelosCliente[0];
+
+            while(boletosEnVuelosCliente.length>contadorFinal){
+
+                if(boletosEnVuelosCliente[contadorFinal]==0){
+
+                }
+                else if(boletosEnVuelosCliente[contadorFinal]<minimo){
+                    minimo=boletosEnVuelosCliente[contadorFinal]
+                }
+
+                if(boletosEnVuelosCliente[contadorFinal]>maximo){
+                    maximo=boletosEnVuelosCliente[contadorFinal]
+                }
+
+                contadorFinal+=1;
+
+            }
+
+            console.log(maximo)
+            console.log(minimo)
+
+            res.render("administrador/reporteMostrarRangoCliente",{maximo,minimo,ingresado});
+        }
+
     }
 
 })

@@ -1,5 +1,6 @@
 const express= require('express');
 const router = express.Router();
+const vuelos = require("../models/vuelo");
 
 router.post('/cliente/boletos',async(req,res)=>{
     var origen= req.body.origen;
@@ -31,10 +32,25 @@ router.post('/cliente/boletos',async(req,res)=>{
             fechaentrada
         });
     } else{
-        exito.push({text:"Se insertaron los datos correctamente"});
+        await vuelos.find({origen:{origen},destino:{destino},fechaentrada:{$lt:fechaentrada}, fechasalida:{$gt:fechasalida}},async (err, vuelosEncontrados)=>{
+            console.log(vuelosEncontrados);
+            if(!vuelosEncontrados){
+                errores.push({text:"No hay vuelos en las fechas indicadas"});
+                res.render("./cliente/boletos",{
+                    errores
+                });
+            }else{
+                res.render("./cliente/boletosDisponibles",{
+                    vuelosEncontrados
+                });
+            }
+        });
+
+
+       /* exito.push({text:"Se insertaron los datos correctamente"});
         res.render("./cliente/boletosDisponibles",{
             exito
-        })
+        })*/
         
        
     }
