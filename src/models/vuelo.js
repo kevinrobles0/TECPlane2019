@@ -58,6 +58,10 @@ const vueloSchema = new Schema({
     boletos:{
         type:Array,
         default:[]
+    },
+    nombreAerolinea:{
+        type:String,
+        required:true
     }
 });
 
