@@ -98,7 +98,7 @@ router.post('/cliente/usuarioEliminar', async (req,res) =>{
 
 router.post('/cliente/usuarioActualizar', async (req,res)=>{
     
-    var idPasajero= req.body.cedula;
+   // var idPasajero= req.body.cedula;
     var nombre = req.body.nombre;
     var FechaNacimiento=req.body.nacimiento;
     var nacionalidad = req.body.nacionalidad;
@@ -117,14 +117,8 @@ router.post('/cliente/usuarioActualizar', async (req,res)=>{
                         errores
                     });
                 }
-                else{
-                    console.log(datosCliente);
+                else{                    
                     var contador=0;
-                    if(idPasajero){
-                        datosCliente.idPasajero=idPasajero;
-                        contador+=1;
-                    }
-
                     if(nombre){
                         datosCliente.nombre=nombre;
                         contador+=1;
@@ -153,11 +147,11 @@ router.post('/cliente/usuarioActualizar', async (req,res)=>{
                         });
                     }
                     else{
-                        console.log("paso")
                         console.log(datosCliente)
-                        datosCliente.save();
-                        console.log("exito");
+                        datosCliente.save();                      
                         exito.push({text: "Se actualizó con éxito"});
+                        correoPrueba.correo=datosCliente.correo;
+                        console.log(correoPrueba.correo);
                         res.render("./cliente/usuarios",{
                             exito
                         });
@@ -172,7 +166,6 @@ router.get('/cliente/usuarios/crear', (req,res)=>{
     res.render("cliente/usuarioCrear");
 })
 router.get('/cliente/usuarios/consultar', (req,res)=>{
-    console.log(correoPrueba.correo);
     res.render("cliente/usuarioConsultar");
 })
 
