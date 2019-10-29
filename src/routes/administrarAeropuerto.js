@@ -1,9 +1,9 @@
 const express= require('express');
 const router = express.Router();
 const aeropuerto = require("../models/aeropuerto");
+
  
 router.post('/administrador/aeropuertoCrear',async (req,res) =>{
-    
     var nombre =req.body.nombre;
     var localizacion =req.body.lugar;
     var sitioWeb =req.body.sitio;

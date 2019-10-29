@@ -39,6 +39,7 @@ app.use(session({
 
 //variables globales
 
+module.exports.correoUsuario = "";
 //routes
 
 app.use(require('./routes/index'));
@@ -53,6 +54,7 @@ app.use(require('./routes/administrarAeropuerto'));
 app.use(require('./routes/administrarAerolinea'));
 app.use(require('./routes/administrarFuncionario'));
 app.use(require('./routes/administrarVuelo'));
+app.use(require('./routes/administradorReportes'));
 
 //
 app.use(require('./routes/funcionarioCheck-in'));

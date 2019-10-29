@@ -10,15 +10,7 @@ router.post('/Indexapp',async(req,res)=>{
     var errors =[];
     var contraseñaEncontrada = "";
     var tipo;
-
-    //await bcrypt.genSalt(10, async(err, salt)=>{
-    //    bcrypt.hash(contraseñaEntrada, salt, function(err, hash) {
-    //        contraseña = hash;
-    //        console.log(hash);
-    //        console.log("1");
-    //    });
-    //});
-
+    
     await funcionario.findOne({correo:correoEntrada}, async(err,funcio)=>{
         if(err){
             console.log(err);
@@ -53,7 +45,11 @@ router.post('/Indexapp',async(req,res)=>{
         }
 
         if(resp){
-            console.log(tipo);
+            console.log("here");
+            require("../index").correoUsuario = correoEntrada;
+            console.log(require("../index").correoUsuario);
+
+
             if(tipo=="Administrativo"){
                 console.log("admi");
                 res.render("./indexAdministrador",{
