@@ -7,8 +7,17 @@
 </div>
 {{/each}}
 
+{{#each errores}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
 <br><br>
-<form action="/administrador/reporteSeleccionarCedula" method="post">
+<form action="/administrador/reporteRangoBoletos" method="post">
 <div class="home_title"><h2 style="font-size:40px">Indique la identificación de pasajero</h2>
         <br>
         <br>

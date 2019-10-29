@@ -126,21 +126,23 @@ router.get('/administrador/reporteAerolinea', async (req,res)=>{
 })
 
 router.get('/administrador/reportesSolicitarCedula', (req,res)=>{
-    res.render("administrador/reporteSolicitarCedula");
+    res.render("administrador/reporteSeleccionarCedula");
 })
 
 
 router.post('/administrador/reporteRangoBoletos', async (req,res)=>{
    
-    var ingresado=req.body.ingresado;
+    var ingresado=req.body.cedula;
     var errores=[];
+
+    console.log(ingresado)
 
     if(!ingresado){
         errores.push({text:'Debe ingresar el número de cédula'});
     }
 
     if(errores.length>0){
-        res.render("administrador/reporteSolicitarCedula",{errores});
+        res.render("administrador/reporteSeleccionarCedula",{errores});
     }
 
     else{
@@ -177,7 +179,7 @@ router.post('/administrador/reporteRangoBoletos', async (req,res)=>{
 
         if(editado==false){
             errores.push({text:"El cliente no tiene boletos comprados o no existe"})
-            res.render("administrador/reporteSolicitarCedula",{errores})
+            res.render("administrador/reporteSeleccionarCedula",{errores})
         }
         else{ 
             console.log(boletosEnVuelosCliente);
