@@ -16,20 +16,6 @@ router.post('/Indexapp',async(req,res)=>{
 
     correoPrueba.correo=correoEntrada;
 
-
-    //await bcrypt.genSalt(10, async(err, salt)=>{
-    //    bcrypt.hash(contraseñaEntrada, salt, function(err, hash) {
-    //        contraseña = hash;
-    //        console.log(hash);
-    //        console.log("1");
-    //    });
-    //});
-
-
-    
-
-
-
     await funcionario.findOne({correo:correoEntrada}, async(err,funcio)=>{
         if(err){
             console.log(err);
