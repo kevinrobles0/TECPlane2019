@@ -146,8 +146,46 @@ router.post('/administrador/reporteRangoBoletos', (req,res)=>{
 
 })
 
-router.get('/administrador/destinosMasVisitados', (req,res)=>{
-    //mostrar destinos mas visitados
+router.get('/administrador/destinosMasVisitados', async (req,res)=>{
+    await vuelos.aggregate([
+        {
+          $group: {
+             _id: "$destino",
+             count: { $sum: 1 }
+          }
+        }
+     ],async (err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        if(result){
+            var resultado = [];
+
+            var i = 0;
+            while (i< result.length){
+                var comprados = 0;
+
+                const  vue =await vuelos.find({destino:result[i]._id});
+                var y = 0;
+                while(y<vue.length){
+
+                    var x = 1;
+                    while (x < vue[y].boletos.length){
+                        if(vue[y].boletos[x][1] != "LIBRE"){
+                            comprados+=1;
+                        }
+                    x+=1;
+                    }
+                y+=1;
+                }
+                resultado.push({destino:result[i]._id,count:result[i].count,boletosComprados:comprados});                
+                i+=1;
+            }
+            res.render("./administrador/resultadoDestinosMasVisitados",{resultado});
+        }else
+        var errors = [{text:"No existen vuelos registrados"}];
+        res.render("./administrador/reportesSeleccion",{errors});
+     });
 })
 
 router.get('/administrador/OperacionesRegistradas', (req,res)=>{
