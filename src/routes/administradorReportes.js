@@ -24,6 +24,7 @@ router.get('/administrador/reporteAerolinea', async (req,res)=>{
 
     if(totalAerolineas.length==0){
         errores.push({text:"No existen aerolineas ingresadas"});
+        res.render("administrador/reportesSeleccion",{errores});
     }
     else{ 
         //recorre aerolineas y agrega por nombre
@@ -33,7 +34,7 @@ router.get('/administrador/reporteAerolinea', async (req,res)=>{
             var contadorEnVuelos=0;
 
             var ArrayUnaAerolineaVuelos=[];
-            ArrayUnaAerolineaVuelos.push(nombreEnAerolineas);
+            ArrayUnaAerolineaVuelos.push({nombreEnAerolineas});
 
             //agrega cada nombre de aerolinea en array y lo almacena en otro array
             TotalNombresAerolineasConVuelos.push(ArrayUnaAerolineaVuelos);
@@ -112,14 +113,13 @@ router.get('/administrador/reporteAerolinea', async (req,res)=>{
             }
 
             //agrega en la [lengh-1] del array el monto de la aerolinea con base en los vuelos
-            TotalAerolineasConVuelosFiltrados[contadorVuelosFiltrador].push(MontototalPorAerolinea);
+            TotalAerolineasConVuelosFiltrados[contadorVuelosFiltrador].push({MontototalPorAerolinea});
+
             contadorVuelosFiltrador+=1;
 
         }
 
-        console.log(TotalAerolineasConVuelosFiltrados);
-
-        //res.render("administradorMostrarReporteAerolinea",{TotalAerolineasConVuelosFiltrados});
+        res.render("administrador/administradorMostrarReporteAerolineas",{TotalAerolineasConVuelosFiltrados});
 
     }
 

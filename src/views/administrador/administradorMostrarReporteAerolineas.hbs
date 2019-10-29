@@ -3,19 +3,36 @@
 <br><br>
 <div class="row">
     <br><br>
-    {{#each TotalAerolineasConVuelosFiltrados}}
-    <div class="col-md-3">
-        <div class="reporte">
-            <div class="cuerpo">
-                <h5 class="nombre">
-                  Nombre de Aaerolinea:  {{TotalAerolineasConVuelosFiltrados[]}}
-                </h5>
-                <p>Nombre: {{nombre}}</p>
-                <p>Origen {{origen}}</p>
 
+    {{#each TotalAerolineasConVuelosFiltrados}}
+        {{#each this}}
+        <div class="col-md-3">
+            <div class="reporte">
+                <div class="cuerpo">
+
+                    
+
+                    {{#if nombreEnAerolineas}}
+                    <h1>Nombre Aerolinea: {{nombreEnAerolineas}}</h5>
+                    {{/if}}
+                    <br>
+
+                    {{#if idVuelo}}
+                    <h3>Vuelo</h3>
+                    <p>idVuelo: {{idVuelo}}</p>
+                    <p>Nombre: {{nombre}}</p>
+                    <p>Estado: {{estado}}</p>
+                    {{/if}}
+                    
+                    {{#if MontototalPorAerolinea}}
+                    <h2>Monto total en Aerolinea {{MontototalPorAerolinea}}</h5>
+                     {{/if}}
+
+                </div>
             </div>
         </div>
-    </div>
+        {{/each}}
+
     {{/each}}
 </div>
 <br><br><br>
