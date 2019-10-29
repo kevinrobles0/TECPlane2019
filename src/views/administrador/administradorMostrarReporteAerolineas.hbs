@@ -1,0 +1,21 @@
+<br><br>
+<h4>Vuelos TEC Plane</h4>
+<br><br>
+<div class="row">
+    <br><br>
+    {{#each TotalAerolineasConVuelosFiltrados}}
+    <div class="col-md-3">
+        <div class="reporte">
+            <div class="cuerpo">
+                <h5 class="nombre">
+                  Nombre de Aaerolinea:  {{TotalAerolineasConVuelosFiltrados[]}}
+                </h5>
+                <p>Nombre: {{nombre}}</p>
+                <p>Origen {{origen}}</p>
+
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+<br><br><br>

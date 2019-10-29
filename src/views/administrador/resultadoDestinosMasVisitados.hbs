@@ -1,0 +1,21 @@
+<br><br>
+<h4>Destinos más visitados de TEC Plane</h4>
+<br><br>
+<div class="row">
+    <br><br>
+    {{#each resultado}}
+    <div class="col-md-3">
+        <div class="destinos">
+            <div class="cuerpo">
+                <h5 class="nombre">
+                  Nombre:  {{destino}}
+                </h5>
+                <p>Cantidad de vuelos: {{count}}</p>
+                <p>Boletos comprados: {{boletosComprados}}</p>
+                <br><br>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+<br><br>

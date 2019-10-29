@@ -4,6 +4,7 @@ const vuelo = require("../models/vuelo");
 const aerolinea = require("../models/aerolinea");
 
 router.post('/administrador/vueloCrear', async(req,res)=>{
+
     var idVuelo = req.body.id;
     var nombre = req.body.nombre;
     var origen = req.body.origen;
@@ -22,7 +23,7 @@ router.post('/administrador/vueloCrear', async(req,res)=>{
     var errors =[];
 
     if(!idVuelo){
-        errors.push({text:"Debe ingresar el identificador"});
+        errors.push({text:"Debe ingresar el nombre de aerolinea"});
     }
     if(!nombre){
         errors.push({text:"Debe ingresar el nombre"});
@@ -83,6 +84,7 @@ router.post('/administrador/vueloCrear', async(req,res)=>{
         boletos[0]=null;
         const Nvuelo = new vuelo({idVuelo,nombre,origen,destino,fechaIda,fechaVuelta,precio,restricciones,servicios,maximo,disponibles,boletos,nombreAerolinea});
         Nvuelo.save();
+        console.log(Nvuelo)
         exito.push({text:"Se ha insertado el vuelo con éxito"});
         res.render("./administrador/vuelo",{
             exito
