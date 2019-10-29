@@ -9,17 +9,18 @@
 
 <br>
 <br>
-<form action="/administrador/OperacionesRegistradas" method="POST">
+<form action="/administrador/reporteSolicitarFiltro" method="POST">
     <br><br>
     <div class="home_title" style="font-size:15px"><h2 style="font-size:35px">Seleccione el filtro para mostrar operaciones realizadas</h2>
         
         <br>
         <label style="color:white ">Filtro
             <br>
-            <select style="width:320px;height:70px" type="text" id="filtro" name="filtro" style="width:180px">
+            <select style="width:320px;height:60px" type="text" id="filtro" name="filtro" style="width:180px">
+                <option></option>
                 <option>Rango de fechas</option>
-                <option>Estado</option>
-                <option>Nombre de pasajero</option>
+                <option>Estado del vuelo</option>
+                <option>Cédula del pasajero</option>
             </select>
         </label>
         <br>

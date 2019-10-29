@@ -233,7 +233,7 @@ router.get('/administrador/destinosMasVisitados', async (req,res)=>{
             while (i< result.length){
                 var comprados = 0;
 
-                const  vue =await vuelos.find({destino:result[i]._id});
+                const  vue = await vuelos.find({destino:result[i]._id});
                 var y = 0;
                 while(y<vue.length){
 
@@ -250,25 +250,59 @@ router.get('/administrador/destinosMasVisitados', async (req,res)=>{
                 i+=1;
             }
             res.render("./administrador/resultadoDestinosMasVisitados",{resultado});
-        }else
-        var errors = [{text:"No existen vuelos registrados"}];
-        res.render("./administrador/reportesSeleccion",{errors});
+        }else{
+            var errors = [{text:"No existen vuelos registrados"}];
+            res.render("./administrador/reportesSeleccion",{errors});
+        }
+        
      });
 })
 
-router.get('/administrador/OperacionesRegistradas', (req,res)=>{
-    
-    var eleccion=String(req.body.filtro);
 
-
-    if(eleccion=="Rango de fechas"){
+router.post('/administrador/reporteSolicitarFiltro',async(req,res)=>{
+    var seleccion = req.body.filtro;
+    if(seleccion == ""){
+        var total = 0;
+        var resultado = [];
+        var vuelo = vuelos.find();
         
+        var i = 0;
+        while(i<vuelo.length){
+
+            var y = 1;
+            while(y<vuelo[i].boletos.length){
+                if(vuelo[i].boletos[y][1] != "LIBRE"){
+                    total+=1;
+                }
+                y+=1;
+            }
+            i+=1;
+        }
+        resultado.push({cantidad:total});
+        res.render('administrador/resultadoReporteCantidad',{resultado});
+    }else if(seleccion == "Rango de fechas"){
+        res.render('administrador/reporteSeleccionarFechas');
+    }else if(seleccion == "Estado del vuelo"){
+        res.render('administrador/reporteSeleccionarEstado');
+    }else if(seleccion == "Cédula del pasajero"){
+        res.render('administrador/reporteSeleccionarCedula');
     }
 
-    if(eleccion=="Estado"){  
-    }
-
-    if(eleccion=="Nombre de pasajero"){
-    }
 })
+    
+router.post('/administrador/reporteSeleccionarCedula',async(req,res)=>{
+})
+
+router.post('/administrador/reporteSeleccionarEstado',async(req,res)=>{
+    
+})
+
+router.post('/administrador/reporteSeleccionarFechas',async(req,res)=>{
+    
+})
+
+router.get('/administrador/OperacionesRegistradas', (req,res)=>{
+    res.render('administrador/reporteSolicitarFiltro');
+})
+
 module.exports = router;
