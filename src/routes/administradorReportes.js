@@ -265,13 +265,10 @@ router.get('/administrador/OperacionesRegistradas', (req,res)=>{
         
     }
 
-    if(eleccion=="Estado"){
-        
+    if(eleccion=="Estado"){  
     }
 
     if(eleccion=="Nombre de pasajero"){
-        
     }
 })
-
 module.exports = router;

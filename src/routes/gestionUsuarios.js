@@ -64,6 +64,7 @@ router.get('/cliente/usuarios/consultar', async (req,res)=>{
             }
             else{
                 console.log("Entro al else");
+                console.log("Para hacer push");
                 console.log(client);            
                 res.render("cliente/usuarioConsultar",{client});
                 }
