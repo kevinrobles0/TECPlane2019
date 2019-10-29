@@ -32,7 +32,7 @@ router.post('/cliente/boletos',async(req,res)=>{
             fechaentrada
         });
     } else{
-        await vuelos.find({origen:{origen},destino:{destino},fechaentrada:{$lt:fechaentrada}, fechasalida:{$gt:fechasalida}},async (err, vuelosEncontrados)=>{
+        await vuelos.find(async (err, vuelosEncontrados)=>{
             console.log(vuelosEncontrados);
             if(!vuelosEncontrados){
                 errores.push({text:"No hay vuelos en las fechas indicadas"});
