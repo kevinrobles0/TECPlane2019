@@ -3,7 +3,9 @@ const router = express.Router();
 const funcionario = require("../models/funcionario");
 const pasajero = require("../models/pasajero");
 const bcrypt = require('bcrypt');
+
 const correoPrueba=require("../config/props");
+
 
 router.post('/Indexapp',async(req,res)=>{
     var correoEntrada = req.body.correo;
@@ -11,6 +13,7 @@ router.post('/Indexapp',async(req,res)=>{
     var errors =[];
     var contraseñaEncontrada = "";
     var tipo;
+
 
     correoPrueba.correo=correoEntrada;
 
