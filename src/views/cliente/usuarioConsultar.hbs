@@ -1,9 +1,26 @@
-<form action="">
-<br>
-<br>
-<div  style="font-size:25" pxclass="home_title"><h2 style="color:black">Datos del usuario actual</h2>
-    <br>
-    <br>
-    <button class="btn btn-primary" type="submit"> Mostrar datos</button>
+{{#each correoEntrada}}
+{{/each}}
+<br><br>
+<h4>Clientes TEC Plane</h4>
+<br><br>
+<div class="row">
+    <br><br>
+    {{#each clienteEncontrado}}
+    <div class="col-md-3">
+        <div class="usuario">
+            <div class="cuerpo">
+                <h5 class="nombre">
+                  Cédula pasajero:  {{idPasajero}}
+                </h5>
+                <p>Nombre: {{nombre}}</p>
+                <p>Fecha de nacimiento: </p>{{fechaNacimiento}}</p>
+                <p>Residencia: {{residencia}}</p>
+                <p>Teléfonos: {{telefonos}}</p>
+                <p>Correo: {{correo}}</p>
+                <br><br>
+            </div>
+        </div>
+    </div>
+    {{/each}}
 </div>
-</form>
+<br><br><br>

@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+{{#each correoUsuario}}
+<form action="/cliente/indexCliente" method="POST">
+<label style="color:white" value={{text}} name="correo" id="correo" >    
+</label>
+
+</form>
+{{text}}
+{{/each}}
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -10,7 +19,6 @@
     <br>
     <h1> Seleccione la acción que desea realizar</h1>
     <br>
-
     <form action="/cliente/usuarios" method="GET">
     <button class="btn btn-secondary" type="submit"> Gestionar usuario</button>
     </form>

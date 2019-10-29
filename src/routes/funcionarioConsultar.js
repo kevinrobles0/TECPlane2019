@@ -13,9 +13,7 @@ router.get('/funcionario/funcionarioConsultarPasajeros', async (req,res)=>{
             console.log(pasajerosEncontrados)
             res.render("funcionario/funcionarioConsultarPasajeros",{pasajerosEncontrados});
         }
-    });
-    
-    
+    }); 
 });
 
 
