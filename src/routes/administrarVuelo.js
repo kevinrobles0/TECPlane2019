@@ -1,6 +1,7 @@
 const express= require('express');
 const router = express.Router();
 const vuelo = require("../models/vuelo");
+const aerolinea = require("../models/aerolinea");
 
 router.post('/administrador/vueloCrear', async(req,res)=>{
 
@@ -16,6 +17,7 @@ router.post('/administrador/vueloCrear', async(req,res)=>{
     var maximo = req.body.maximo;
     var disponibles = maximo;
     var boletos = [];
+    var nombreAerolinea = req.body.nombreAerolinea;
 
     var exito=[];
     var errors =[];
@@ -50,6 +52,18 @@ router.post('/administrador/vueloCrear', async(req,res)=>{
     if(!maximo){
         errors.push({text:"Debe ingresar el maximo de boletos"});
     }
+    if(!nombreAerolinea){
+        errors.push({text:"Debe ingresar el nombre de la aerolínea"});
+    }else{
+        const resultado = await aerolinea.findOne({nombre: nombreAerolinea});
+        if(!resultado){
+            var noEncontrado = [{text:"La aerolínea ingresado no corresponde a una existente"}];
+            res.render("./administrador/vueloCrear",{
+                noEncontrado
+            });
+            return;
+        }
+    }
     if(errors.length>0){
         res.render("./administrador/vueloCrear",{
             errors
@@ -69,7 +83,7 @@ router.post('/administrador/vueloCrear', async(req,res)=>{
 
         }
         boletos[0]=null;
-        const Nvuelo = new vuelo({idVuelo,nombre,origen,destino,fechaIda,fechaVuelta,precio,restricciones,servicios,maximo,disponibles,boletos});
+        const Nvuelo = new vuelo({idVuelo,nombre,origen,destino,fechaIda,fechaVuelta,precio,restricciones,servicios,maximo,disponibles,boletos,nombreAerolinea});
         Nvuelo.save();
         console.log(Nvuelo)
         exito.push({text:"Se ha insertado el vuelo con éxito"});
@@ -122,7 +136,7 @@ router.post('/administrador/vueloActualizar',async(req,res)=>{
     var servicios = req.body.servicios;
     var estado = req.body.estado;
     var maximo = req.body.maximo;
-    var disponibles;
+    var nombreAerolinea = req.body.nombreAerolinea;
 
     var errors=[];
     var exito = [];
@@ -152,6 +166,20 @@ router.post('/administrador/vueloActualizar',async(req,res)=>{
                     if(nombre){
                         vue.nombre = nombre;
                         contador+=1;
+                    }
+                    if(nombreAerolinea){
+                        const resultado = await aerolinea.findOne({nombre: nombreAerolinea});
+                        if(!resultado){
+                            var noEncontrado = [{text:"La aerolínea ingresado no corresponde a una existente"}];
+                            res.render("./administrador/vueloActualizar",{
+                                noEncontrado
+                            });
+                            return;
+                        }
+                        if(resultado){
+                            vue.nombreAerolinea = nombreAerolinea;
+                            contador+=1;
+                        }
                     }
                     if(origen){
                         vue.origen = origen;
