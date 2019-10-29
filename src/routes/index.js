@@ -4,11 +4,8 @@ const funcionario = require("../models/funcionario");
 const pasajero = require("../models/pasajero");
 const bcrypt = require('bcrypt');
 var correoUsuario="";
-<<<<<<< HEAD
 const correoPrueba=require("../config/props");
 
-=======
->>>>>>> 62d9a07f146753f5bd90b517a74753dd9266af44
 
 router.post('/Indexapp',async(req,res)=>{
     var correoEntrada = req.body.correo;
@@ -16,21 +13,8 @@ router.post('/Indexapp',async(req,res)=>{
     var errors =[];
     var contraseñaEncontrada = "";
     var tipo;
-<<<<<<< HEAD
     correoPrueba.correo=correoEntrada;
-    //console.log(correoPrueba.correoPrueba);
 
-    //await bcrypt.genSalt(10, async(err, salt)=>{
-    //    bcrypt.hash(contraseñaEntrada, salt, function(err, hash) {
-    //        contraseña = hash;
-    //        console.log(hash);
-    //        console.log("1");
-    //    });
-    //});
-
-=======
-    
->>>>>>> 62d9a07f146753f5bd90b517a74753dd9266af44
     await funcionario.findOne({correo:correoEntrada}, async(err,funcio)=>{
         if(err){
             console.log(err);
