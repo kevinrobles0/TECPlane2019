@@ -4,7 +4,7 @@ const funcionario = require("../models/funcionario");
 const pasajero = require("../models/pasajero");
 const bcrypt = require('bcrypt');
 var correoUsuario="";
-
+const correoPrueba=require("../config/props");
 
 
 router.post('/Indexapp',async(req,res)=>{
@@ -13,6 +13,8 @@ router.post('/Indexapp',async(req,res)=>{
     var errors =[];
     var contraseñaEncontrada = "";
     var tipo;
+    correoPrueba.correo=correoEntrada;
+    //console.log(correoPrueba.correoPrueba);
 
     //await bcrypt.genSalt(10, async(err, salt)=>{
     //    bcrypt.hash(contraseñaEntrada, salt, function(err, hash) {

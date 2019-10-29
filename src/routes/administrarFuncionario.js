@@ -187,7 +187,7 @@ router.post('/administrador/funcionarioLeer',async(req,res)=>{
             res.render("./administrador/all-funcionarios",{funcio});
         }else{
             errors.push({text:"No existe funcionarios con la cédula ingresada"});
-            res.render("./administrador/funcionarioLeer",{erros});
+            res.render("./administrador/funcionarioLeer",{errors});
         }  
     }else{
         const funcio = await funcionario.find();

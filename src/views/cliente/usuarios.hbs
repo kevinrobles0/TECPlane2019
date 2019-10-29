@@ -1,4 +1,18 @@
-{{#each correoEntrada}}
+{{#each errores}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+{{#each exito}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 {{/each}}
 <div class="jumbotrn mt-4" >
     <h1 class="display-4" > TEC Plane  Clientes</h1>

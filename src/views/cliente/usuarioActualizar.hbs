@@ -1,7 +1,21 @@
-<form action=""></form>
+{{#each errores}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<form action="/cliente/usuarioActualizar" method="POST">
 <br>
 <br>
 <div class="home_title"><h2 style="font-size:40px">Ingrese los datos del cliente para actualizar</h2>
+        <br>
+        <br>
+        <label style="color:white ">Cedula cliente
+            <br>
+            <input type="text" name="cedula" id="cedula">
+        </label>
         <br>
         <br>
         <label style="color:white ">Nombre cliente
@@ -34,8 +48,15 @@
         </label>
          <br>
         <br>
+        <label style="color:white ">Correo 
+            <br>
+            <input type="text" name="correo" id="correo">
+        </label>
+         <br>
+        <br>
         <button class="btn btn-primary" type="submit"> Actualizar</button>
         <br>
         <br>
     </form>
 </div>
+</form>
