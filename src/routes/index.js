@@ -4,10 +4,6 @@ const funcionario = require("../models/funcionario");
 const pasajero = require("../models/pasajero");
 const bcrypt = require('bcrypt');
 var correoUsuario="";
-<<<<<<< HEAD
-
-=======
->>>>>>> abb063989e59d393deac51d0acfa504899580394
 const correoPrueba=require("../config/props");
 
 
