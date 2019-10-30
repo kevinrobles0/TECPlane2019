@@ -2,6 +2,7 @@ const express= require('express');
 const router = express.Router();
 const aerolineas = require("../models/aerolinea");
 const vuelos = require("../models/vuelo");
+const pasajeros = require("../models/pasajero");
 
 router.get('/administrador/reportes', (req,res)=>{
     res.render("administrador/reportesSeleccion");
@@ -266,7 +267,7 @@ router.post('/administrador/reporteSolicitarFiltro',async(req,res)=>{
     if(seleccion == ""){
         var total = 0;
         var resultado = [];
-        var vuelo = vuelos.find();
+        const  vuelo = await vuelos.find();
         
         var i = 0;
         while(i<vuelo.length){
@@ -293,14 +294,105 @@ router.post('/administrador/reporteSolicitarFiltro',async(req,res)=>{
 })
     
 router.post('/administrador/reporteSeleccionarCedula',async(req,res)=>{
+    var errors = [];
+    var cedula = req.body.cedula;
+    if(!cedula){
+        errors.push({text:"Debe ingresar la cédula del pasajero"});
+        res.render("./administrador/reporteSeleccionarCedula",{errors});
+    }else{
+        const pasajero = await pasajeros.findOne({idPasajero:cedula});
+        if(!pasajero){
+            errors.push({text:"La cédula ingresada no corresponde a la de un pasajero registrado"});
+            res.render("./administrador/reporteSeleccionarCedula",{errors});
+       }else{
+            var total = 0;
+            var resultado = [];
+            const vuelo = await vuelos.find();
+
+            var i = 0;
+            while(i<vuelo.length){
+
+                var y = 1;
+                while(y<vuelo[i].boletos.length){
+                    
+                    if(vuelo[i].boletos[y][2]==cedula){
+
+                        if(vuelo[i].boletos[y][1] != "LIBRE"){
+                            total+=1;
+                        }
+                    }
+                y+=1;
+                }
+            i+=1;
+            }
+            resultado.push({cantidad:total});
+            res.render('administrador/resultadoReporteCantidad',{resultado});
+        }
+    }
 })
 
 router.post('/administrador/reporteSeleccionarEstado',async(req,res)=>{
+    var ingresado = req.body.estado;
+    var total = 0;
+    var resultado = [];
+    const  vuelo = await vuelos.find({estado:ingresado});
     
+    var i = 0;
+    while(i<vuelo.length){
+
+        var y = 1;
+        while(y<vuelo[i].boletos.length){
+            if(vuelo[i].boletos[y][1] != "LIBRE"){
+                total+=1;
+            }
+            y+=1;
+        }
+        i+=1;
+    }
+    resultado.push({cantidad:total});
+    res.render('administrador/resultadoReporteCantidad',{resultado});
 })
 
 router.post('/administrador/reporteSeleccionarFechas',async(req,res)=>{
-    
+    var fechaInicio = req.body.fechasalida;
+    var fechaFinal = req.body.fechaentrada;
+
+    var errors = [];
+
+    if(!fechaInicio){
+        errors.push({text:"Debe ingresar la fecha de salida"});
+    }
+    if(!fechaFinal){
+        errors.push({text:"Debe ingresar la fecha de regreso"});
+    }
+    if(errors.length>0){
+        res.render("./administrador/reporteSeleccionarFechas",{errors});
+    }else{
+        if(fechaInicio > fechaFinal){
+            errors.push({text:"La fecha final debe ser mayor a la fecha inicial"});
+            res.render("./administrador/reporteSeleccionarFechas",{errors});
+        }else{
+            var total = 0;
+            var resultado = [];
+            const  vuelo = await vuelos.find({fechaIda:{"$lte":fechaInicio},fechaVuelta:{"$gte":fechaFinal}});
+            
+            var i = 0;
+            while(i<vuelo.length){
+
+                var y = 1;
+                while(y<vuelo[i].boletos.length){
+                    if(vuelo[i].boletos[y][1] != "LIBRE"){
+                        total+=1;
+                    }
+                    y+=1;
+                }
+                i+=1;
+            }
+            resultado.push({cantidad:total});
+            res.render('administrador/resultadoReporteCantidad',{resultado});
+
+        }
+    }
 })
 
 router.get('/administrador/OperacionesRegistradas', (req,res)=>{
