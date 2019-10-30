@@ -32,7 +32,6 @@ router.post('/funcionario/abordar', async (req,res)=>{
 
         await vuelo.findOne({idVuelo:numeroVuelo},async (err,vuelosEncontrado)=>{
 
-            console.log(vuelosEncontrado.boletos[1])
 
             if(!vuelosEncontrado){
                 sinDatos.push({text:"No existe el vuelo ingresado"});
@@ -41,32 +40,36 @@ router.post('/funcionario/abordar', async (req,res)=>{
             else{ 
                 var contadorBoletos=1;
                 while(vuelosEncontrado.boletos.length>contadorBoletos){
-
+                    
+                    
                     if(vuelosEncontrado.boletos[contadorBoletos][2]==cedula){
 
                         seEcontro=true;
-                    
-                        if(vuelosEncontrado.boletos[contadorBoletos][1]=='Checked'){
+
+                        if(!vuelosEncontrado.boletos[contadorBoletos][1]){
+                            break;
+                        }
+
+                        else if(vuelosEncontrado.boletos[contadorBoletos][1]=='Checked'){
                             console.log("entra")
                             vuelosEncontrado.boletos[contadorBoletos][1]='Abordado';
                             console.log(vuelosEncontrado.boletos[contadorBoletos][1])
                             checkedIn=true;
-                            await vuelosEncontrado.save();
+                            vuelosEncontrado.save();
                             break;
                         }
 
                     }
 
-                    if(checkedIn==true){
+                    if(seEcontro==true){
                         console.log(vuelosEncontrado.boletos[contadorBoletos][1])
                         break;
                     }
 
-                    contadorVuelos+=1;
-                }
-                console.log(vuelosEncontrado.boletos[contadorBoletos][1])
-                await vuelosEncontrado.save();
+                    contadorBoletos+=1;
                 
+                }
+                console.log(vuelosEncontrado.boletos[contadorBoletos][1])           
 
                 if(seEcontro==true && checkedIn==false){
                     errores.push({text:"El pasajero no ha realizado Check In"});

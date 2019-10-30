@@ -82,6 +82,45 @@ router.post('/cliente/abordaje',async(req,res)=>{
     }
 })
 
+
+router.get('/cliente/reportes', (req,res)=>{
+    res.render("cliente/reporteEscogerFiltro");
+})
+
+router.post('/cliente/elegirfiltro' ,async(req,res)=>{
+
+    var eleccion=String(req.body.filtro);
+
+    console.log(eleccion)
+
+    if(eleccion=="Rango de fechas"){
+        res.render("cliente/reporteVueloFechas");
+    }
+
+    if(eleccion=="Estado"){
+        res.render("cliente/reporteVueloEstado");
+    }
+
+})
+
+//incicio filtros
+router.post('/cliente/fechas', (req,res)=>{
+
+    //listo
+    console.log("1")
+
+})
+router.post('/cliente/estados', (req,res)=>{
+    
+    //listo
+    console.log("2")
+
+})
+
+//fin filtros
+
+
+
 router.post('./indexCliente' ,async(req,res)=>{
 })
 

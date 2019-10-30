@@ -75,18 +75,18 @@ router.get('/administrador/reporteAerolinea', async (req,res)=>{
 
         }
 
-        console.log(TotalAerolineasConVuelosFiltrados);
-
 
         //sacar monto por aerolinea
         var contadorVuelosFiltrador=0;
-        var MontototalPorAerolinea=0;
+        
 
         //recorre cada posicion que tiene nombre y vuelos
         while(TotalAerolineasConVuelosFiltrados.length>contadorVuelosFiltrador){
 
+            var MontototalPorAerolinea=0;
             var contadorPostNombre=1;
             var montoTotalAerolinea=0;
+            var sinMonto=0;
 
             //empieza en 1 para tomar solo los vuelos y no el nombre, recorre los boletos
             while(TotalAerolineasConVuelosFiltrados[contadorVuelosFiltrador].length>contadorPostNombre){
@@ -105,7 +105,7 @@ router.get('/administrador/reporteAerolinea', async (req,res)=>{
                     contadorBoletosPorVuelo+=1;
                 }
 
-                console.log(boletosCompradosEnVuelo)
+                
                 //suma al total el monto del vuelo actual
                 montoTotalAerolinea=boletosCompradosEnVuelo*parseInt(TotalAerolineasConVuelosFiltrados[contadorVuelosFiltrador][contadorPostNombre].precio)
                 MontototalPorAerolinea+=montoTotalAerolinea;
@@ -114,8 +114,14 @@ router.get('/administrador/reporteAerolinea', async (req,res)=>{
             }
 
             //agrega en la [lengh-1] del array el monto de la aerolinea con base en los vuelos
-            TotalAerolineasConVuelosFiltrados[contadorVuelosFiltrador].push({MontototalPorAerolinea});
-
+            if(MontototalPorAerolinea>0){ 
+                TotalAerolineasConVuelosFiltrados[contadorVuelosFiltrador].push({MontototalPorAerolinea});
+            }
+            else{
+                TotalAerolineasConVuelosFiltrados[contadorVuelosFiltrador].push({sinMonto})
+            }
+            
+            console.log(TotalAerolineasConVuelosFiltrados)
             contadorVuelosFiltrador+=1;
 
         }
