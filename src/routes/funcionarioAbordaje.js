@@ -33,23 +33,25 @@ router.post('/funcionario/abordar', (req,res)=>{
         var seEcontro=false;
 
         vuelos.find(async (err,vuelosEncontrados)=>{
-            console.log("1")
+
             var contadorVuelos=0;
             while(vuelosEncontrados.length>contadorVuelos){
-                console.log("2")
+
                 var contadorBoletos=1;
                 if(vuelosEncontrados[contadorVuelos].idVuelo==numeroVuelo){
                     while(vuelosEncontrados[contadorVuelos].boletos.length>contadorBoletos){
-                        console.log("3")
+
                         if(vuelosEncontrados[contadorVuelos].boletos[contadorBoletos][2]==cedula){
                             
                             seEcontro=true;
-                            console.log("4")
-                            if(vuelosEncontrados[contadorVuelos].boletos[contadorBoletos][1]=="CHECKED"){ 
-                                vuelosEncontrados[contadorVuelos].boletos[contadorBoletos][1]="ABORDADO";
-                                console.log("5")
-                                vuelosEncontrados.save();
+
+                            if(vuelosEncontrados[contadorVuelos].boletos[contadorBoletos][1]=="Checked"){ 
+                                //esta manera no sirve fucking wierd
+                                //vuelosEncontrados[contadorVuelos].boletos[contadorBoletos][1]="ABORDADO";
                                 checkedIn=true;
+                                const actualizar=await vuelos.findOne({idVuelo:numeroVuelo});
+                                actualizar.boletos[contadorBoletos][1]="Abordado";
+                                actualizar.save();
                                 break;
                             }
                         }
@@ -64,12 +66,13 @@ router.post('/funcionario/abordar', (req,res)=>{
 
                 contadorVuelos+=1;
             }
+            
 
             if(seEcontro==true && checkedIn==false){
                 errores.push({text:"El pasajero no ha realizado Check In"});
                 res.render("funcionario/funcionarioAbordaje",{errores});  
             }
-            if(seEcontro==false && checkedIn==false){
+            else if(seEcontro==false && checkedIn==false){
                 errores.push({text:"El pasajero no se encuentra en ningun vuelo"});
                 res.render("funcionario/funcionarioAbordaje",{errores});  
             }
