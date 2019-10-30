@@ -59,10 +59,10 @@ router.post('/vuelos/fechas', async (req,res)=>{
         });
     }
     else{
-        await vuelos.find({fechaentrada:{$lt:fechaentrada}, fechasalida:{$gt:fechasalida}},async (err, vuelosEncontrados)=>{
-            console.log(vuelosEncontrados);
+        await vuelos.find({fechaentrada:{$lt:fechaentrada}, fechasalida:{$gt:fechasalida}},async (err, vuelosFinales)=>{
+            console.log(vuelosFinales);
 
-            if(vuelosEncontrados.length==0){
+            if(vuelosFinales.length==0){
                 noEncontrado.push({text:"No hay vuelos en las fechas indicadas"});
                 res.render("./funcionario/reporteVuelosFechas",{
                     noEncontrado
@@ -71,7 +71,7 @@ router.post('/vuelos/fechas', async (req,res)=>{
 
             else{
                 res.render("./funcionario/reporteVuelosFiltrado",{
-                    vuelosEncontrados
+                    vuelosFinales
                 });
             }
 
@@ -86,9 +86,9 @@ router.post('/vuelos/estados', (req,res)=>{
 
     var estadoIngresado= req.body.estado;
 
-    vuelos.find({estado:estadoIngresado}, async (err,vuelosEncontrados)=>{
+    vuelos.find({estado:estadoIngresado}, async (err,vuelosFinales)=>{
         
-        if(vuelosEncontrados.length==0){
+        if(vuelosFinales.length==0){
             var noEncontrado=[];
             noEncontrado.push({text:"No existen vuelos con el estado "+estadoIngresado});
             res.render("./funcionario/reporteVuelosEstado",{
@@ -97,7 +97,7 @@ router.post('/vuelos/estados', (req,res)=>{
         }
         else{
             res.render("./funcionario/reporteVuelosFiltrado",{
-                vuelosEncontrados
+                vuelosFinales
             });
         }
 
@@ -108,11 +108,13 @@ router.post('/vuelos/estados', (req,res)=>{
 router.post('/vuelos/reporteVuelosNombre', (req,res)=>{
 
     var cedulaIngresada= req.body.cedula;
-    var vuelosTotalesPorCedula=[];
     var noEncontrado=[];
     var errores=[];
 
+    console.log(cedulaIngresada)
+
     if(!cedulaIngresada){
+
         errores.push({text:"Debe ingresar el número de cédula"})
         res.render("./funcionario/reporteVuelos",{
             errors
@@ -120,29 +122,39 @@ router.post('/vuelos/reporteVuelosNombre', (req,res)=>{
     }
 
     else{
+
         vuelos.find( async (err,vuelosEncontrados)=>{
             
+            var vuelosFinales=[];
+
             var contador=0;
+            
             while(vuelosEncontrados.length>contador){
-                var cedulaVuelo = vuelosEncontrados[contador].boletos[0];
-                
-                if(cedulaVuelo==cedulaIngresada){
-                    vuelosTotalesPorCedula.push(vuelosEncontrados[contador]);
+
+                var contadorBoletos=1;
+                while(vuelosEncontrados[contador].boletos.length>contadorBoletos){
+
+                    if(vuelosEncontrados[contador].boletos[contadorBoletos][2]==cedulaIngresada){
+                        vuelosFinales.push(vuelosEncontrados[contador])
+                        break;
+                    }
+                    contadorBoletos+=1;
                 }
+
                 contador+=1;
 
             }
 
-            if(vuelosTotalesPorCedula.length==0){
+            if(vuelosFinales.length==0){
                 noEncontrado.push({text:"No existen pasajeros con ese número de cédula"});
-                res.render("./funcionario/reporteVuelos",{
+                res.render("./funcionario/reporteVuelosNombre",{
                     noEncontrado
                 });
             }
 
             else{
                 res.render("./funcionario/reporteVuelosFiltrado",{
-                    vuelosEncontrados
+                    vuelosFinales
                 });
             }
 
