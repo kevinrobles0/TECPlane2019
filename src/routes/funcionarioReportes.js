@@ -2,7 +2,7 @@ const express= require('express');
 const router = express.Router();
 const pasajeros = require("../models/pasajero");
 const vuelos = require("../models/vuelo");
-
+const fechas = require("../models/comparacionfechas");
 
 router.get('/funcionario/funcionarioReportes', (req,res)=>{
     res.render("funcionario/funcionarioReportes");
@@ -60,12 +60,7 @@ router.post('/vuelos/fechas', async (req,res)=>{
         });
     }
     else{ 
-
         const fechasComparar = new fechas({fechaInicio,fechaFin});
-
-
-        
-
 
         var dateFin = new Date(fechaFin);
         var dateInit = new Date(fechaInicio);

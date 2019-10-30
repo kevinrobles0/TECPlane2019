@@ -294,22 +294,22 @@ router.post('/administrador/reporteSolicitarFiltro',async(req,res)=>{
     }else if(seleccion == "Estado del vuelo"){
         res.render('administrador/reporteSeleccionarEstado');
     }else if(seleccion == "Cédula del pasajero"){
-        res.render('administrador/reporteOperacionesSolicitarCedula');
+        res.render('administrador/reporteSeleccionarCedula');
     }
 
 })
     
-router.post('/administrador/reporteSeleccionarCedula2',async(req,res)=>{
+router.post('/administrador/reporteSeleccionarCedula',async(req,res)=>{
     var errors = [];
     var cedula = req.body.cedula;
     if(!cedula){
         errors.push({text:"Debe ingresar la cédula del pasajero"});
-        res.render("./administrador/reporteOperacionesSolicitarCedula",{errors});
+        res.render("./administrador/reporteSeleccionarCedula",{errors});
     }else{
         const pasajero = await pasajeros.findOne({idPasajero:cedula});
         if(!pasajero){
             errors.push({text:"La cédula ingresada no corresponde a la de un pasajero registrado"});
-            res.render("./administrador/reporteOperacionesSolicitarCedula",{errors});
+            res.render("./administrador/reporteSeleccionarCedula",{errors});
        }else{
             var total = 0;
             var resultado = [];
@@ -360,30 +360,27 @@ router.post('/administrador/reporteSeleccionarEstado',async(req,res)=>{
 })
 
 router.post('/administrador/reporteSeleccionarFechas',async(req,res)=>{
-    var fechaInicio = new Date(req.body.fechasalida);
-    var fechaFinal = new Date(req.body.fechaentrada);
-
-    var fechaInicioValid = req.body.fechasalida;
-    var fechaFinalValid = req.body.fechaentrada;
+    var fechaInicio = req.body.fechasalida;
+    var fechaFinal = req.body.fechaentrada;
 
     var errors = [];
 
-    if(!fechaInicioValid){
+    if(!fechaInicio){
         errors.push({text:"Debe ingresar la fecha de salida"});
     }
-    if(!fechaFinalValid){
+    if(!fechaFinal){
         errors.push({text:"Debe ingresar la fecha de regreso"});
     }
     if(errors.length>0){
         res.render("./administrador/reporteSeleccionarFechas",{errors});
     }else{
-        if(fechaInicioValid > fechaFinalValid){
+        if(fechaInicio > fechaFinal){
             errors.push({text:"La fecha final debe ser mayor a la fecha inicial"});
             res.render("./administrador/reporteSeleccionarFechas",{errors});
         }else{
             var total = 0;
             var resultado = [];
-            const  vuelo = await vuelos.find({fechaIda:{$gte:fechaInicio},fechaVuelta:{$lte:fechaFinal}});
+            const  vuelo = await vuelos.find({fechaIda:{"$lte":fechaInicio},fechaVuelta:{"$gte":fechaFinal}});
             
             var i = 0;
             while(i<vuelo.length){
