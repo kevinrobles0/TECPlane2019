@@ -175,6 +175,8 @@ router.post('/cliente/estados', (req,res)=>{
     
     var estadoIngresado= req.body.estado;
 
+    var errores=[];
+
     vuelo.find({estado:estadoIngresado}, async (err,vuelosFinales)=>{
         
         if(vuelosFinales.length==0){
