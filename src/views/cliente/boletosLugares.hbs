@@ -1,0 +1,38 @@
+{{#each errores}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+{{#each noEncontrado}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<br><br>
+<form action="/cliente/boleto/lugares" method="post">
+<div class="home_title"><h2 style="font-size:40px">Indique los lugares del vuelo</h2>
+        <br>
+        <br>
+        <label style="color:white ">Lugar de salida
+            <br>
+            <input type="text" name="origen" id="origen">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Lugar de entrada
+            <br>
+            <input type="text" name="destino" id="destino">
+        </label>      
+        <br>
+        <br>
+        <button class="btn btn-primary" type="submit"> Buscar</button>
+        <br>
+        <br>
+</div>
+</form>

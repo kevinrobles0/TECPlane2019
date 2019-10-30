@@ -1,0 +1,28 @@
+{{#each errores}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+<br>
+<br>
+<form action="/cliente/boleto/filtro" method="POST">
+    <br><br>
+    <div class="home_title" style="font-size:15px"><h2 style="font-size:35px">Seleccione el filtro para mostrar los vuelos</h2>
+        <br>
+        <label style="color:white ">Filtro
+            <br>
+            <select style="width:320px;height:70px" type="text" id="filtro" name="filtro" style="width:180px">
+                <option>Rango de fechas</option>
+                <option>Lugares de destino</option>
+            </select>
+        </label>
+        <br>
+        <br>
+        <button class="btn btn-primary" type="submit"> Seleccionar</button>
+        <br><br>
+    </div>
+</form>

@@ -1,15 +1,22 @@
+{{#each exito}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+{{#each errores}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-{{#each correoUsuario}}
-<form action="/cliente/indexCliente" method="POST">
-<label style="color:white" value={{text}} name="correo" id="correo" >    
-</label>
-
-</form>
-{{text}}
-{{/each}}
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -24,8 +31,7 @@
     </form>
     <br>
     <br>
-
-    <form action="/cliente/boletos" method="GET">
+    <form action="/cliente/boleto/filtro" method="GET">
     <button class="btn btn-secondary" type="submit"> Compra de boletos</button>
     </form>
     <br>
