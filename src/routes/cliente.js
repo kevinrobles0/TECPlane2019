@@ -4,6 +4,7 @@ const cliente = require("../models/pasajero");
 const correoPrueba=require("../config/props");
 const vuelo = require("../models/vuelo");
 const aerolinea = require("../models/aerolinea");
+const pasajeros = require("../models/pasajero");
 
 router.post('/cliente/checkin',async(req,res)=>{
     var identificacion= req.body.identificacion;
@@ -104,16 +105,121 @@ router.post('/cliente/elegirfiltro' ,async(req,res)=>{
 })
 
 //incicio filtros
-router.post('/cliente/fechas', (req,res)=>{
+router.post('/cliente/fechas',async (req,res)=>{
 
-    //listo
-    console.log("1")
+    var fechaInicio=req.body.fechasalida;
+    var fechaFin=req.body.fechaentrada;
+    var errores=[];
+    var noEncontrado=[];
+
+    if(!fechaInicio){
+        errores.push({text:"Debe ingresar la fecha inicial "});
+    }
+    if(!fechaFin){
+        errores.push({text:"Debe ingresar la fecha final"});
+    }
+
+    if(errores.length>0){
+        res.render("./cliente/reporteVueloFechas",{
+            errores
+        });
+    }
+    else{
+
+        var dateFin = new Date(fechaFin);
+        var dateInit = new Date(fechaInicio);
+
+        const vuelosFinales = await vuelo.find(
+            {fechaIda:{$gte:dateInit}, fechaVuelta:{$lte:dateFin}})
+        
+        
+        contadorVuelos=0;
+        var vuelosPorCliente=[]
+
+        const UsuarioActual = await pasajeros.findOne({correo:correoPrueba.correo})
+        var correoUsuarioActual = UsuarioActual.idPasajero;
+        console.log(correoUsuarioActual)
+        console.log(vuelosFinales)
+
+        while(vuelosFinales.length >contadorVuelos){
+            contadorBoletos=1;
+
+            while(vuelosFinales[contadorVuelos].boletos.length>contadorBoletos){
+                if(vuelosFinales[contadorVuelos].boletos[contadorBoletos][2]==correoUsuarioActual){
+                    vuelosPorCliente.push(vuelosFinales[contadorVuelos]);
+                    break;
+                }
+                contadorBoletos+=1;
+            }
+
+            contadorVuelos+=1;
+        }
+
+        if(vuelosPorCliente.length==0){
+            errores.push({text:"No existen vuelos para usted en este rango de fechas"})
+            res.render("./cliente/reporteVueloFechas",{
+                errores
+            });
+        }
+        else{
+
+            res.render("./cliente/mostrarVuelosFiltrados",{
+                vuelosPorCliente
+            });
+        }
+
+    }
 
 })
 router.post('/cliente/estados', (req,res)=>{
     
-    //listo
-    console.log("2")
+    var estadoIngresado= req.body.estado;
+
+    vuelo.find({estado:estadoIngresado}, async (err,vuelosFinales)=>{
+        
+        if(vuelosFinales.length==0){
+            var noEncontrado=[];
+            noEncontrado.push({text:"Usted no tiene vuelos con el estado "+estadoIngresado});
+            res.render("./cliente/reporteVueloEstado",{
+                noEncontrado
+            });
+        }
+        else{
+
+            contadorVuelos=0;
+            var vuelosPorCliente=[]
+
+            const UsuarioActual = await pasajeros.findOne({correo:correoPrueba.correo})
+            var correoUsuarioActual = UsuarioActual.idPasajero;
+
+            while(vuelosFinales.length >contadorVuelos){
+                contadorBoletos=1;
+    
+                while(vuelosFinales[contadorVuelos].boletos.length>contadorBoletos){
+                    if(vuelosFinales[contadorVuelos].boletos[contadorBoletos][2]==correoUsuarioActual){
+                        vuelosPorCliente.push(vuelosFinales[contadorVuelos]);
+                        break;
+                    }
+                    contadorBoletos+=1;
+                }
+    
+                contadorVuelos+=1;
+            }
+
+            if(vuelosPorCliente.length==0){
+                errores.push({text:"No existen vuelos para usted en este rango de fechas"})
+                res.render("./cliente/reporteVueloFechas",{
+                    errores
+                });
+            }
+            else{ 
+                res.render("./cliente/mostrarVuelosFiltrados",{
+                    vuelosPorCliente
+                });
+            }
+        }
+
+    });
 
 })
 
