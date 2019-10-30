@@ -1,3 +1,12 @@
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
 {{#each errores}}
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
     {{text}}
@@ -14,16 +23,13 @@
   </button>
 </div>
 {{/each}}
+
 <br><br>
-<form action="/cliente/estados" method="post">
-<div class="home_title"><h2 style="font-size:40px">Indique el estado de vuelo</h2>
+<form action="/administrador/reporteSeleccionarCedula2" method="post">
+<div class="home_title"><h2 style="font-size:40px">Indique la identificación de pasajero</h2>
         <br>
         <br>
-        <select type="text" id="estado" name="estado" style="width:180px">
-                <option>A tiempo</option>
-                <option>Retrasado</option>
-                <option>Cancelado</option>
-        </select>
+        <input style="font-size:30px" type="text" id="cedula" name="cedula">
         <br>
         <br>
         <button class="btn btn-primary" type="submit"> Buscar</button>

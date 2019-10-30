@@ -1,10 +1,9 @@
 <br><br>
-<h4>Clientes TEC Plane</h4>
+<h4>Vuelos TEC Plane</h4>
 <br><br>
 <div class="row">
     <br><br>
-    {{#each vuelosFinales}}
-    <form action="/cliente/boletos/seleccionar" method="GET"> 
+    {{#each vuelosPorCliente}}
     <div class="col-md-3">
         <div class="vuelos">
             <div class="cuerpo">
@@ -22,12 +21,11 @@
                 <p>Estado: {{estado}}</p>
                 <p>Maximos: {{maximo}}</p>
                 <p>Disponibles: {{disponibles}}</p>
-                <br><br>         
-                <button class="btn btn-primary" type="submit"> Comprar</button>
+
+                <br><br>
             </div>
         </div>
     </div>
-</form>
     {{/each}}
 </div>
 <br><br><br>
