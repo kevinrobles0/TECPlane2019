@@ -26,8 +26,6 @@ router.post('/funcionario/abordar', (req,res)=>{
     }
     else{
 
-        var vueloConCedulaIDIngresada=0;
-
         var errores=[];
         var checkedIn=false;
         var seEcontro=false;
