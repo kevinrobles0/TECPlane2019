@@ -1,12 +1,12 @@
 const express= require('express');
 const router = express.Router();
-const vuelos=require("../models/vuelo");
+const vuelo=require("../models/vuelo");
 
 router.get('/funcionario/funcionarioAbordaje', (req,res)=>{
     res.render("funcionario/funcionarioAbordaje");
 })
 
-router.post('/funcionario/abordar', (req,res)=>{
+router.post('/funcionario/abordar', async (req,res)=>{
     
     var cedula = req.body.cedula;
     var numeroVuelo = req.body.vuelo;
@@ -30,55 +30,57 @@ router.post('/funcionario/abordar', (req,res)=>{
         var checkedIn=false;
         var seEcontro=false;
 
-        vuelos.find(async (err,vuelosEncontrados)=>{
+        await vuelo.findOne({idVuelo:numeroVuelo},async (err,vuelosEncontrado)=>{
 
-            var contadorVuelos=0;
-            while(vuelosEncontrados.length>contadorVuelos){
+            console.log(vuelosEncontrado.boletos[1])
 
+            if(!vuelosEncontrado){
+                sinDatos.push({text:"No existe el vuelo ingresado"});
+                res.render("funcionario/funcionarioAbordaje",{sinDatos});
+            }
+            else{ 
                 var contadorBoletos=1;
-                if(vuelosEncontrados[contadorVuelos].idVuelo==numeroVuelo){
-                    while(vuelosEncontrados[contadorVuelos].boletos.length>contadorBoletos){
+                while(vuelosEncontrado.boletos.length>contadorBoletos){
 
-                        if(vuelosEncontrados[contadorVuelos].boletos[contadorBoletos][2]==cedula){
-                            
-                            seEcontro=true;
+                    if(vuelosEncontrado.boletos[contadorBoletos][2]==cedula){
 
-                            if(vuelosEncontrados[contadorVuelos].boletos[contadorBoletos][1]=="Checked"){ 
-                                //esta manera no sirve fucking wierd
-                                //vuelosEncontrados[contadorVuelos].boletos[contadorBoletos][1]="ABORDADO";
-                                checkedIn=true;
-                                const actualizar=await vuelos.findOne({idVuelo:numeroVuelo});
-                                actualizar.boletos[contadorBoletos][1]="Abordado";
-                                actualizar.save();
-                                break;
-                            }
+                        seEcontro=true;
+                    
+                        if(vuelosEncontrado.boletos[contadorBoletos][1]=='Checked'){
+                            console.log("entra")
+                            vuelosEncontrado.boletos[contadorBoletos][1]='Abordado';
+                            console.log(vuelosEncontrado.boletos[contadorBoletos][1])
+                            checkedIn=true;
+                            await vuelosEncontrado.save();
+                            break;
                         }
-                        contadorBoletos+=1
 
                     }
+
+                    if(checkedIn==true){
+                        console.log(vuelosEncontrado.boletos[contadorBoletos][1])
+                        break;
+                    }
+
+                    contadorVuelos+=1;
                 }
+                console.log(vuelosEncontrado.boletos[contadorBoletos][1])
+                await vuelosEncontrado.save();
+                
 
-                if(checkedIn==true){
-                    break;
+                if(seEcontro==true && checkedIn==false){
+                    errores.push({text:"El pasajero no ha realizado Check In"});
+                    res.render("funcionario/funcionarioAbordaje",{errores});  
                 }
-
-                contadorVuelos+=1;
+                else if(seEcontro==false && checkedIn==false){
+                    errores.push({text:"El pasajero no se encuentra en ningun vuelo"});
+                    res.render("funcionario/funcionarioAbordaje",{errores});  
+                }
+                else{
+                    exito.push({text:"Se ha abordado al pasajero con cédula "+cedula+" en el vuelo "+numeroVuelo});
+                    res.render("funcionario/funcionarioAbordaje",{exito}); 
+                }
             }
-            
-
-            if(seEcontro==true && checkedIn==false){
-                errores.push({text:"El pasajero no ha realizado Check In"});
-                res.render("funcionario/funcionarioAbordaje",{errores});  
-            }
-            else if(seEcontro==false && checkedIn==false){
-                errores.push({text:"El pasajero no se encuentra en ningun vuelo"});
-                res.render("funcionario/funcionarioAbordaje",{errores});  
-            }
-            else{
-                exito.push({text:"Se ha abordado al pasajero con cédula "+cedula+" en el vuelo "+numeroVuelo});
-                res.render("funcionario/funcionarioAbordaje",{exito}); 
-            }
-
         });
 
     }

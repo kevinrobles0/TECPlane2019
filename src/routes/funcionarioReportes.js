@@ -2,6 +2,7 @@ const express= require('express');
 const router = express.Router();
 const pasajeros = require("../models/pasajero");
 const vuelos = require("../models/vuelo");
+const fechas = require("../models/comparacionfechas");
 
 router.get('/funcionario/funcionarioReportes', (req,res)=>{
     res.render("funcionario/funcionarioReportes");
@@ -41,16 +42,16 @@ router.post('/funcionario/elegirfiltro', (req,res)=>{
 //filtro fechas
 router.post('/vuelos/fechas', async (req,res)=>{
 
-    var fechasalida=req.body.fechasalida;
-    var fechaentrada=req.body.fechaentrada;
+    var fechaInicio=req.body.fechasalida;
+    var fechaFin=req.body.fechaentrada;
     var errores=[];
     var noEncontrado=[];
 
-    if(!fechasalida){
-        errores.push({text:"Debe ingresar la fecha de salida "});
+    if(!fechaInicio){
+        errores.push({text:"Debe ingresar la fecha inicial "});
     }
-    if(!fechaentrada){
-        errores.push({text:"Debe ingresar la fecha de entrada"});
+    if(!fechaFin){
+        errores.push({text:"Debe ingresar la fecha final"});
     }
 
     if(errores.length>0){
@@ -58,24 +59,27 @@ router.post('/vuelos/fechas', async (req,res)=>{
             errores
         });
     }
-    else{
-        await vuelos.find({fechaentrada:{$lt:fechaentrada}, fechasalida:{$gt:fechasalida}},async (err, vuelosFinales)=>{
-            console.log(vuelosFinales);
+    else{ 
 
-            if(vuelosFinales.length==0){
-                noEncontrado.push({text:"No hay vuelos en las fechas indicadas"});
-                res.render("./funcionario/reporteVuelosFechas",{
-                    noEncontrado
-                });
-            }
+        const fechasComparar = new fechas({fechaInicio,fechaFin});
 
-            else{
-                res.render("./funcionario/reporteVuelosFiltrado",{
-                    vuelosFinales
-                });
-            }
+        var dateFin = new Date(fechaFin);
+        var dateInit = new Date(fechaInicio);
 
-        });
+        const vuelosFinales = await vuelos.find(
+            {fechaIda:{$gte:dateInit}, fechaVuelta:{$lte:dateFin}})
+        
+        console.log(vuelosFinales.length)
+        console.log(vuelosFinales)
+
+        if(vuelosFinales.length==0){
+            errores.push({text:"No hay vuelos en el rango de fechas indicado"});
+            res.render("funcionario/reporteVuelosFechas",{errores});
+        }
+        else{
+            res.render("funcionario/reporteVuelosFiltrado",{vuelosFinales});
+        }
+
     }
     
 });
