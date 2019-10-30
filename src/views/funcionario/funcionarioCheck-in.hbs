@@ -17,7 +17,7 @@
 {{/each}}
 
 {{#each sincheckIn}}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
     {{text}}
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
@@ -38,10 +38,17 @@
 <form action= '/funcionario/Check-in' method="POST">
 <br>
 <br>
-<div  style="font-size:25" pxclass="home_title"><h2 style="color:black">Ingrese el número de identificación del pasajero</h2>
+<div  style="font-size:25" pxclass="home_title"><h2 style="color:black">Ingrese el número de identificación del pasajero y el vuelo</h2>
     <br>
     <br>
+    <label>Cedula</label><br>
     <input style="font-size:30px" type="text" id="ingresado" name="ingresado">
+    <br>
+    <br>
+    <br>
+    <br>
+    <label>Vuelo</label><br>
+    <input style="font-size:30px" type="text" id="vuelo" name="vuelo">
     <br>
     <br>
     <button class="btn btn-primary" type="submit"> Verificar</button>
