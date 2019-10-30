@@ -1,19 +1,20 @@
 <br><br>
-<h4>Vuelos TEC Plane</h4>
+<h1>Vuelos TEC Plane</h1>
+<h2 style="color:lavender;">Si no se presenta el monto en pantalla la aerolinea no tiene vuelos con boletos vendidos</h2>
 <br><br>
 <div class="row">
     <br><br>
 
     {{#each TotalAerolineasConVuelosFiltrados}}
         {{#each this}}
-        <div class="col-md-3">
+        <div class="col-md-8">
             <div class="reporte">
                 <div class="cuerpo">
 
                     
-
+                    
                     {{#if nombreEnAerolineas}}
-                    <h1>Nombre Aerolinea: {{nombreEnAerolineas}}</h5>
+                    <h1>Nombre Aerolinea: {{nombreEnAerolineas}}</h1>
                     {{/if}}
                     <br>
 
@@ -29,14 +30,20 @@
                     {{/if}}
                     
                     {{#if MontototalPorAerolinea}}
-                    <h2>Monto total en Aerolinea {{MontototalPorAerolinea}}</h5>
-                     {{/if}}
+                    <h5>Monto total en Aerolinea : {{MontototalPorAerolinea}}</h5>
+                    {{/if}}
+                    <br><br>
+                    {{#if sinMonto}}
+                    <h5>Monto total en Aerolinea : {{sinMonto}}</h5>
+                    {{/if}}
+                   
 
                 </div>
             </div>
         </div>
+        
         {{/each}}
-
+        <br><br>
     {{/each}}
 </div>
 <br><br><br>
