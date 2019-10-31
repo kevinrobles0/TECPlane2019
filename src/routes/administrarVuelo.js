@@ -40,6 +40,9 @@ router.post('/administrador/vueloCrear', async(req,res)=>{
     if(!fechaVuelta){
         errors.push({text:"Debe ingresar la fecha de regreso"});
     }
+    if(fechaIda> fechaVuelta){
+        errors.push({text:"EL orden de las fechas es incorrecto"});
+    }
     if(!precio){
         errors.push({text:"Debe ingresar el precio"});
     }
@@ -69,6 +72,15 @@ router.post('/administrador/vueloCrear', async(req,res)=>{
             errors
         });
     }else{
+        await vuelo.findOne({idVuelo:idVuelo},async(err,encontrado)=>{
+            if(encontrado){
+                errors.push("El vuelo ingresada ya existe");
+                res.render("./administrador/vueloCrear",{
+                    errors
+                });
+                return;
+            }
+        })
         var rest = String(restricciones);
         restricciones = rest.split(",");
 
