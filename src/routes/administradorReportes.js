@@ -294,22 +294,22 @@ router.post('/administrador/reporteSolicitarFiltro',async(req,res)=>{
     }else if(seleccion == "Estado del vuelo"){
         res.render('administrador/reporteSeleccionarEstado');
     }else if(seleccion == "Cédula del pasajero"){
-        res.render('administrador/reporteSeleccionarCedula');
+        res.render('administrador/reporteSeleccionarCedula2');
     }
 
 })
     
-router.post('/administrador/reporteSeleccionarCedula',async(req,res)=>{
+router.post('/administrador/reporteSeleccionarCedula2',async(req,res)=>{
     var errors = [];
     var cedula = req.body.cedula;
     if(!cedula){
         errors.push({text:"Debe ingresar la cédula del pasajero"});
-        res.render("./administrador/reporteSeleccionarCedula",{errors});
+        res.render("./administrador/reporteSeleccionarCedula2",{errors});
     }else{
         const pasajero = await pasajeros.findOne({idPasajero:cedula});
         if(!pasajero){
             errors.push({text:"La cédula ingresada no corresponde a la de un pasajero registrado"});
-            res.render("./administrador/reporteSeleccionarCedula",{errors});
+            res.render("./administrador/reporteSeleccionarCedula2",{errors});
        }else{
             var total = 0;
             var resultado = [];
