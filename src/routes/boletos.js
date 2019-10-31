@@ -121,7 +121,7 @@ router.post('/cliente/boletos/seleccionar',async(req,res)=>{
         });
     } else{
         
-        var encontro=false;
+        var encontro=true;
         await cliente.findOne({correo:correoPrueba.correo},async(err,client)=>{
             if(err){
                 res.send("error");
@@ -164,7 +164,7 @@ router.post('/cliente/boletos/seleccionar',async(req,res)=>{
                             console.log(err);
                         }else{
                             exito.push({text:"Se han comprado los boletos de manera correcta"});
-                            app.get("./cliente/boletosSeleccionar",{exito});
+                            res.get("./cliente/boletosSeleccionar",{exito});
                         }
                     })    
                     
