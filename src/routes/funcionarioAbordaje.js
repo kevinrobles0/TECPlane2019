@@ -39,6 +39,7 @@ router.post('/funcionario/abordar', async (req,res)=>{
             }
             else{ 
                 var contadorBoletos=1;
+                var abordado=false;
                 var boletos = vuelosEncontrado.boletos;
                 while(boletos.length>contadorBoletos){
                     
@@ -46,9 +47,12 @@ router.post('/funcionario/abordar', async (req,res)=>{
                     if(boletos[contadorBoletos][2]==cedula){
 
                         seEcontro=true;
-                        console.log(boletos[contadorBoletos][2])
+                        
+                        if(boletos[contadorBoletos][1]=="ABORDADO"){
+                            abordado=true;
+                        }
 
-                        if(boletos[contadorBoletos][1]=='CHECKED'){
+                        else if(boletos[contadorBoletos][1]=='CHECKED'){
                             console.log("hola")
                             boletos[contadorBoletos][1]='ABORDADO';
                             checkedIn=true;
@@ -56,9 +60,12 @@ router.post('/funcionario/abordar', async (req,res)=>{
                     }
                     contadorBoletos+=1;
                 }  
-                
-    
-                if(seEcontro==true && checkedIn==false){
+
+                if(abordado==true){
+                    exito.push({text:"El pasajero ya fue aborado"});
+                    res.render("funcionario/funcionarioAbordaje",{exito});  
+                }
+                else if(seEcontro==true && checkedIn==false){
                     errores.push({text:"El pasajero no ha realizado Check In"});
                     res.render("funcionario/funcionarioAbordaje",{errores});  
                 }
