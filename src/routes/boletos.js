@@ -2,8 +2,8 @@ const express= require('express');
 const router = express.Router();
 const vuelos = require("../models/vuelo");
 const fechas = require("../models/comparacionfechas");
-
-
+const cliente = require("../models/pasajero");
+const correoPrueba=require("../config/props");
 //Filtros
 router.post('/cliente/boleto/filtro', (req,res)=>{
     var eleccion=String(req.body.filtro);
@@ -98,7 +98,7 @@ router.post('/cliente/boletos/seleccionar',async(req,res)=>{
     var maletas= req.body.maletas;
     var observaciones= req.body.observaciones;
     var vuelo=req.body.idVuelo;
-  
+    var idCliente=0;
   
     var exito=[];
     var errores=[];
@@ -120,30 +120,56 @@ router.post('/cliente/boletos/seleccionar',async(req,res)=>{
             maletas
         });
     } else{
+        
+        var encontro=false;
+        await cliente.findOne({correo:correoPrueba.correo},async(err,client)=>{
+            if(err){
+                res.send("error");
+                }
+                else{
+                    idCliente=client.idPasajero;
+                    /*console.log(idCliente);
+                console.log(client);*/}
+        });
 
         await vuelos.findOne({idVuelo:vuelo},async(err,vueloComprar)=>{
 
-            console.log(vueloComprar);
-
-            
+            console.log(vueloComprar);  
 
             if(!vueloComprar){
                 errores.push({text:"No se encontro el vuelo ingresado"});
                 res.render("./cliente/boletosSeleccionar",{errores});
             }else{
                 var contadorBoletos=1;
+                var boletosEncontrados=vueloComprar.boletos;
+                console.log(boletosEncontrados);
+                console.log(boletosEncontrados.length);
+                while(boletosEncontrados.length<contadorBoletos){
 
-                while(contadorBoletos<=boletos){
-                    vueloComprar.boletos[contadorBoletos][1]="COMPRADO";
-                    vueloComprar.boletos[contadorBoletos][2]="";
-                    contadorBoletos+=1;
+                        if(boletosEncontrados[contadorBoletos][1]=='LIBRE'){                            
+
+                            boletosEncontrados[contadorBoletos][1]='COMPRADO';
+                            boletosEncontrados[contadorBoletos][2]=idCliente;
+                            encontro=true;
+                        }
+                        contadorBoletos+=1;
                 }
-                vueloComprar.save();
-                console.log(vueloComprar);
-                exito.push({text: "Se compraron los boletos con éxito"});
-                res.render("indexCliente",{
-                    exito
-                });
+                console.log(encontro)
+                if(encontro==false){
+                    errores.push({text:"No se encontro el vuelo ingresado"});
+                    res.render("./cliente/boletosSeleccionar",{errores});
+                }else{
+                    await vuelos.updateOne({idVuelo:vuelo},{$set:{boletos:boletosEncontrados}},function(err,res){
+                        if(err){
+                            console.log(err);
+                        }else{
+                            exito.push({text:"Se han comprado los boletos de manera correcta"});
+                            app.get("./cliente/boletosSeleccionar",{exito});
+                        }
+                    })    
+                    
+                }
+                
             }
         })
 

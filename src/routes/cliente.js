@@ -5,10 +5,12 @@ const correoPrueba=require("../config/props");
 const vuelo = require("../models/vuelo");
 const aerolinea = require("../models/aerolinea");
 
+
 router.post('/cliente/checkin',async(req,res)=>{
     var identificacion= req.body.identificacion;
     var codigo= req.body.codigo;
     var contadorBoletos=1;
+    var idCliente=0;
   
     var exito=[];
     var errores=[];
@@ -25,6 +27,7 @@ router.post('/cliente/checkin',async(req,res)=>{
             codigo
         });
     }else{
+        var encontro=false;
         await vuelo.findOne({idVuelo:codigo},async(err,vueloChekear)=>{
             if(err){
                 console.log(err);
@@ -34,21 +37,48 @@ router.post('/cliente/checkin',async(req,res)=>{
                     res.render("./cliente/checkin",{errores});
                 }else{
                     console.log(contadorBoletos);
-                    vueloChekear.boletos[contadorBoletos][1]="Checked";
-                    vueloChekear.boletos[contadorBoletos][2]=identificacion;
-                    //contadorBoletos= vueloChekear.boletos[contadorBoletos];
-                    console.log(vueloChekear);
-                    vueloChekear.save();
-                    exito.push({text: "Se realizó con éxito, su número de asiento es:"+contadorBoletos});
-                        res.render("./cliente/usuarios",{
-                            exito});   
+                    while(vueloChekear.boletos.length>=contadorBoletos){
+                        console.log(contadorBoletos);
+
+                        if(vueloChekear.boletos[contadorBoletos][2]==identificacion){
+                            encontro=true;
+
+                            if(!vueloChekear.boletos[contadorBoletos][1]){
+                                break;
+                            }
+                            else if(vueloChekear.boletos[contadorBoletos][1]=="COMPRADO"){
+                                console.log("Entro");
+                                vueloChekear.boletos[contadorBoletos][1]="Checked";
+                                console.log(vueloChekear.boletos[contadorBoletos][1]);
+                                vueloChekear.save();
+                                break;
+                            }
+                        }
+                        contadorBoletos+=1;
+
+                    }
+                    if(encontro==false){
+                        errores.push({text:"No se encontró ningún boleto registrado a su cédula"});
+                        res.render("./cliente/checkin",{errores});                
+                    }
+                    else{
+                        exito.push({text:"Se chekearon correctamente los boletos"});
+                        res.render("./cliente/checkin",{exito}); 
+                    
+                    }
+
+
+                    }
+                    
+
+
+  
                 }
 
-        }
+        });
 
-    });
+    
     }
-
 });
    
 
