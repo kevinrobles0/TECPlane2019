@@ -1,6 +1,6 @@
 const express= require('express');
 const router = express.Router();
-const cliente = require("../models/pasajero");
+const pasajeros = require("../models/pasajero");
 const correoPrueba=require("../config/props");
 const vuelo = require("../models/vuelo");
 const aerolinea = require("../models/aerolinea");
@@ -191,12 +191,12 @@ router.post('/cliente/estados', (req,res)=>{
 
             if(vuelosPorCliente.length==0){
                 errores.push({text:"No existen vuelos para usted en este rango de fechas"})
-                res.render("./cliente/reporteVueloFechas",{
+                res.render("/cliente/reporteVueloFechas",{
                     errores
                 });
             }
             else{ 
-                res.render("./cliente/mostrarVuelosFiltrados",{
+                res.render("/cliente/mostrarVuelosFiltrados",{
                     vuelosPorCliente
                 });
             }
