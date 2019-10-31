@@ -36,6 +36,10 @@ const pasajeroSchema = new Schema({
         type: String,
         required: true, 
         trim: true
+    },
+    infoCompra:{
+        type:Array,
+        default:[]
     }
 });
 
