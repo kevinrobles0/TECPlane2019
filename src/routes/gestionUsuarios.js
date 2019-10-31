@@ -49,6 +49,15 @@ router.post('/cliente/usuarioCrear',async(req,res)=>{
             contraseña
         });
     } else{
+        await cliente.findOne({idPasajero:idPasajero},async(err,encontrado)=>{
+            if(encontrado){
+                errors.push("El pasajero ingresada ya existe");
+                res.render("./administrador/usuarioCrear",{
+                    errors
+                });
+                return;
+            }
+        })
         const noUsuario= new cliente ({idPasajero,nombre,FechaNacimiento,nacionalidad,residencia,telefonos,correo,contraseña});
         noUsuario.save();
         exito.push({text:"Se creo el usuario de manera exitosa"});
