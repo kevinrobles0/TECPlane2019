@@ -144,10 +144,78 @@ router.post('/cliente/elegirfiltro' ,async(req,res)=>{
 //incicio filtros
 router.post('/cliente/fechas', (req,res)=>{
 
-    //listo
-    console.log("1")
+    var fechaInicio=req.body.fechasalida;
+    var fechaFin=req.body.fechaentrada;
+    var errores=[];
+    var noEncontrado=[];
 
+    if(!fechaInicio){
+        errores.push({text:"Debe ingresar la fecha inicial "});
+    }
+    if(!fechaFin){
+        errores.push({text:"Debe ingresar la fecha final"});
+    }
+
+    if(errores.length>0){
+        res.render("./cliente/reporteVueloFechas",{
+            errores
+        });
+    }
+    else{ 
+        const fechasComparar = new fechas({fechaInicio,fechaFin});
+
+        var dateFin = new Date(fechaFin);
+        var dateInit = new Date(fechaInicio);
+
+        const vuelosFinales = await vuelos.find(
+            {fechaIda:{$gte:dateInit}, fechaVuelta:{$lte:dateFin}})
+        
+        console.log(vuelosFinales.length)
+        console.log(vuelosFinales)
+
+        if(vuelosFinales.length==0){
+            errores.push({text:"No hay vuelos en el rango de fechas indicado"});
+            res.render("cliente/reporteVueloFechas",{errores});
+        }
+        else{
+            var datosCliente = pasajeros.findOne({correo:correoPrueba.correo})
+            var cedulaCliente = datosCliente.idCliente;
+
+            var vuelosTotales = vuelos.find();
+            var vuelosTotalesFinales=[];
+            var contadorVuelos=0;
+
+            while(vuelosTotales.length>contadorVuelos){
+                
+                var contadorBoletos=1;
+                while(vuelosTotales[contadorVuelos].boletos.length>contadorBoletos){
+
+                    if(vuelosTotales[contadorVuelos].boletos[contadorBoletos][2]==cedulaCliente){ 
+                        vuelosTotalesFinales.push(vuelosTotales[contadorVuelos])
+                    }
+                    contadorBoletos+=1;
+
+                }
+
+                contadorVuelos+=1;
+            }
+
+            console.log(vuelosTotalesFinales)
+
+            if(vuelosTotalesFinales.length==0){
+                errores.push({text:"Usted no posee vuelos en el rango indicado"});
+                res.render("cliente/reporteVueloFechas",{errores});
+            }
+            else{
+                res.render("cliente/mostrarVuelosFiltrados",{
+                    vuelosPorCliente
+                });
+            }
+
+        }
+    }
 })
+
 router.post('/cliente/estados', (req,res)=>{
     
 
@@ -190,13 +258,13 @@ router.post('/cliente/estados', (req,res)=>{
             }
 
             if(vuelosPorCliente.length==0){
-                errores.push({text:"No existen vuelos para usted en este rango de fechas"})
-                res.render("/cliente/reporteVueloFechas",{
+                errores.push({text:"No existen vuelos para usted en ese estado"})
+                res.render("cliente/reporteVueloEstado",{
                     errores
                 });
             }
             else{ 
-                res.render("/cliente/mostrarVuelosFiltrados",{
+                res.render("cliente/mostrarVuelosFiltrados",{
                     vuelosPorCliente
                 });
             }
