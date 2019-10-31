@@ -46,10 +46,11 @@ router.post('/funcionario/abordar', async (req,res)=>{
                     if(boletos[contadorBoletos][2]==cedula){
 
                         seEcontro=true;
+                        console.log(boletos[contadorBoletos][2])
 
-                        if(boletos[contadorBoletos][1]=='Checked'){
-
-                            boletos[contadorBoletos][1]='Abordado';
+                        if(boletos[contadorBoletos][1]=='CHECKED'){
+                            console.log("hola")
+                            boletos[contadorBoletos][1]='ABORDADO';
                             checkedIn=true;
                         }
                     }
@@ -66,7 +67,7 @@ router.post('/funcionario/abordar', async (req,res)=>{
                     res.render("funcionario/funcionarioAbordaje",{errores});  
                 }
                 else{
-                    await vuelo.updateOne({idVuelo:numeroVuelo},{$set:{boletos:boletos}},function(err,res){
+                    await vuelo.updateOne({idVuelo:numeroVuelo},{$set:{boletos:boletos}},function(err,resp){
                         if(err){
                             console.log(err);
                         }

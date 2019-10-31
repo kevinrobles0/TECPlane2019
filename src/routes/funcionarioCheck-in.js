@@ -47,7 +47,7 @@ router.post('/funcionario/Check-in', (req,res)=>{
 
                             encontrado=true;
                             
-                            if(vuelosEncontrados[contadorVuelos].boletos[contadorBoletos][1]=="Checked"){
+                            if(vuelosEncontrados[contadorVuelos].boletos[contadorBoletos][1]=="CHECKED"){
                                 checkedIn=true;
                                 break;
                             }
