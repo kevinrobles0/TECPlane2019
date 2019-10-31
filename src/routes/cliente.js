@@ -28,52 +28,58 @@ router.post('/cliente/checkin',async(req,res)=>{
         });
     }else{
         var encontro=false;
+        var checkedIn=false;
+        
+
         await vuelo.findOne({idVuelo:codigo},async(err,vueloChekear)=>{
             if(err){
                 console.log(err);
             }else{
+
+                var boletosEncontrados=vueloChekear.boletos;
+
                 if(!vueloChekear){
                     errores.push({text:"El identificador del vuelo no corresponde a los existentes"})
                     res.render("./cliente/checkin",{errores});
                 }else{
-                    console.log(contadorBoletos);
-                    while(vueloChekear.boletos.length>=contadorBoletos){
-                        console.log(contadorBoletos);
-
-                        if(vueloChekear.boletos[contadorBoletos][2]==identificacion){
+                    
+                    while(boletosEncontrados.length>contadorBoletos){
+                        
+                        if(boletosEncontrados[contadorBoletos][2]==identificacion){ 
+                            
                             encontro=true;
 
-                            if(!vueloChekear.boletos[contadorBoletos][1]){
-                                break;
-                            }
-                            else if(vueloChekear.boletos[contadorBoletos][1]=="COMPRADO"){
-                                console.log("Entro");
-                                vueloChekear.boletos[contadorBoletos][1]="Checked";
-                                console.log(vueloChekear.boletos[contadorBoletos][1]);
-                                vueloChekear.save();
-                                break;
+                            if(boletosEncontrados[contadorBoletos][1]=='COMPRADO'){                            
+                                boletosEncontrados[contadorBoletos][1]='CHECKED';
+                                checkedIn=true;
                             }
                         }
                         contadorBoletos+=1;
-
                     }
+
                     if(encontro==false){
                         errores.push({text:"No se encontró ningún boleto registrado a su cédula"});
                         res.render("./cliente/checkin",{errores});                
                     }
+                    else if(checkedIn==false){
+                        errores.push({text:"No se encontraron boletos a checkear"});
+                        res.render("./cliente/checkin",{errores});  
+                    }
                     else{
-                        exito.push({text:"Se chekearon correctamente los boletos"});
-                        res.render("./cliente/checkin",{exito}); 
+                        await vuelo.updateOne({idVuelo:codigo},{$set:{boletos:boletosEncontrados}},function(err,resp){
+                            if(err){
+                                console.log(err);
+                            }else{
+                                exito.push({text:"Se ha realizado el check-in manera correcta"});
+                                res.render("indexCliente",{exito});
+                            }
+                        }) 
                     
                     }
 
-
-                    }
-                    
-
-
-  
                 }
+  
+            }
 
         });
 

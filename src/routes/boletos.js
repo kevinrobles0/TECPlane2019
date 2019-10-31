@@ -121,7 +121,7 @@ router.post('/cliente/boletos/seleccionar',async(req,res)=>{
         });
     } else{
         
-        var encontro=true;
+        var encontro=false;
         await cliente.findOne({correo:correoPrueba.correo},async(err,client)=>{
             if(err){
                 res.send("error");
@@ -132,39 +132,45 @@ router.post('/cliente/boletos/seleccionar',async(req,res)=>{
                 console.log(client);*/}
         });
 
+        var boletosActualesComprado=0;
+
         await vuelos.findOne({idVuelo:vuelo},async(err,vueloComprar)=>{
 
             console.log(vueloComprar);  
 
             if(!vueloComprar){
                 errores.push({text:"No se encontro el vuelo ingresado"});
-                res.render("./cliente/boletosSeleccionar",{errores});
+                res.render("cliente/boletosSeleccionar",{errores});
             }else{
                 var contadorBoletos=1;
                 var boletosEncontrados=vueloComprar.boletos;
                 console.log(boletosEncontrados);
                 console.log(boletosEncontrados.length);
-                while(boletosEncontrados.length<contadorBoletos){
+                while(boletosEncontrados.length>contadorBoletos){
 
                         if(boletosEncontrados[contadorBoletos][1]=='LIBRE'){                            
-
                             boletosEncontrados[contadorBoletos][1]='COMPRADO';
                             boletosEncontrados[contadorBoletos][2]=idCliente;
                             encontro=true;
+                            boletosActualesComprado+=1
                         }
                         contadorBoletos+=1;
+                        
+                        if(boletos==boletosActualesComprado){
+                            break;
+                        }
                 }
                 console.log(encontro)
                 if(encontro==false){
                     errores.push({text:"No se encontro el vuelo ingresado"});
-                    res.render("./cliente/boletosSeleccionar",{errores});
+                    res.render("cliente/boletosSeleccionar",{errores});
                 }else{
-                    await vuelos.updateOne({idVuelo:vuelo},{$set:{boletos:boletosEncontrados}},function(err,res){
+                    await vuelos.updateOne({idVuelo:vuelo},{$set:{boletos:boletosEncontrados}},function(err,resp){
                         if(err){
                             console.log(err);
                         }else{
                             exito.push({text:"Se han comprado los boletos de manera correcta"});
-                            res.get("./cliente/boletosSeleccionar",{exito});
+                            res.render("indexCliente",{exito});
                         }
                     })    
                     
