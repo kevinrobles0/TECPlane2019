@@ -1,6 +1,6 @@
 const express= require('express');
 const router = express.Router();
-const cliente = require("../models/pasajero");
+const pasajeros = require("../models/pasajero");
 const correoPrueba=require("../config/props");
 const vuelo = require("../models/vuelo");
 const aerolinea = require("../models/aerolinea");
@@ -189,6 +189,7 @@ router.post('/cliente/estados', (req,res)=>{
                     contadorVuelos+=1;
                 }
 
+
                 if(vuelosPorCliente.length==0){
                     errores.push({text:"No existen vuelos para usted en este rango de fechas"})
                     res.render("cliente/reporteVueloEstado",{
@@ -201,6 +202,18 @@ router.post('/cliente/estados', (req,res)=>{
                         vuelosPorCliente
                     });
                 }
+
+            if(vuelosPorCliente.length==0){
+                errores.push({text:"No existen vuelos para usted en este rango de fechas"})
+                res.render("/cliente/reporteVueloFechas",{
+                    errores
+                });
+            }
+            else{ 
+                res.render("/cliente/mostrarVuelosFiltrados",{
+                    vuelosPorCliente
+                });
+
             }
         
 
