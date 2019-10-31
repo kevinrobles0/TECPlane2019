@@ -231,31 +231,45 @@ router.post('/cliente/estados', (req,res)=>{
         if(vuelosFinales.length==0){
             var noEncontrado=[];
             noEncontrado.push({text:"Usted no tiene vuelos con el estado "+estadoIngresado});
-            res.render("./cliente/reporteVueloEstado",{
+            res.render("cliente/reporteVueloEstado",{
                 noEncontrado
             });
         }
         else{
+            
+                contadorVuelos=0;
+                var vuelosPorCliente=[]
 
-            contadorVuelos=0;
-            var vuelosPorCliente=[]
+                const UsuarioActual = await cliente.findOne({correo:correoPrueba.correo})
+                var correoUsuarioActual = UsuarioActual.idPasajero;
 
-            const UsuarioActual = await pasajeros.findOne({correo:correoPrueba.correo})
-            var correoUsuarioActual = UsuarioActual.idPasajero;
-
-            while(vuelosFinales.length >contadorVuelos){
-                contadorBoletos=1;
-    
-                while(vuelosFinales[contadorVuelos].boletos.length>contadorBoletos){
-                    if(vuelosFinales[contadorVuelos].boletos[contadorBoletos][2]==correoUsuarioActual){
-                        vuelosPorCliente.push(vuelosFinales[contadorVuelos]);
-                        break;
+                while(vuelosFinales.length >contadorVuelos){
+                    contadorBoletos=1;
+        
+                    while(vuelosFinales[contadorVuelos].boletos.length>contadorBoletos){
+                        if(vuelosFinales[contadorVuelos].boletos[contadorBoletos][2]==correoUsuarioActual){
+                            vuelosPorCliente.push(vuelosFinales[contadorVuelos]);
+                            break;
+                        }
+                        contadorBoletos+=1;
                     }
-                    contadorBoletos+=1;
+        
+                    contadorVuelos+=1;
                 }
-    
-                contadorVuelos+=1;
-            }
+
+
+                if(vuelosPorCliente.length==0){
+                    errores.push({text:"No existen vuelos para usted en este rango de fechas"})
+                    res.render("cliente/reporteVueloEstado",{
+                        errores
+                    });
+                }
+                else{ 
+                    console.log(vuelosPorCliente)
+                    res.render("cliente/mostrarVuelosFiltrados",{
+                        vuelosPorCliente
+                    });
+                }
 
             if(vuelosPorCliente.length==0){
                 errores.push({text:"No existen vuelos para usted en ese estado"})
@@ -267,8 +281,9 @@ router.post('/cliente/estados', (req,res)=>{
                 res.render("cliente/mostrarVuelosFiltrados",{
                     vuelosPorCliente
                 });
+
             }
-        }
+        
 
     });
 
