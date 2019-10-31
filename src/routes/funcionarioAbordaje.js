@@ -62,7 +62,7 @@ router.post('/funcionario/abordar', async (req,res)=>{
                 }  
 
                 if(abordado==true){
-                    exito.push({text:"El pasajero ya fue aborado"});
+                    exito.push({text:"El pasajero ya fue abordado"});
                     res.render("funcionario/funcionarioAbordaje",{exito});  
                 }
                 else if(seEcontro==true && checkedIn==false){

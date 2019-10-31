@@ -11,6 +11,7 @@ router.post('/cliente/checkin',async(req,res)=>{
     var codigo= req.body.codigo;
     var contadorBoletos=1;
     var idCliente=0;
+    var numeroAsientos=[];
   
     var exito=[];
     var errores=[];
@@ -51,6 +52,7 @@ router.post('/cliente/checkin',async(req,res)=>{
 
                             if(boletosEncontrados[contadorBoletos][1]=='COMPRADO'){                            
                                 boletosEncontrados[contadorBoletos][1]='CHECKED';
+                                numeroAsientos.push(contadorBoletos);
                                 checkedIn=true;
                             }
                         }
@@ -70,7 +72,7 @@ router.post('/cliente/checkin',async(req,res)=>{
                             if(err){
                                 console.log(err);
                             }else{
-                                exito.push({text:"Se ha realizado el check-in manera correcta"});
+                                exito.push({text:"Se ha realizado el check-in manera correcta,sus asientos son:  "+numeroAsientos});
                                 res.render("indexCliente",{exito});
                             }
                         }) 
