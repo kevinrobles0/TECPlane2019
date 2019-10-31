@@ -60,7 +60,7 @@ router.post('/vuelos/fechas', async (req,res)=>{
         });
     }
     else{ 
-        const fechasComparar = new fechas({fechaInicio,fechaFin});
+        
 
         var dateFin = new Date(fechaFin);
         var dateInit = new Date(fechaInicio);

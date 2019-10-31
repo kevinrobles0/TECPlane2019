@@ -1,6 +1,6 @@
 const express= require('express');
 const router = express.Router();
-const pasajeros = require("../models/pasajero");
+const cliente = require("../models/pasajero");
 const correoPrueba=require("../config/props");
 const vuelo = require("../models/vuelo");
 const aerolinea = require("../models/aerolinea");
@@ -142,7 +142,7 @@ router.post('/cliente/elegirfiltro' ,async(req,res)=>{
 })
 
 //incicio filtros
-router.post('/cliente/fechas', (req,res)=>{
+router.post('/cliente/fechas',async (req,res)=>{
 
     var fechaInicio=req.body.fechasalida;
     var fechaFin=req.body.fechaentrada;
@@ -162,36 +162,41 @@ router.post('/cliente/fechas', (req,res)=>{
         });
     }
     else{ 
-        const fechasComparar = new fechas({fechaInicio,fechaFin});
 
         var dateFin = new Date(fechaFin);
         var dateInit = new Date(fechaInicio);
 
-        const vuelosFinales = await vuelos.find(
+        const vuelosFinales = await vuelo.find(
             {fechaIda:{$gte:dateInit}, fechaVuelta:{$lte:dateFin}})
-        
-        console.log(vuelosFinales.length)
-        console.log(vuelosFinales)
 
         if(vuelosFinales.length==0){
             errores.push({text:"No hay vuelos en el rango de fechas indicado"});
             res.render("cliente/reporteVueloFechas",{errores});
         }
         else{
-            var datosCliente = pasajeros.findOne({correo:correoPrueba.correo})
-            var cedulaCliente = datosCliente.idCliente;
+            
+            
+            var correoCliente=correoPrueba.correo;
+            
+            const datosCliente = await cliente.findOne({correo:correoCliente})
+            var cedulaCliente = datosCliente.idPasajero;
 
-            var vuelosTotales = vuelos.find();
-            var vuelosTotalesFinales=[];
+            console.log(datosCliente.idCliente)
+
+            var vuelosPorCliente=[];
             var contadorVuelos=0;
 
-            while(vuelosTotales.length>contadorVuelos){
+
+            while(vuelosFinales.length>contadorVuelos){
                 
                 var contadorBoletos=1;
-                while(vuelosTotales[contadorVuelos].boletos.length>contadorBoletos){
+                
+                
+                while(vuelosFinales[contadorVuelos].boletos.length>contadorBoletos){
 
-                    if(vuelosTotales[contadorVuelos].boletos[contadorBoletos][2]==cedulaCliente){ 
-                        vuelosTotalesFinales.push(vuelosTotales[contadorVuelos])
+                    if(vuelosFinales[contadorVuelos].boletos[contadorBoletos][2]==cedulaCliente){ 
+                        vuelosPorCliente.push(vuelosFinales[contadorVuelos])
+                        break;
                     }
                     contadorBoletos+=1;
 
@@ -200,9 +205,9 @@ router.post('/cliente/fechas', (req,res)=>{
                 contadorVuelos+=1;
             }
 
-            console.log(vuelosTotalesFinales)
+            console.log(vuelosPorCliente)
 
-            if(vuelosTotalesFinales.length==0){
+            if(vuelosPorCliente.length==0){
                 errores.push({text:"Usted no posee vuelos en el rango indicado"});
                 res.render("cliente/reporteVueloFechas",{errores});
             }
@@ -216,7 +221,7 @@ router.post('/cliente/fechas', (req,res)=>{
     }
 })
 
-router.post('/cliente/estados', (req,res)=>{
+router.post('/cliente/estados',async (req,res)=>{
     
 
     //listo
@@ -241,13 +246,13 @@ router.post('/cliente/estados', (req,res)=>{
                 var vuelosPorCliente=[]
 
                 const UsuarioActual = await cliente.findOne({correo:correoPrueba.correo})
-                var correoUsuarioActual = UsuarioActual.idPasajero;
+                var cedulaActual = UsuarioActual.idPasajero;
 
                 while(vuelosFinales.length >contadorVuelos){
                     contadorBoletos=1;
         
                     while(vuelosFinales[contadorVuelos].boletos.length>contadorBoletos){
-                        if(vuelosFinales[contadorVuelos].boletos[contadorBoletos][2]==correoUsuarioActual){
+                        if(vuelosFinales[contadorVuelos].boletos[contadorBoletos][2]==cedulaActual){
                             vuelosPorCliente.push(vuelosFinales[contadorVuelos]);
                             break;
                         }
@@ -269,25 +274,10 @@ router.post('/cliente/estados', (req,res)=>{
                     res.render("cliente/mostrarVuelosFiltrados",{
                         vuelosPorCliente
                     });
+                
                 }
-
-            if(vuelosPorCliente.length==0){
-                errores.push({text:"No existen vuelos para usted en ese estado"})
-                res.render("cliente/reporteVueloEstado",{
-                    errores
-                });
             }
-            else{ 
-                res.render("cliente/mostrarVuelosFiltrados",{
-                    vuelosPorCliente
-                });
-
-            }
-        
-
     });
-
-
 })
 
 //fin filtros
