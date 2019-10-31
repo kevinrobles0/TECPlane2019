@@ -59,6 +59,15 @@ router.post('/administrador/funcionarioCrear',async(req,res) =>{
             contraseña
         });
     }else{
+        await funcionario.findOne({idFuncionario:idFuncionario},async(err,encontrado)=>{
+            if(encontrado){
+                errors.push("El funcionario ingresada ya existe");
+                res.render("./administrador/funcionarioCrear",{
+                    errors
+                });
+                return;
+            }
+        })
         const Nfuncionario = new funcionario({idFuncionario,nombre,tipo,fechaContratacion,AreaTrabajo,correo,contraseña});
         Nfuncionario.save();
         exito.push({text:"Se ingreso el funcionario con éxito"});

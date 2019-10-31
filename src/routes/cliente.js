@@ -142,8 +142,60 @@ router.post('/cliente/fechas', (req,res)=>{
 })
 router.post('/cliente/estados', (req,res)=>{
     
+
     //listo
     console.log("2")
+
+    var estadoIngresado= req.body.estado;
+
+    var errores=[];
+
+    vuelo.find({estado:estadoIngresado}, async (err,vuelosFinales)=>{
+        
+        if(vuelosFinales.length==0){
+            var noEncontrado=[];
+            noEncontrado.push({text:"Usted no tiene vuelos con el estado "+estadoIngresado});
+            res.render("./cliente/reporteVueloEstado",{
+                noEncontrado
+            });
+        }
+        else{
+
+            contadorVuelos=0;
+            var vuelosPorCliente=[]
+
+            const UsuarioActual = await pasajeros.findOne({correo:correoPrueba.correo})
+            var correoUsuarioActual = UsuarioActual.idPasajero;
+
+            while(vuelosFinales.length >contadorVuelos){
+                contadorBoletos=1;
+    
+                while(vuelosFinales[contadorVuelos].boletos.length>contadorBoletos){
+                    if(vuelosFinales[contadorVuelos].boletos[contadorBoletos][2]==correoUsuarioActual){
+                        vuelosPorCliente.push(vuelosFinales[contadorVuelos]);
+                        break;
+                    }
+                    contadorBoletos+=1;
+                }
+    
+                contadorVuelos+=1;
+            }
+
+            if(vuelosPorCliente.length==0){
+                errores.push({text:"No existen vuelos para usted en este rango de fechas"})
+                res.render("./cliente/reporteVueloFechas",{
+                    errores
+                });
+            }
+            else{ 
+                res.render("./cliente/mostrarVuelosFiltrados",{
+                    vuelosPorCliente
+                });
+            }
+        }
+
+    });
+
 
 })
 

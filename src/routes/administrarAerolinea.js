@@ -30,8 +30,17 @@ router.post('/administrador/aerolineaCrear',async(req,res)=>{
             errors
         });
     }else{
-        aeropuertos.findOne({nombre:nombreAeropuerto}, async (err,nombreEncontrado)=>{
-            console.log(nombreEncontrado)
+        await aerolinea.findOne({idAerolinea:idAerolinea},async(err,encontrado)=>{
+            if(encontrado){
+                errors.push("La aerolínea ingresada ya existe");
+                res.render("./administrador/aerolineaCrear",{
+                    errors
+                });
+                return;
+            }
+        })
+
+        await aeropuertos.findOne({nombre:nombreAeropuerto}, async (err,nombreEncontrado)=>{
             if(!nombreEncontrado){
                 noAeropuerto.push("El aeropuerto no corresponde a los existentes");
                 res.render("./administrador/aerolineaCrear",{

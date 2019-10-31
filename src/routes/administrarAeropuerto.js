@@ -35,6 +35,16 @@ router.post('/administrador/aeropuertoCrear',async (req,res) =>{
     }
     
     else{
+        await aeropuerto.findOne({nombre:nombre},async(err,encontrado)=>{
+            if(encontrado){
+                errors.push("El aeropuerto ingresada ya existe");
+                res.render("./administrador/aeropuertoCrear",{
+                    errors
+                });
+                return;
+            }
+        })
+
         const Naeropuerto=new aeropuerto({nombre,localizacion,contacto,sitioWeb});
         Naeropuerto.save();
         exito.push({text:"Se ha insertado el aeropuerto con éxito"});

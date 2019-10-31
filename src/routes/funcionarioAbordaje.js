@@ -39,38 +39,24 @@ router.post('/funcionario/abordar', async (req,res)=>{
             }
             else{ 
                 var contadorBoletos=1;
-                while(vuelosEncontrado.boletos.length>contadorBoletos){
+                var boletos = vuelosEncontrado.boletos;
+                while(boletos.length>contadorBoletos){
                     
                     
-                    if(vuelosEncontrado.boletos[contadorBoletos][2]==cedula){
+                    if(boletos[contadorBoletos][2]==cedula){
 
                         seEcontro=true;
 
-                        if(!vuelosEncontrado.boletos[contadorBoletos][1]){
-                            break;
-                        }
+                        if(boletos[contadorBoletos][1]=='Checked'){
 
-                        else if(vuelosEncontrado.boletos[contadorBoletos][1]=='Checked'){
-                            console.log("entra")
-                            vuelosEncontrado.boletos[contadorBoletos][1]='Abordado';
-                            console.log(vuelosEncontrado.boletos[contadorBoletos][1])
+                            boletos[contadorBoletos][1]='Abordado';
                             checkedIn=true;
-                            vuelosEncontrado.save();
-                            break;
                         }
-
                     }
-
-                    if(seEcontro==true){
-                        console.log(vuelosEncontrado.boletos[contadorBoletos][1])
-                        break;
-                    }
-
                     contadorBoletos+=1;
+                }  
                 
-                }
-                console.log(vuelosEncontrado.boletos[contadorBoletos][1])           
-
+    
                 if(seEcontro==true && checkedIn==false){
                     errores.push({text:"El pasajero no ha realizado Check In"});
                     res.render("funcionario/funcionarioAbordaje",{errores});  
@@ -80,8 +66,16 @@ router.post('/funcionario/abordar', async (req,res)=>{
                     res.render("funcionario/funcionarioAbordaje",{errores});  
                 }
                 else{
-                    exito.push({text:"Se ha abordado al pasajero con cédula "+cedula+" en el vuelo "+numeroVuelo});
-                    res.render("funcionario/funcionarioAbordaje",{exito}); 
+                    await vuelo.updateOne({idVuelo:numeroVuelo},{$set:{boletos:boletos}},function(err,res){
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            exito.push({text:"Se ha abordado al pasajero con cédula "+cedula+" en el vuelo "+numeroVuelo});
+                            res.render("funcionario/funcionarioAbordaje",{exito}); 
+                        }
+                    })
+                    
                 }
             }
         });
