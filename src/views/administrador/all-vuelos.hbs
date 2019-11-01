@@ -1,3 +1,4 @@
+
 <br><br>
 <h4>Vuelos TEC Plane</h4>
 <br><br>
@@ -28,5 +29,30 @@
         </div>
     </div>
     {{/each}}
+    {{#if vueloSolo}}
+    <div class="col-md-3">
+        <div class="vuelos">
+            <div class="cuerpo">
+                <h5 class="nombre">
+                  IdVuelo:  {{vueloSolo.idVuelo}}
+                </h5>
+                <p>Nombre: {{vueloSolo.nombre}}</p>
+                <p>Nombre Aerolínea: {{vueloSolo.nombreAerolinea}}</p>
+                <p>Origen {{vueloSolo.origen}}</p>
+                <p>Destino: {{vueloSolo.destino}}</p>
+                <p>Fecha de ida: {{vueloSolo.fechaIda}}</p>
+                <p>Fecha de vuelta: {{vueloSolo.fechaVuelta}}</p>
+                <p>Precio {{vueloSolo.precio}}</p>
+                <p>Restricciones: {{vueloSolo.restricciones}}</p>
+                <p>Servicios: {{vueloSolo.servicios}}</p>
+                <p>Estado: {{vueloSolo.estado}}</p>
+                <p>Maximos: {{vueloSolo.maximo}}</p>
+                <p>Disponibles: {{vueloSolo.disponibles}}</p>
+                
+                <br><br>
+            </div>
+        </div>
+    </div>
+    {{/if}}
 </div>
 <br><br><br>

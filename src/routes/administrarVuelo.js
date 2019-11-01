@@ -271,9 +271,9 @@ router.post('/administrador/vueloLeer',async(req,res)=>{
     var ingresado = req.body.ingresado;
     var errors = [];
     if(ingresado){
-        const vuelos =await vuelo.findOne({idVuelo: ingresado});
-        if(vuelos){
-            res.render("./administrador/all-vuelos",{vuelos});
+        const vueloSolo =await vuelo.findOne({idVuelo: ingresado});
+        if(vueloSolo){
+            res.render("./administrador/all-vuelos",{vueloSolo});
         }
         else{
             errors.push({text:"No existe vuelo con ese identificador"});

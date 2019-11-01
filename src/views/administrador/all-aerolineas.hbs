@@ -18,6 +18,21 @@
         </div>
     </div>
     {{/each}}
+    {{#if aerolineaSola}}
+    <div class="col-md-8">
+        <div class="aerolinea">
+            <div class="cuerpo">
+                <h5 class="nombre">
+                  Nombre:  {{aerolineaSola.nombre}}
+                </h5>
+                <p>idAerolinea: {{aerolineaSola.idAerolinea}}</p>
+                <p>Paises: </p>{{aerolineaSola.paises}}</p>
+                <p>Nombre Aeropuerto: </p>{{aerolineaSola.nombreAeropuerto}}</p>
+                <br><br>
+            </div>
+        </div>
+    </div>
+    {{/if}}
 
 </div>
 <br><br><br>
