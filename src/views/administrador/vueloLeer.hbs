@@ -1,10 +1,18 @@
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
 <form action='/administrador/vueloLeer' method="POST">
 <br>
 <br>
 <div  style="font-size:25" pxclass="home_title"><h2 style="color:black">Ingrese el código del vuelo</h2>
     <br>
     <br>
-    <input name="nombreAmostrar" style="font-size:30px" type="text" id="ingresado" name="ingresado">
+    <input style="font-size:30px" type="text" id="ingresado" name="ingresado">
     <br>
     <br>
     <button class="btn btn-primary" type="submit"> Mostrar</button>

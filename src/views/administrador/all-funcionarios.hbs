@@ -1,3 +1,4 @@
+
 <br><br>
 <h4>Funcionarios TEC Plane</h4>
 <br><br>
@@ -20,5 +21,22 @@
         </div>
     </div>
     {{/each}}
+    {{#if funcioSolo}}
+    <div class="col-md-3">
+        <div class="funcionario">
+            <div class="cuerpo">
+                <h5 class="Cedula">
+                  Cédula:  {{funcioSolo.idFuncionario}}
+                </h5>
+                <p>Nombre: {{funcioSolo.nombre}}</p>
+                <p>Tipo: {{funcioSolo.tipo}}</p>
+                <p>Fecha Contratación: {{funcioSolo.fechaContratacion}}</p>
+                <p>Área Trabajo: {{funcioSolo.AreaTrabajo}}</p>
+                <p>Correo: {{funcioSolo.correo}}</p>
+                <br><br>
+            </div>
+        </div>
+    </div>
+    {{/if}}
 </div>
 <br><br><br>
