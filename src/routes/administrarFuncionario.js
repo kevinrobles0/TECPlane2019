@@ -119,7 +119,7 @@ router.post('/administrador/funcionarioActualizar',async(req,res)=>{
 
     if(!vieja){
         errors.push({text:"Ingrese la cédula a actualizar"});
-        res.render("./administrador/funcionarioActualizar",{erros});
+        res.render("./administrador/funcionarioActualizar",{errors});
     }else{
         await funcionario.findOne({idFuncionario:vieja},async(err,funcio)=>{
             if(err){

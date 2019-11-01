@@ -217,7 +217,8 @@ router.post('/cliente/estados', (req,res)=>{
             }
         
 
-    });
+    };
+})
 
 
 })
